@@ -1,0 +1,75 @@
+#
+# PatchWork
+#
+# Copyright (C) 2010 Richard "Shred" Körber
+#   http://patchwork.shredzone.org
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+OBJP      = bin
+
+OBJS      = $(OBJP)/Main.o $(OBJP)/Hit.o $(OBJP)/Timer.o $(OBJP)/Exec.o \
+            $(OBJP)/Dos.o $(OBJP)/Graphics.o $(OBJP)/Intuition.o \
+            $(OBJP)/Utility.o $(OBJP)/Commodities.o
+
+LIBS      = lib:debug.lib lib:amiga.lib
+
+AOPTS     = ERRORS=0 OPT=NRQLPS NOEXE INCPATH=Include:
+LOPTS     = NODEBUG SMALLCODE SMALLDATA
+
+.PHONY : all install clean
+
+all: $(OBJP) $(OBJP)/PatchWork
+
+install: all
+    copy FROM $(OBJP)/PatchWork TO C:
+
+clean:
+    delete ALL QUIET $(OBJP)
+
+$(OBJP):
+    makedir $(OBJP)
+
+$(OBJP)/PatchWork: $(OBJS)
+    phxlnk $(LOPTS) TO $(OBJP)/PatchWork FROM $(OBJS) $(LIBS)
+
+$(OBJP)/Main.o: Main.s PatchWork.i patchwork_rev.i
+    phxass $(AOPTS) FROM Main.s TO $(OBJP)/Main.o
+
+$(OBJP)/Hit.o: Hit.s PatchWork.i
+    phxass $(AOPTS) FROM Hit.s TO $(OBJP)/Hit.o
+
+$(OBJP)/Timer.o: Timer.s PatchWork.i
+    phxass $(AOPTS) FROM Timer.s TO $(OBJP)/Timer.o
+
+$(OBJP)/Exec.o: Exec.s PatchWork.i
+    phxass $(AOPTS) FROM Exec.s TO $(OBJP)/Exec.o
+
+$(OBJP)/Dos.o: Dos.s PatchWork.i
+    phxass $(AOPTS) FROM Dos.s TO $(OBJP)/Dos.o
+
+$(OBJP)/Graphics.o: Graphics.s PatchWork.i
+    phxass $(AOPTS) FROM Graphics.s TO $(OBJP)/Graphics.o
+
+$(OBJP)/Intuition.o: Intuition.s PatchWork.i
+    phxass $(AOPTS) FROM Intuition.s TO $(OBJP)/Intuition.o
+
+$(OBJP)/Utility.o: Utility.s PatchWork.i
+    phxass $(AOPTS) FROM Utility.s TO $(OBJP)/Utility.o
+
+$(OBJP)/Commodities.o: Commodities.s PatchWork.i
+    phxass $(AOPTS) FROM Commodities.s TO $(OBJP)/Commodities.o
+
+#
