@@ -24,11 +24,11 @@ OBJP      = bin
 
 OBJS      = $(OBJP)/Main.o $(OBJP)/Hit.o $(OBJP)/Timer.o $(OBJP)/Exec.o \
             $(OBJP)/Dos.o $(OBJP)/Graphics.o $(OBJP)/Intuition.o \
-            $(OBJP)/Utility.o $(OBJP)/Commodities.o
+            $(OBJP)/Utility.o $(OBJP)/Commodities.o $(OBJP)/Gadtools.o
 
 LIBS      = lib:debug.lib lib:amiga.lib
 
-AOPTS     = ERRORS=0 OPT=NRQLPS NOEXE INCPATH=Include:,$(INCP)
+AOPTS     = ERRORS=0 OPT=NRQLPS NOEXE INCPATH=Include:,$(INCP),$(SRCP)
 LOPTS     = NODEBUG SMALLCODE SMALLDATA
 
 .PHONY : all install clean
@@ -73,5 +73,8 @@ $(OBJP)/Utility.o: $(SRCP)/Utility.s $(SRCP)/PatchWork.i
 
 $(OBJP)/Commodities.o: $(SRCP)/Commodities.s $(SRCP)/PatchWork.i
     phxass $(AOPTS) FROM $(SRCP)/Commodities.s TO $(OBJP)/Commodities.o
+
+$(OBJP)/Gadtools.o: $(SRCP)/Gadtools.s $(SRCP)/PatchWork.i
+    phxass $(AOPTS) FROM $(SRCP)/Gadtools.s TO $(OBJP)/Gadtools.o
 
 #
