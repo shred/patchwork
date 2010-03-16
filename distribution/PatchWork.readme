@@ -1,0 +1,28 @@
+Short:    Check OS functions to be called correctly (V0.18)
+Uploader: rkoerber@gmx.de (Richard Koerber)
+Author:   rkoerber@gmx.de (Richard Koerber)
+Type:     dev/debug
+Kurz:     Prüft die richtige Verwendung des OS (V0.18)
+Keywords: debug os patch enforcer segtracker sushi
+
+Requires: AmigaOS 2.04 (V37) or higher
+Language: English
+
+URL:      http://patchwork.shredzone.org
+
+
+PatchWork is a debugging tool that patches into several AmigaOS
+functions (currently of exec.library, dos.library, gadtools.library,
+graphics.library, commodity.library, utility.library and
+intuition.library, more to come). It checks if the passed structures
+and parameters meets the requirements as stated in the AutoDocs.
+
+I.e. it checks several dos.library structures to be longword aligned,
+and *much* more!
+
+All bad calls are output to the debug serial port, or to a console
+window using Sushi.
+
+Open Source, GPLv3 licensed. You can find the source and updates
+at http://patchwork.shredzone.org.
+

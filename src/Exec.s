@@ -31,19 +31,14 @@ PW_EXEC         SET     -1
 		INCLUDE "dos/dos.i"
 		INCLUDE "lvo/exec.i"
 
-		INCLUDE patchwork.i
-		INCLUDE refs.i
+		INCLUDE PatchWork.i
+		INCLUDE Refs.i
 
 		SECTION text,CODE
 
-*********************************************************
-* Name          SP_Exec                                 *
-* Funktion      Exec-Patches setzen                     *
-*                                                       *
-* Parameter     keine                                   *
-*                                                       *
-*********************************************************
-*> [SP_Exec] GLOBAL
+*--
+* Set the patches
+*
 		XDEF    SP_Exec
 SP_Exec         movem.l a0-a1,-(SP)
 		move.l  4.w,a1
@@ -62,15 +57,10 @@ SP_Exec         movem.l a0-a1,-(SP)
 .nopermit
 		movem.l (SP)+,a0-a1
 		rts
-*<
-*********************************************************
-* Name          RP_Exec                                 *
-* Funktion      Exec-Patches entfernen                  *
-*                                                       *
-* Parameter     keine                                   *
-*                                                       *
-*********************************************************
-*> [RP_Exec] GLOBAL
+
+*--
+* Remove the patches
+*
 		XDEF    RP_Exec
 RP_Exec         movem.l a0-a1,-(SP)
 		move.l  (args+arg_NoPermit,PC),d0       ;NoPermit
@@ -89,12 +79,10 @@ RP_Exec         movem.l a0-a1,-(SP)
 		bsr     RemPatchTab
 		movem.l (SP)+,a0-a1
 		rts
-*<
-*********************************************************
-* Name          exec_patches                            *
-* Funktion      Tabelle aller Exec-Patches              *
-*********************************************************
-*> [exec_patches]
+		
+*--
+* Table of all patches
+*
 exec_patches    dpatch  _EXECAddPort,P_AddPort
 		dpatch  _EXECAllocMem,P_AllocMem
 		dpatch  _EXECAllocVec,P_AllocVec
@@ -114,32 +102,23 @@ exec_patches    dpatch  _EXECAddPort,P_AddPort
 		dpatch  _EXECReleaseSemaphoreList,P_ReleaseSemaphoreList
 		dpatch  _EXECSetFunction,P_SetFunction
 		dpatch  _EXECVacate,P_Vacate
-		dc.w    0                       ;Ende!
+		dc.w    0
 
 	;-- CheckDisable --
 exec_patches_cd dpatch  _EXECDisable,P_Disable_cd
 		dpatch  _EXECEnable,P_Enable_cd
-		dc.w    0                       ;Ende!
+		dc.w    0
 
 	;-- Patch Permit --
 exec_patches_pm dpatch  _EXECPermit,P_Permit
-		dc.w    0                       ;Ende!
-
-*<
+		dc.w    0
 
 
+*------------------------------------------------------------------
+* PATCHES
+*
 
-*****************************************************************
-*       == DIE PATCH-ROUTINEN                                   *
-*****************************************************************
-
-*********************************************************
-* Patch         AddPort()                               *
-* Tests         - LN_NAME muß initialisiert sein        *
-*********************************************************
-*> [AddPort()]
- PATCH P_AddPort,"AddPort(0x%08lx)",REG_A1
-
+	PATCH P_AddPort,"AddPort(0x%08lx)",REG_A1
 		tst.l   (LN_NAME,a1)
 		bne     .THIS
 		movem.l d0-d7/a0-a7,-(SP)
@@ -153,15 +132,10 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 
 .msg_lnname     dc.b    "port name not initialized",0
 		even
-*<
-
-*********************************************************
-* Patch         AllocMem()                              *
-* Tests         - Size darf nicht 0 sein                *
-*********************************************************
-*> [AllocMem()]
- PATCH P_AllocMem,"AllocMem(%lu,0x%08lx)",REG_D0,REG_D1
-
+		
+*---------------
+		
+	PATCH P_AllocMem,"AllocMem(%lu,0x%08lx)",REG_D0,REG_D1
 		tst.l   d0
 		bmi     .badone
 		bne     .THIS
@@ -185,15 +159,10 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 .msg_sizebad    dc.b    "allocating 0 bytes",0
 .msg_noneg      dc.b    "don't use AllocMem(-1) to flush memory",0
 		even
-*<
-
-*********************************************************
-* Patch         AllocVec()                              *
-* Tests         - Size darf nicht 0 sein                *
-*********************************************************
-*> [AllocVec()]
- PATCH P_AllocVec,"AllocVec(%lu,0x%08lx)",REG_D0,REG_D1
-
+	
+*---------------
+		
+	PATCH P_AllocVec,"AllocVec(%lu,0x%08lx)",REG_D0,REG_D1
 		tst.l   d0
 		bmi     .badone
 		bne     .THIS
@@ -217,40 +186,34 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 .msg_sizebad    dc.b    "allocating 0 bytes",0
 .msg_noneg      dc.b    "don't use AllocVec(-1) to flush memory",0
 		even
-*<
-
-*********************************************************
-* Patch         CopyMem()                               *
-* Tests         - Overlapping parts                     *
-*********************************************************
-*> [CopyMem()]
- PATCH P_CopyMem,"CopyMem(0x%08lx,0x%08lx,%lu)",REG_A0,REG_A1,REG_D0
-
+		
+*---------------
+		
+	PATCH P_CopyMem,"CopyMem(0x%08lx,0x%08lx,%lu)",REG_A0,REG_A1,REG_D0
 		movem.l d0-d7/a0-a7,-(SP)
-;-                tst.l   d0                      ;Größe = 0 ?
+;-                tst.l   d0                      ;Size = 0 ?
 ;-                beq     .idle
 		cmp.l   a1,a0                   ;Source < Dest?
 ;                beq     .overlap
 		blt     .srcbefore
-	;-- Dest vor Source --------------------;
-		move.l  a1,d1                   ;Dest-Ende berechnen
+	;-- Dest before Source -----------------;
+		move.l  a1,d1                   ;Compute dest end
 		add.l   d0,d1
-		cmp.l   a0,d1                   ;muß auch vor Source sein
+		cmp.l   a0,d1                   ;must be before source!
 		bls     .okay
 		lea     (.msg_overlapinc,PC),a1
 		bra     .overlap
-	;-- Dest hinter Source -----------------;
-.srcbefore      move.l  a0,d1                   ;Source-Ende berechnen
+	;-- Dest behind Source -----------------;
+.srcbefore      move.l  a0,d1                   ;Compute source end
 		add.l   d0,d1
 		cmp.l   a1,d1
 		bls     .okay
 		lea     (.msg_overlapdec,PC),a1
-	;-- Bereiche überschneiden sich --------;
+	;-- Copy areas overlap -----------------;
 .overlap        move.l  SP,a0
 		lea     (.THIS,PC),a2
 		moveq   #3,d0
 		bsr     ShowHit
-	;-- Speicher OK ------------------------;
 .okay           movem.l (SP)+,d0-d7/a0-a7
 		bra     .THIS
 	;-- Idle -------------------------------;
@@ -265,18 +228,12 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 .msg_overlapdec dc.b    "memory areas are overlapping (decremental)",0
 ;-.msg_idle       dc.b    "copying 0 bytes is wasted time",0
 		even
-*<
 
-*********************************************************
-* Patch         CopyMemQuick()                          *
-* Tests         - Overlapping parts                     *
-*               - Aligned registers                     *
-*********************************************************
-*> [CopyMemQuick()]
- PATCH P_CopyMemQuick,"CopyMemQuick(0x%08lx,0x%08lx,%lu)",REG_A0,REG_A1,REG_D0
-
+*---------------
+		
+	PATCH P_CopyMemQuick,"CopyMemQuick(0x%08lx,0x%08lx,%lu)",REG_A0,REG_A1,REG_D0
 		movem.l d0-d7/a0-a7,-(SP)
-;-                tst.l   d0                      ;Länge = 0
+;-                tst.l   d0                      ;Length = 0
 ;-                beq     .idle
 	;-- Register ---------------------------;
 		move.l  a0,d1
@@ -285,36 +242,35 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 		or.l    d0,d1
 		and     #$3,d1
 		beq     .nobadpointer
-	;-- Fehlerhaft ausgerichtet ------------;
+	;-- Bad alignment? ---------------------;
 		move.l  SP,a0
 		lea     (.msg_badptr,PC),a1
 		lea     (.THIS,PC),a2
 		moveq   #3,d0
 		bsr     ShowHit
 .nobadpointer
-	;-- Modus ------------------------------;
+	;-- Mode ------------------------------;
 		cmp.l   a1,a0                   ;Source < Dest?
 ;                beq     .overlap
 		blt     .srcbefore
-	;-- Dest vor Source --------------------;
-		move.l  a1,d1                   ;Dest-Ende berechnen
+	;-- Dest before Source -----------------;
+		move.l  a1,d1                   ;Compute dest end
 		add.l   d0,d1
-		cmp.l   a0,d1                   ;muß auch vor Source sein
+		cmp.l   a0,d1                   ;must be before source
 		bls     .okay
 		lea     (.msg_overlapinc,PC),a1
 		bra     .overlap
-	;-- Dest hinter Source -----------------;
-.srcbefore      move.l  a0,d1                   ;Source-Ende berechnen
+	;-- Dest behind Source -----------------;
+.srcbefore      move.l  a0,d1                   ;Compute source end
 		add.l   d0,d1
 		cmp.l   a1,d1
 		bls     .okay
 		lea     (.msg_overlapdec,PC),a1
-	;-- Bereiche überschneiden sich --------;
+	;-- Copy areas overlap -----------------;
 .overlap        move.l  SP,a0
 		lea     (.THIS,PC),a2
 		moveq   #3,d0
 		bsr     ShowHit
-	;-- Speicher OK ------------------------;
 .okay           movem.l (SP)+,d0-d7/a0-a7
 		bra     .THIS
 	;-- Idle -------------------------------;
@@ -330,18 +286,12 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 .msg_badptr     dc.b    "pointer/size not longword aligned",0
 ;-.msg_idle       dc.b    "copying 0 bytes is wasted time",0
 		even
-*<
-
-*********************************************************
-* Patch         CreateIORequest()                       *
-* Tests         - No MsgPort supplied                   *
-*               - Size too small                        *
-*********************************************************
-*> [CreateIORequest()]
- PATCH P_CreateIORequest,"CreateIORequest(0x%08lx,%lu)",REG_A0,REG_D0
-
+		
+*---------------
+		
+	PATCH P_CreateIORequest,"CreateIORequest(0x%08lx,%lu)",REG_A0,REG_D0
 		movem.l d0-d7/a0-a7,-(SP)
-	;-- MsgPort initialisiert? -------------;
+	;-- MsgPort initialized? ---------------;
 		move.l  a0,d1
 		beq     .msgportok
 		lea     (MP_MSGLIST,a0),a1
@@ -354,7 +304,7 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 		moveq   #2,d0
 		bsr     ShowHit
 		movem.l (SP)+,d0/a0
-	;-- Größe OK ---------------------------;
+	;-- Size OK ----------------------------;
 .msgportok      cmp.l   #IO_SIZE,d0
 		bhs     .size_ok
 		move.l  SP,a0
@@ -363,30 +313,23 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 		moveq   #3,d0
 		bsr     ShowHit
 .size_ok
-	;-- Fertig -----------------------------;
 		movem.l (SP)+,d0-d7/a0-a7
 		bra     .THIS
 
 .msg_badmp      dc.b    "ioReplyPort not initialized",0
 .msg_badsize    dc.b    "size is too small",0
 		even
-*<
-
-*********************************************************
-* Patch         DeleteMsgPort()                         *
-* Tests         - Port entleert?                        *
-*********************************************************
-*> [DeleteMsgPort()]
- PATCH P_DeleteMsgPort,"DeleteMsgPort(0x%08lx)",REG_A0
-
+		
+		
+	PATCH P_DeleteMsgPort,"DeleteMsgPort(0x%08lx)",REG_A0
 		movem.l d0-d7/a0-a7,-(SP)
-		move.l  a0,a5                   ;merken
-	;-- Port immer noch public? ------------;
+		move.l  a0,a5                   ;remember
+	;-- Port is still public? --------------;
 		exec    Forbid
-		move.l  (PortList,a6),a0        ;;PRIVATE EXECBASE ACCESS ;erste Node holen
-.loop           move.l  a0,d0                   ;Ende der Liste?
+		move.l  (PortList,a6),a0        ;;PRIVATE EXECBASE ACCESS ;get first node
+.loop           move.l  a0,d0                   ;End of list?
 		beq     .not_found
-		cmp.l   a0,a5                   ;ist das der Port
+		cmp.l   a0,a5                   ;is it the port?
 		beq     .mp_found
 		move.l  (a0),a0
 		bra     .loop
@@ -400,7 +343,7 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 		bra     .private
 .not_found      exec    Permit
 .private
-	;-- MsgPort initialisiert? -------------;
+	;-- MsgPort initialized? ---------------;
 		move.l  a5,d0
 		beq     .msgportok
 		lea     (MP_MSGLIST,a5),a0
@@ -413,22 +356,16 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 		move.l  SP,d1
 		bsr     ShowHit
 .msgportok
-	;-- Fertig -----------------------------;
 		movem.l (SP)+,d0-d7/a0-a7
 		bra     .THIS
 
 .msg_public     dc.b    "MsgPort is still public",0
 .msg_notempty   dc.b    "MsgPort contained unreplied Messages",0
 		even
-*<
-
-*********************************************************
-* Patch         Enable()                                *
-* Tests         - Disabled                              *
-*********************************************************
-*> [Enable()]
- PATCH P_Enable,"Enable()"
-
+		
+*---------------
+		
+	PATCH P_Enable,"Enable()"
 		cmp.b   #-1,(IDNestCnt,a6)
 		bne     .THIS
 		movem.l d0-d7/a0-a7,-(SP)
@@ -442,15 +379,10 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 
 .msg_wodisable  dc.b    "Disable() missing",0
 		even
-*<
-
-*********************************************************
-* Patch         FindPort()                              *
-* Tests         - Forbidden                             *
-*********************************************************
-*> [FindPort()]
- PATCH P_FindPort,"FindPort(\"%s\")",REG_A1|REGF_STR
-
+		
+*---------------
+		
+	PATCH P_FindPort,"FindPort(\"%s\")",REG_A1|REGF_STR
 		cmp.b   #-1,(IDNestCnt,a6)
 		bne     .THIS
 		cmp.b   #-1,(TDNestCnt,a6)
@@ -464,24 +396,19 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 		bsr     ShowHit
 .exit           movem.l (SP)+,d0-d7/a0-a7
 		move.l  (args+arg_Deadly,PC),d0 ;Deadly hit?
-		beq     .THIS                    ; nee
-		bsr     .THIS                    ;suchen
-		tst.l   d0                      ;kein Port da?
+		beq     .THIS                    ; nope
+		bsr     .THIS
+		tst.l   d0                      ;no Port present?
 		beq     .leave
 		move.l  #$FACEDEAD,d0           ;Text
 .leave          rts
 
 .msg_notforbid  dc.b    "Forbid() missing, unreliable result",0
 		even
-*<
 
-*********************************************************
-* Patch         FindSemaphore()                         *
-* Tests         - Forbidden                             *
-*********************************************************
-*> [FindSemaphore()]
- PATCH P_FindSemaphore,"FindSemaphore(\"%s\")",REG_A1|REGF_STR
-
+*---------------
+		
+	PATCH P_FindSemaphore,"FindSemaphore(\"%s\")",REG_A1|REGF_STR
 		cmp.b   #-1,(IDNestCnt,a6)
 		bne     .THIS
 		cmp.b   #-1,(TDNestCnt,a6)
@@ -494,25 +421,20 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 		bsr     ShowHit
 .exit           movem.l (SP)+,d0-d7/a0-a7
 		move.l  (args+arg_Deadly,PC),d0 ;Deadly hit?
-		beq     .THIS                    ; nee
-		bsr     .THIS                    ;suchen
-		tst.l   d0                      ;keine Semaphore da?
+		beq     .THIS                    ; nope
+		bsr     .THIS
+		tst.l   d0                      ;no Semaphore present?
 		beq     .leave
 		move.l  #$FACEDEAD,d0           ;Text
 .leave          rts
 
 .msg_notforbid  dc.b    "Forbid() missing, unreliable result",0
 		even
-*<
 
-*********************************************************
-* Patch         FindTask()                              *
-* Tests         - Forbidden                             *
-*********************************************************
-*> [FindTask()]
- PATCH P_FindTask,"FindTask(\"%s\")",REG_A1|REGF_STR
-
-		move.l  a1,d0                   ;; REGISTER WIRD VERÄNDERT !!!
+*---------------
+		
+	PATCH P_FindTask,"FindTask(\"%s\")",REG_A1|REGF_STR
+		move.l  a1,d0
 		beq     .THIS
 		cmp.b   #-1,(IDNestCnt,a6)
 		bne     .THIS
@@ -526,24 +448,19 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 		bsr     ShowHit
 .exit           movem.l (SP)+,d0-d7/a0-a7
 		move.l  (args+arg_Deadly,PC),d0 ;Deadly hit?
-		beq     .THIS                    ; nee
-		bsr     .THIS                    ;suchen
-		tst.l   d0                      ;kein Task da?
+		beq     .THIS                    ; nope
+		bsr     .THIS
+		tst.l   d0                      ;no Task present?
 		beq     .leave
 		move.l  #$FACEDEAD,d0           ;Text
 .leave          rts
 
 .msg_notforbid  dc.b    "Forbid() missing, unreliable result",0
 		even
-*<
-
-*********************************************************
-* Patch         FreeSignal()                            *
-* Tests         - Warn if -1                            *
-*********************************************************
-*> [FreeSignal()]
- PATCH P_FreeSignal,"FreeSignal(%ld)",REG_D0
-
+		
+*---------------
+		
+	PATCH P_FreeSignal,"FreeSignal(%ld)",REG_D0
 		cmp.b   #-1,d0
 		bne     .THIS
 		movem.l d0-d7/a0-a7,-(SP)
@@ -558,15 +475,10 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 
 .msg_needsv37   dc.b    "V37+ will be required",0
 		even
-*<
-
-*********************************************************
-* Patch         InitSemaphore()                         *
-* Tests         - Alles mit 0 initialisieren            *
-*********************************************************
-*> [InitSemaphore()]
- PATCH P_InitSemaphore,"InitSemaphore(0x%08lx)",REG_A0
-
+		
+*---------------
+		
+	PATCH P_InitSemaphore,"InitSemaphore(0x%08lx)",REG_A0
 		movem.l d0-d7/a0-a7,-(SP)
 		move.l  a0,a1
 		moveq   #0,d1
@@ -585,15 +497,10 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 
 .msg_badinit    dc.b    "structure is not cleared",0
 		even
-*<
 
-*********************************************************
-* Patch         OldOpenLibrary()                        *
-* Tests         - Generell bäh!                         *
-*********************************************************
-*> [OldOpenLibrary()]
- PATCH P_OldOpenLibrary,"OldOpenLibrary(\"%s\")",REG_A1|REGF_STR
-
+*---------------
+		
+	PATCH P_OldOpenLibrary,"OldOpenLibrary(\"%s\")",REG_A1|REGF_STR
 		movem.l d0-d7/a0-a7,-(SP)
 		move.l  SP,a0
 		lea     (.msg_obsolete,PC),a1
@@ -605,15 +512,10 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 
 .msg_obsolete   dc.b    "obsoleted, use OpenLibrary() instead",0
 		even
-*<
-
-*********************************************************
-* Patch         Permit()                                *
-* Tests         - Forbidden                             *
-*********************************************************
-*> [Permit()]
- PATCH P_Permit,"Permit()"
-
+		
+*---------------
+		
+	PATCH P_Permit,"Permit()"
 		cmp.b   #-1,(TDNestCnt,a6)
 		bne     .THIS
 		movem.l d0-d7/a0-a7,-(SP)
@@ -627,15 +529,10 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 
 .msg_woforbid   dc.b    "Forbid() missing",0
 		even
-*<
 
-*********************************************************
-* Patch         Procure()                               *
-* Tests         - Generelle Warnung                     *
-*********************************************************
-*> [Procure()]
- PATCH P_Procure,"Procure(0x%08lx,0x%08lx)",REG_A0,REG_A1
-
+*---------------
+		
+	PATCH P_Procure,"Procure(0x%08lx,0x%08lx)",REG_A0,REG_A1
 		movem.l d0-d7/a0-a7,-(SP)
 		move.l  SP,a0
 		lea     (.msg_needsv39,PC),a1
@@ -648,16 +545,11 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 
 .msg_needsv39   dc.b    "V39+ will be required",0
 		even
-*<
-
-*********************************************************
-* Patch         ReleaseSemaphore()                      *
-* Tests         - überhaupt belegt                      *
-*********************************************************
-*> [ReleaseSemaphore()]
- PATCH P_ReleaseSemaphore,"ReleaseSemaphore(0x%08lx)",REG_A0
-
-		tst     (SS_NESTCOUNT,a0)       ;Darf nicht 0 sein
+		
+*---------------
+		
+	PATCH P_ReleaseSemaphore,"ReleaseSemaphore(0x%08lx)",REG_A0
+		tst     (SS_NESTCOUNT,a0)       ;Must not be 0
 		bne     .THIS
 		movem.l d0-d7/a0-a7,-(SP)
 		move.l  SP,a0
@@ -670,20 +562,15 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 
 .msg_already    dc.b    "semaphore is not obtained",0
 		even
-*<
-
-*********************************************************
-* Patch         ReleaseSemaphoreList()                  *
-* Tests         - überhaupt belegt                      *
-*********************************************************
-*> [ReleaseSemaphoreList()]
- PATCH P_ReleaseSemaphoreList,"ReleaseSemaphoreList(0x%08lx)",REG_A0
-
+		
+*---------------
+		
+	PATCH P_ReleaseSemaphoreList,"ReleaseSemaphoreList(0x%08lx)",REG_A0
 		movem.l d0-d7/a0-a7,-(SP)
-		move.l  (a0),a4                 ;^1. Semaphore
-.loop           tst.l   (a4)                    ;Ende der Liste?
+		move.l  (a0),a4                 ;^1st Semaphore
+.loop           tst.l   (a4)                    ;End of list?
 		beq     .done
-		tst     (SS_NESTCOUNT,a4)       ;Darf nicht 0 sein
+		tst     (SS_NESTCOUNT,a4)       ;Must not be 0
 		bne     .next
 		move.l  SP,a0
 		move.l  a4,-(SP)
@@ -693,26 +580,21 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 		move.l  SP,d1
 		bsr     ShowHit
 		addq.l  #4,SP
-.next           move.l  (a4),a4                 ;Nächste Node
+.next           move.l  (a4),a4                 ;Next node
 		bra     .loop
-.done           movem.l (SP)+,d0-d7/a0-a7       ;Fertig
+.done           movem.l (SP)+,d0-d7/a0-a7
 		bra     .THIS
 
 .msg_already    dc.b    "semaphore @0x%08lx is not obtained",0
 		even
-*<
-
-*********************************************************
-* Patch         SetFunction()                           *
-* Tests         - Bestimmte Exec-Funktionen nicht !     *
-*********************************************************
-*> [SetFunction()]
- PATCH P_SetFunction,"SetFunction(0x%08lx,%ld,0x%08lx)",REG_A1,REG_A0|REGF_WORD,REG_D0
-
-		cmp.l   a6,a1                   ;wird exec gepatched?
-		bne     .no_exec                ;  nö: uninteressant
-		cmpa.w  #_EXECSupervisor,a0     ;Diese dürfen nicht gepatcht werden
-		beq     .alert2                 ;  (Absturz!)
+		
+*---------------
+		
+	PATCH P_SetFunction,"SetFunction(0x%08lx,%ld,0x%08lx)",REG_A1,REG_A0|REGF_WORD,REG_D0
+		cmp.l   a6,a1                   ;is exec being patched?
+		bne     .no_exec                ;  nope: we won't care
+		cmpa.w  #_EXECSupervisor,a0     ;These functions must not be patched
+		beq     .alert2                 ;  (system will crash)
 		cmpa.w  #_EXECSchedule,a0
 		beq     .alert2
 		cmpa.w  #_EXECSumLibrary,a0
@@ -750,7 +632,7 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 		movem.l (SP)+,d0-d7/a0-a7
 		bra     .THIS
 
-.alert2         tst.w   (SysFlags,a6)           ;Das geht dann gut...
+.alert2         tst.w   (SysFlags,a6)
 		bpl     .no_exec
 .alert          movem.l d0-d7/a0-a7,-(SP)
 		move.l  SP,a0
@@ -766,15 +648,10 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 .msg_exceed     dc.b    "requested function does not exist",0
 .msg_noforbid   dc.b    "Forbid() missing",0
 		even
-*<
-
-*********************************************************
-* Patch         Vacate()                                *
-* Tests         - Generelle Warnung                     *
-*********************************************************
-*> [Vacate()]
- PATCH P_Vacate,"Vacate(0x%08lx,0x%08lx)",REG_A0,REG_A1
-
+		
+*---------------
+		
+	PATCH P_Vacate,"Vacate(0x%08lx,0x%08lx)",REG_A0,REG_A1
 		movem.l d0-d7/a0-a7,-(SP)
 		move.l  SP,a0
 		lea     (.msg_needsv39,PC),a1
@@ -787,29 +664,19 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 
 .msg_needsv39   dc.b    "V39+ will be required",0
 		even
-*<
 
+*---------------
 
-*********************************************************
-* Patch         Disable()                               *
-* Tests         - Timeout                               *
-*********************************************************
-*> [Disable()]
- PATCH P_Disable_cd,"Disable()"
-
+	PATCH P_Disable_cd,"Disable()"
 		cmp.b   #-1,(IDNestCnt,a6)
 		bne     .THIS
 		bsr     StartTimer
 		bra     .THIS
-*<
-*********************************************************
-* Patch         Enable()                                *
-* Tests         - Timeout                               *
-*********************************************************
-*> [Enable()]
- PATCH P_Enable_cd,"Enable()"
-
-		tst.b   (IDNestCnt,a6)          ;Muß exakt 0 sein -> enabling
+ 
+*---------------
+		
+	PATCH P_Enable_cd,"Enable()"
+		tst.b   (IDNestCnt,a6)          ;Must be exactly 0 -> enabling
 		bne     .THIS
 		movem.l d0-d7/a0-a7,-(SP)
 		bsr     StopTimer
@@ -828,9 +695,10 @@ exec_patches_pm dpatch  _EXECPermit,P_Permit
 .okay           movem.l (SP)+,d0-d7/a0-a7
 		rts
 
-.msg_toolong    dc.b    "Disable time exceeded (%ld ms)",0
+.msg_toolong    dc.b    "Acceptable Disable time exceeded (%ld ms)",0
 		even
-*<
+
+*---------------
 
 		END
 		

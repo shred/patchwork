@@ -30,75 +30,61 @@ PW_GADTOOLS     SET     -1
 		INCLUDE "lvo/utility.i"
 		INCLUDE "lvo/gadtools.i"
 
-		INCLUDE patchwork.i
-		INCLUDE refs.i
+		INCLUDE PatchWork.i
+		INCLUDE Refs.i
 
 		SECTION text,CODE
 
-*********************************************************
-* Name          SP_Gadtools                             *
-* Funktion      Gadtools-Patches setzen                 *
-*                                                       *
-* Parameter     keine                                   *
-*                                                       *
-*********************************************************
-*> [SP_Gadtools] GLOBAL
+*--
+* Set the patches
+*
 		XDEF    SP_Gadtools
 SP_Gadtools     movem.l a0-a1,-(SP)
-	;-- Library öffnen ---------------------;
+	;-- Open library -----------------------;
 		lea     (.gadname,PC),a1
 		moveq   #36,d0
 		exec    OpenLibrary
 		move.l  d0,gadbase
 		beq     .done
-	;-- Alle V36 patchen -------------------;
-		move.l  d0,a1                   ;Alle V36+ Funktionen patchen
+	;-- Patch all V36 ----------------------;
+		move.l  d0,a1
 		lea     (v36_patches,PC),a0
 		bsr     AddPatchTab
-	;-- Alle V39 patchen -------------------;
+	;-- Patch all V39 ----------------------;
 		cmp     #39,(LIB_VERSION,a1)
 		blo     .done
-		lea     (v39_patches,PC),a0     ;V39+ patchen
+		lea     (v39_patches,PC),a0
 		bsr     AddPatchTab
-	;-- Fertig -----------------------------;
 .done           movem.l (SP)+,a0-a1
 		rts
-	;-- Texte ------------------------------;
+		
 .gadname        dc.b    "gadtools.library",0
 		even
-*<
-*********************************************************
-* Name          RP_Gadtools                             *
-* Funktion      Patches entfernen                       *
-*                                                       *
-* Parameter     keine                                   *
-*                                                       *
-*********************************************************
-*> [RP_Gadtools] GLOBAL
+
+*--
+* Remove the patches
+*
 		XDEF    RP_Gadtools
 RP_Gadtools     movem.l a0-a1,-(SP)
 		move.l  (gadbase,PC),d0
 		beq     .exit
-	;-- V36+ entfernen ---------------------;
-		move.l  d0,a1                   ;V36-Patches entfernen
+	;-- Remove V36 patches -----------------;
+		move.l  d0,a1
 		lea     (v36_patches,PC),a0
 		bsr     RemPatchTab
-	;-- V39+ entfernen ---------------------;
+	;-- Remove V39 patches -----------------;
 		cmp     #39,(LIB_VERSION,a1)
 		blo     .close
-		lea     (v39_patches,PC),a0     ;V39+ patchen
+		lea     (v39_patches,PC),a0
 		bsr     RemPatchTab
-	;-- Lib schließen ----------------------;
+	;-- Close library ----------------------;
 .close          exec    CloseLibrary
-	;-- Fertig -----------------------------;
 .exit           movem.l (SP)+,a0-a1
 		rts
-*<
-*********************************************************
-* Name          gadtools_patches                        *
-* Funktion      Tabelle aller Gadtools-Patches          *
-*********************************************************
-*> [v??_patches]
+
+*--
+* Table of all patches
+*
 v36_patches     dpatch  _GADCreateContext,P_CreateContext
 		dpatch  _GADCreateGadgetA,P_CreateGadgetA
 		dpatch  _GADGT_RefreshWindow,P_RefreshWindow
@@ -107,21 +93,14 @@ v36_patches     dpatch  _GADCreateContext,P_CreateContext
 
 v39_patches     dpatch  _GADGT_GetGadgetAttrsA,P_GetGadgetAttrsA
 		dc.w    0
-*<
 
 gadbase         dc.l    0
 
-*****************************************************************
-*       == DIE PATCH-ROUTINEN                                   *
-*****************************************************************
+*------------------------------------------------------------------
+* PATCHES
+*
 
-*********************************************************
-* Patch         CreateContext()                         *
-* Tests         - glistptr points to NULL               *
-*********************************************************
-*> [CreateContext()]
- PATCH P_CreateContext,"CreateContext(0x%08lx)",REG_A0
-
+	PATCH P_CreateContext,"CreateContext(0x%08lx)",REG_A0
 		tst.l   (a0)                    ;==NULL !!!
 		beq     .THIS
 		movem.l d0-d7/a0-a7,-(SP)
@@ -136,18 +115,10 @@ gadbase         dc.l    0
 
 .msg_notinited  dc.b    "glistpointer is not set to NULL",0
 		even
-*<
-
-*********************************************************
-* Patch         CreateGadget()                          *
-* Tests         - kind known?                           *
-*               - prev is NULL                          *
-*               - <V40 combination of tags              *
-*               - visualinfo && textattr set?           *
-*********************************************************
-*> [CreateGadgetA()]
- PATCH P_CreateGadgetA,"CreateGadgetA(%ld,0x%08lx,0x%08lx,0x%08lx)",REG_D0,REG_A0,REG_A1,REG_A2
-
+		
+*---------------
+		
+	PATCH P_CreateGadgetA,"CreateGadgetA(%ld,0x%08lx,0x%08lx,0x%08lx)",REG_D0,REG_A0,REG_A1,REG_A2
 		movem.l d0-d7/a0-a7,-(SP)
 	;-- Check the kind ---------------------;
 		cmp.l   #NUM_KINDS,d0
@@ -201,15 +172,10 @@ gadbase         dc.l    0
 .msg_vinull     dc.b    "no ng_VisualInfo given",0
 .msg_tanull     dc.b    "no ng_TextAttr given",0
 		even
-*<
-
-*********************************************************
-* Patch         RefreshWindow()                         *
-* Tests         - req not NULL                          *
-*********************************************************
-*> [RefreshWindow()]
- PATCH P_RefreshWindow,"GT_RefreshWindow(0x%08lx,0x%08lx)",REG_A0,REG_A1
-
+		
+*---------------
+		
+	PATCH P_RefreshWindow,"GT_RefreshWindow(0x%08lx,0x%08lx)",REG_A0,REG_A1
 		move.l  a1,d0                   ;;d0 will be trashed!!!
 		beq     .THIS
 		movem.l d0-d7/a0-a7,-(SP)
@@ -224,15 +190,10 @@ gadbase         dc.l    0
 
 .msg_notnull    dc.b    "set req to NULL for future compatibility",0
 		even
-*<
-
-*********************************************************
-* Patch         SetGadgetAttrsA()                       *
-* Tests         - req not NULL                          *
-*********************************************************
-*> [SetGadgetAttrsA()]
- PATCH P_SetGadgetAttrsA,"GT_SetGadgetAttrsA(0x%08lx,0x%08lx,0x%08lx,0x%08lx)",REG_A0,REG_A1,REG_A2,REG_A3
-
+		
+*---------------
+		
+	PATCH P_SetGadgetAttrsA,"GT_SetGadgetAttrsA(0x%08lx,0x%08lx,0x%08lx,0x%08lx)",REG_A0,REG_A1,REG_A2,REG_A3
 		move.l  a2,d0                   ;;d0 will be trashed!!!
 		beq     .THIS
 		movem.l d0-d7/a0-a7,-(SP)
@@ -247,17 +208,10 @@ gadbase         dc.l    0
 
 .msg_notnull    dc.b    "set req to NULL for future compatibility",0
 		even
-*<
-
-
-*********************************************************
-* Patch         GetGadgetAttrsA()                   V39 *
-* Tests         - req not NULL                          *
-*               - Tag* longword aligned                 *
-*********************************************************
-*> [GetGadgetAttrsA()]
- PATCH P_GetGadgetAttrsA,"GT_GetGadgetAttrsA(0x%08lx,0x%08lx,0x%08lx,0x%08lx)",REG_A0,REG_A1,REG_A2,REG_A3
-
+		
+*---------------
+		
+	PATCH P_GetGadgetAttrsA,"GT_GetGadgetAttrsA(0x%08lx,0x%08lx,0x%08lx,0x%08lx)",REG_A0,REG_A1,REG_A2,REG_A3
 		move.l  a2,d0                   ;;d0 will be trashed!!!
 		beq     .THIS
 		movem.l d0-d7/a0-a7,-(SP)
@@ -272,7 +226,8 @@ gadbase         dc.l    0
 
 .msg_notnull    dc.b    "set req to NULL for future compatibility",0
 		even
-*<
+
+*---------------
 
 		END
 		

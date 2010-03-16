@@ -18,71 +18,48 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *
 
-*---- Generelle Referenzen --------------------------------------*
-
 		XREF	KPrintF
 		XREF	KPutChar
-
-*---- Referenzen von   PW_Main.s    -----------------------------*
 
 		IFND	PW_MAIN
 		 XREF	gl, dosbase, args, utilsbase, disasmbase, AddPatchTab
 		 XREF	RemPatchTab, alert_badone
 		ENDC
 
-*---- Referenzen von   PW_Exec.s    -----------------------------*
-
 		IFND	PW_EXEC
 		 XREF	SP_Exec, RP_Exec
 		ENDC
-
-*---- Referenzen von   PW_Dos.s	    -----------------------------*
 
 		IFND	PW_DOS
 		 XREF	SP_Dos, RP_Dos
 		ENDC
 
-*---- Referenzen von   PW_Graphics.s	-------------------------*
-
 		IFND	PW_GRAPHICS
 		 XREF	SP_Graphics, RP_Graphics
 		ENDC
-
-*---- Referenzen von   PW_Intuition.s	 ------------------------*
 
 		IFND	PW_INTUITION
 		 XREF	SP_Intuition, RP_Intuition
 		ENDC
 
-*---- Referenzen von   PW_Utility.s    --------------------------*
-
 		IFND	PW_UTILITY
 		 XREF	SP_Utility, RP_Utility
 		ENDC
-
-*---- Referenzen von   PW_Commodities.s	   ----------------------*
 
 		IFND	PW_COMMODITIES
 		 XREF	SP_Commodities, RP_Commodities
 		ENDC
 
-*---- Referenzen von   PW_Hit.s	    -----------------------------*
-
 		IFND	PW_HIT
 		 XREF	ShowHit
 		ENDC
-
-*---- Referenzen von   PW_Timer.s     ---------------------------*
 
 		IFND	PW_TIMER
 		 XREF	InitTimer, ExitTimer, StartTimer, StopTimer, CalcTimer
 		ENDC
 
-*---- Referenzen von   PW_Gadtools.s   --------------------------*
-
 		IFND	PW_GADTOOLS
 		 XREF	SP_Gadtools, RP_Gadtools
 		ENDC
 
-*----------------------------------------------------------------*
 *jEdit: :tabSize=8:indentSize=8:mode=assembly-m68k:

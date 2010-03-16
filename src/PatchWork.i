@@ -40,37 +40,37 @@ TEMPLATE        MACRO
 		dc.b    0
 		ENDM
 
-		rsreset         ;-- Parameter-Struktur  (args+)
-arg_Tresh       rs.l    1       ;Relaxte Ausgabe
+		rsreset         ;-- Parameter Structure (args+)
+arg_Tresh       rs.l    1       ;Output treshold
 arg_MinOS       rs.l    1       ;MinOS
-arg_Tiny        rs.l    1       ;Nur erste Zeile
-arg_Small       rs.l    1       ;Nur Reason und PC
-arg_Stacklines  rs.l    1       ;Zeilen vom Stack
-arg_Stackcheck  rs.l    1       ;Stack mit SegTracker testen
-arg_ShowPC      rs.l    1       ;PC-Umgebung anzeigen
-arg_ARegcheck   rs.l    1       ;ARegs mit SegTracker testen
-arg_DRegcheck   rs.l    1       ;DRegs mit SegTracker testen
-arg_RomHits     rs.l    1       ;Auch Hits aus dem AmigaOS-ROM?
+arg_Tiny        rs.l    1       ;Only the first line
+arg_Small       rs.l    1       ;Only reason and PC
+arg_Stacklines  rs.l    1       ;Stack lines
+arg_Stackcheck  rs.l    1       ;Test stack with SegTracker
+arg_ShowPC      rs.l    1       ;Show PC area
+arg_ARegcheck   rs.l    1       ;Test address registers with SegTracker
+arg_DRegcheck   rs.l    1       ;Test data registers with SegTracker
+arg_RomHits     rs.l    1       ;Also throw hits from the AmigaOS ROM
 arg_Deadly      rs.l    1       ;Deadly Hits
 arg_ChkDisable  rs.l    1       ;Check Disable()
-arg_NoPermit    rs.l    1       ;Permit() nicht patchen
-arg_DisPC       rs.l    1       ;PC disassemblieren
-arg_DisRange    rs.l    1       ;Zu disassemblierender Bereich
-arg_SIZEOF      rs.w    0       ; Größe
+arg_NoPermit    rs.l    1       ;Do not patch Permit()
+arg_DisPC       rs.l    1       ;Disassemble PC
+arg_DisRange    rs.l    1       ;Disassembly range
+arg_SIZEOF      rs.w    0       ; Structure size
 
-		rsreset         ;-- Globale Variablen
-gl_Stacklines   rs.l    1       ;Zeilen vom Stack
+		rsreset         ;-- Global Variables
+gl_Stacklines   rs.l    1       ;Lines of the stack
 gl_Tresh        rs.w    1       ;Treshold
-gl_MinOS        rs.w    1       ;MinOS, oder 0 für alle OS
+gl_MinOS        rs.w    1       ;MinOS, or 0 for all OS
 gl_SIZEOF       rs.w    0
 
 
-dpatch          MACRO   ;<funktionsoffset> <neue funktion>
+dpatch          MACRO   ;<funktion offset> <new function>
 		dc.w    \1
 		dc.l    \2
 		ENDM
 
-		rsreset         ;-- Register auf dem Stack --
+		rsreset         ;-- Register on the stack --
 REG_D0          rs.l    1
 REG_D1          rs.l    1
 REG_D2          rs.l    1
@@ -88,26 +88,26 @@ REG_A5          rs.l    1
 REG_A6          rs.l    1
 REG_A7          rs.l    1
 REG_PC          rs.l    1
-REG_SP          rs.l    0       ;hier beginnt der Stack-Bereich
+REG_SP          rs.l    0       ;the stack area starts here
 REG_TERM        EQU     -1
 
-REGB_STR        EQU     8       ;String-Zeiger
+REGB_STR        EQU     8       ;String pointer
 REGF_STR        EQU     1<<REGB_STR
-REGB_WORD       EQU     9       ;Nur das untere Word (signed)
+REGB_WORD       EQU     9       ;signed word
 REGF_WORD       EQU     1<<REGB_WORD
-REGB_UWORD      EQU     10      ;Nur das untere Word (unsigned)
+REGB_UWORD      EQU     10      ;unsigned word
 REGF_UWORD      EQU     1<<REGB_UWORD
-REGB_UBYTE      EQU     11      ;Nur das untere Byte
+REGB_UBYTE      EQU     11      ;unsigned byte
 REGF_UBYTE      EQU     1<<REGB_UBYTE
-REGB_BPTR       EQU     12      ;Ist ein BPTR
+REGB_BPTR       EQU     12      ;BPTR
 REGF_BPTR       EQU     1<<REGB_BPTR
-REGB_TERM       EQU     15      ;Terminierung (Reserviert)
+REGB_TERM       EQU     15      ;Termination (reserved)
 
-PATCH           MACRO   ;<name>,<desc>[,<reg-offset>,...]
+PATCH           MACRO   ;<name>,<desc>[,<reg offset>,...]
 		IFND    alert_badone
 		XREF    alert_badone
 		ENDC
-desc\@          dc.b    "%s ",\2,0      ;Beschreibung
+desc\@          dc.b    "%s ",\2,0      ;Description
 		even
 		dc.w    REG_TERM
 CARG            SET     3
@@ -118,7 +118,7 @@ CARG            SET     3
 \1              ds.w    0
 .THIS           dc.w    $4ef9           ;JMP    $xxxxxxxx.l
 		dc.l    alert_badone
-		; Hier beginnt die Funktion
+		; function starts here
 		ENDM
 
 		ENDC

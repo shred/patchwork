@@ -34,19 +34,14 @@ PW_GRAPHICS     SET     -1
 		INCLUDE "lvo/graphics.i"
 		INCLUDE "lvo/utility.i"
 
-		INCLUDE patchwork.i
-		INCLUDE refs.i
+		INCLUDE PatchWork.i
+		INCLUDE Refs.i
 
 		SECTION text,CODE
 
-*********************************************************
-* Name          SP_Graphics                             *
-* Funktion      Graphics-Patches setzen                 *
-*                                                       *
-* Parameter     keine                                   *
-*                                                       *
-*********************************************************
-*> [SP_Graphics] GLOBAL
+*--
+* Set the patches
+*
 		XDEF    SP_Graphics
 SP_Graphics     movem.l a0-a1,-(SP)
 		lea     (.gfxname,PC),a1
@@ -54,53 +49,40 @@ SP_Graphics     movem.l a0-a1,-(SP)
 		exec    OpenLibrary
 		move.l  d0,gfxbase
 		beq     .done
-	;-- Alle V36 patchen -------------------;
-		move.l  d0,a1                   ;Alle V36+ Funktionen patchen
+		move.l  d0,a1
 		lea     (v36_patches,PC),a0
 		bsr     AddPatchTab
-
 		cmp     #39,(LIB_VERSION,a1)
 		blo     .done
-		lea     (v39_patches,PC),a0     ;V39+ patchen
+		lea     (v39_patches,PC),a0
 		bsr     AddPatchTab
-	;-- Fertig -----------------------------;
 .done           movem.l (SP)+,a0-a1
 		rts
-	;-- Texte ------------------------------;
+		
 .gfxname        dc.b    "graphics.library",0
 		even
-*<
-*********************************************************
-* Name          RP_Graphics                             *
-* Funktion      Patches entfernen                       *
-*                                                       *
-* Parameter     keine                                   *
-*                                                       *
-*********************************************************
-*> [RP_Graphics] GLOBAL
+
+*--
+* Remove the patches
+*
 		XDEF    RP_Graphics
 RP_Graphics     movem.l a0-a1,-(SP)
-		move.l  (gfxbase,PC),d0         ;GfxBase da?
+		move.l  (gfxbase,PC),d0
 		beq     .nogfx
-	;-- V36+ entfernen ---------------------;
-		move.l  d0,a1                   ;V36-Patches entfernen
+		move.l  d0,a1
 		lea     (v36_patches,PC),a0
 		bsr     RemPatchTab
-	;-- V39+ entfernen ---------------------;
 		cmp     #39,(LIB_VERSION,a1)
 		blo     .close
-		lea     (v39_patches,PC),a0     ;V39+ patchen
+		lea     (v39_patches,PC),a0
 		bsr     RemPatchTab
-	;-- Library schließen ------------------;
-.close          exec    CloseLibrary            ;Library schließen
+.close          exec    CloseLibrary
 .nogfx          movem.l (SP)+,a0-a1
 		rts
-*<
-*********************************************************
-* Name          graphics_patches                        *
-* Funktion      Tabelle aller Graphics-Patches          *
-*********************************************************
-*> [v??_patches]
+
+*--
+* Table of all patches
+*
 v36_patches     dpatch  _GFXAreaEllipse,P_AreaEllipse
 		dpatch  _GFXBitMapScale,P_BitMapScale
 		dpatch  _GFXChangeSprite,P_ChangeSprite
@@ -121,43 +103,36 @@ v39_patches     dpatch  _GFXAllocSpriteDataA,P_AllocSpriteData
 		dpatch  _GFXSetChipRev,P_SetChipRev
 		dpatch  _GFXSetMaxPen,P_SetMaxPen
 		dc.w    0
-*<
 
 gfxbase         dc.l    0                       ;GfxBase
 
 
-*****************************************************************
-*       == DIE PATCH-ROUTINEN                                   *
-*****************************************************************
+*------------------------------------------------------------------
+* PATCHES
+*
 
-*********************************************************
-* Patch         AllocSpriteData()                   V39 *
-* Tests         - SPRITEA_OutputHeight muß passen       *
-*********************************************************
-*> [AllocSpriteData()]
- PATCH P_AllocSpriteData,"AllocSpriteDataA(0x%08lx,0x%08lx)",REG_A2,REG_A1
-
+	PATCH P_AllocSpriteData,"AllocSpriteDataA(0x%08lx,0x%08lx)",REG_A2,REG_A1
 		movem.l d0-d7/a0-a7,-(SP)
 	;-- OldSpriteData? ---------------------;
-		move.l  a1,a0                   ;Tag finden
+		move.l  a1,a0                   ;Find tag
 		move.l  #SPRITEA_OldDataFormat,d0
 		utils   FindTagItem
-		tst.l   d0                      ;vorhanden?
-		bne     .done                   ; ja: wir können nichts testen
-	;-- OutputHeight ermitteln -------------;
-		move.l  a1,a0                   ;Tag finden
+		tst.l   d0                      ;present?
+		bne     .done                   ; yes: we cannot test anything
+	;-- Get OutputHeight -------------------;
+		move.l  a1,a0                   ;Find tag
 		move.l  #SPRITEA_OutputHeight,d0
 		utils   FindTagItem
-		tst.l   d0                      ;nicht da?
-		beq     .done                   ; nee->ok
-	;-- Größe vergleichen ------------------;
+		tst.l   d0                      ;not present?
+		beq     .done                   ; nope -> ok
+	;-- Compare sizes ----------------------;
 		move.l  d0,a0
-		move.l  (4,a0),d1               ;Höhe lesen
+		move.l  (4,a0),d1               ;Read height
 		moveq   #0,d0
 		move    (bm_Rows,a2),d0
 		cmp.l   d0,d1
 		bls     .done
-	;-- Paßt nicht -------------------------;
+	;-- Does not fit -----------------------;
 		move.l  SP,a0
 		movem.l d0-d1,-(SP)
 		lea     (.msg_nottall,PC),a1
@@ -166,21 +141,15 @@ gfxbase         dc.l    0                       ;GfxBase
 		move.l  SP,d1
 		bsr     ShowHit
 		add.l   #2*4,SP
-	;-- Fertig -----------------------------;
 .done           movem.l (SP)+,d0-d7/a0-a7
 		bra     .THIS
 
 .msg_nottall    dc.b    "bitmap (h=%lu) isn't tall enough for sprite (h=%lu)",0
 		even
-*<
 
-*********************************************************
-* Patch         AreaEllipse()                           *
-* Tests         - Radius > 0!                           *
-*********************************************************
-*> [AreaEllipse()]
- PATCH P_AreaEllipse,"AreaEllipse(0x%08lx,%ld,%ld,%ld,%ld)",REG_A1,REG_D0|REGF_WORD,REG_D1|REGF_WORD,REG_D2|REGF_WORD,REG_D3|REGF_WORD
-
+*---------------
+		
+	PATCH P_AreaEllipse,"AreaEllipse(0x%08lx,%ld,%ld,%ld,%ld)",REG_A1,REG_D0|REGF_WORD,REG_D1|REGF_WORD,REG_D2|REGF_WORD,REG_D3|REGF_WORD
 		tst     d2                      ;A > 0
 		bls     .bad
 		tst     d3                      ;B > 0
@@ -196,15 +165,10 @@ gfxbase         dc.l    0                       ;GfxBase
 
 .msg_badrad     dc.b    "ellipse radius must be > 0",0
 		even
-*<
 
-*********************************************************
-* Patch         BestModeID()                        V39 *
-* Tests         - BIDTAG_Desired/NominalWidth/Height !0 *
-*********************************************************
-*> [BestModeID()]
- PATCH P_BestModeID,"BestModeIDA(0x%08lx)",REG_A0
-
+*---------------
+		
+	PATCH P_BestModeID,"BestModeIDA(0x%08lx)",REG_A0
 		movem.l d0-d7/a0-a7,-(SP)
 		move.l  a0,a5
 		move.l  #BIDTAG_NominalWidth,d0
@@ -222,7 +186,6 @@ gfxbase         dc.l    0                       ;GfxBase
 		movem.l (SP)+,d0-d7/a0-a7
 		bra     .THIS
 
-	;==== PRÜFEN ===========================;
 .check          move.l  a5,a0
 		utils   FindTagItem
 		tst.l   d0
@@ -261,27 +224,22 @@ gfxbase         dc.l    0                       ;GfxBase
 .msg_dw         dc.b    "DesiredWidth",0
 .msg_dh         dc.b    "DesiredHeight",0
 		even
-*<
-
-*********************************************************
-* Patch         BitMapScale()                           *
-* Tests         - diverse Tests... Uh, kompliziert!     *
-*********************************************************
-*> [BitMapScale()]
- PATCH P_BitMapScale,"BitMapScale(0x%08lx)",REG_A0
-
+		
+*---------------
+		
+	PATCH P_BitMapScale,"BitMapScale(0x%08lx)",REG_A0
 		movem.l d0-d7/a0-a7,-(SP)
 	;-- Range Checkings --------------------;
-		move    (bsa_XSrcFactor,a0),d0  ;Bereich prüfen
+		move    (bsa_XSrcFactor,a0),d0  ;Check range
 		lea     (.msg_xsf,PC),a1
 		bsr     .checkrange
-		move    (bsa_XDestFactor,a0),d0 ;Bereich prüfen
+		move    (bsa_XDestFactor,a0),d0 ;Check range
 		lea     (.msg_xdf,PC),a1
 		bsr     .checkrange
-		move    (bsa_YSrcFactor,a0),d0  ;Bereich prüfen
+		move    (bsa_YSrcFactor,a0),d0  ;Check range
 		lea     (.msg_ysf,PC),a1
 		bsr     .checkrange
-		move    (bsa_YDestFactor,a0),d0 ;Bereich prüfen
+		move    (bsa_YDestFactor,a0),d0 ;Check range
 		lea     (.msg_ydf,PC),a1
 		bsr     .checkrange
 	;-- Flags = 0 --------------------------;
@@ -295,7 +253,7 @@ gfxbase         dc.l    0                       ;GfxBase
 		bsr     ShowHit
 		move.l  (SP)+,a0
 .goodflags
-	;-- Bug-Test 1 -------------------------;
+	;-- Bug Test 1 -------------------------;
 		move    (bsa_XSrcFactor,a0),d0
 		cmp     (bsa_XDestFactor,a0),d0
 		bne     .check1ok
@@ -310,7 +268,7 @@ gfxbase         dc.l    0                       ;GfxBase
 		bsr     ShowHit
 		move.l  (SP)+,a0
 .check1ok
-	;-- Bug-Test 2 -------------------------;
+	;-- Bug Test 2 -------------------------;
 		move    (bsa_DestX,a0),d0
 		and     #$f,d0
 		move    (bsa_SrcWidth,a0),d1
@@ -327,7 +285,6 @@ gfxbase         dc.l    0                       ;GfxBase
 		bsr     ShowHit
 		move.l  (SP)+,a0
 .check2ok
-	;-- Fertig -----------------------------;
 		movem.l (SP)+,d0-d7/a0-a7
 		bra     .THIS
 
@@ -359,26 +316,17 @@ gfxbase         dc.l    0                       ;GfxBase
 .msg_bug2       dc.b    "Bug: cannot expand in Y direction (see autodocs)",0
 .msg_badflags   dc.b    "bsa_Flags is not 0",0
 		even
-*<
 
-*********************************************************
-* Patch         BltBitMap()                             *
-* Tests         - diverse Tests... Uh, kompliziert!     *
-*********************************************************
-*> [BltBitMap()]  ;; Noch zu unklar!!!
-; PATCH P_BltBitMap,"BltBitMap(0x%08lx,%ld,%ld,0x%08lx,%ld,%ld,%ld,%ld,0x%02lx,0x%02lx,0x%08lx)",REG_A0,REG_D0|REGF_WORD,REG_D1|REGF_WORD,REG_A1,REG_D2|REGF_WORD,REG_D3|REGF_WORD,REG_D4|REGF_WORD,REG_D5|REGF_WORD,REG_D6|REGF_UBYTE,REG_D7|REGF_UBYTE,REG_A2
+*---------------
 
-*<
+	; TODO:
+	; PATCH P_BltBitMap,"BltBitMap(0x%08lx,%ld,%ld,0x%08lx,%ld,%ld,%ld,%ld,0x%02lx,0x%02lx,0x%08lx)",REG_A0,REG_D0|REGF_WORD,REG_D1|REGF_WORD,REG_A1,REG_D2|REGF_WORD,REG_D3|REGF_WORD,REG_D4|REGF_WORD,REG_D5|REGF_WORD,REG_D6|REGF_UBYTE,REG_D7|REGF_UBYTE,REG_A2
 
-*********************************************************
-* Patch         ChangeSprite()                          *
-* Tests         - Höhe, Chip_RAM                        *
-*********************************************************
-*> [ChangeSprite()]
- PATCH P_ChangeSprite,"ChangeSprite(0x%08lx,0x%08lx,0x%08lx)",REG_A0,REG_A1,REG_A2
-
+*---------------
+	
+	PATCH P_ChangeSprite,"ChangeSprite(0x%08lx,0x%08lx,0x%08lx)",REG_A0,REG_A1,REG_A2
 		movem.l d0-d7/a0-a7,-(SP)
-		move    (ss_height,a1),d3       ;Sprite-Höhe
+		move    (ss_height,a1),d3       ;Sprite height
 		beq     .initialized
 		lsl     #2,d3                   ;*4
 		tst.l   (4,a2,d3.w)             ;Null?
@@ -391,7 +339,7 @@ gfxbase         dc.l    0                       ;GfxBase
 		bsr     ShowHit
 		move.l  (SP)+,a2
 .initialized    move.l  a2,a1
-		exec    TypeOfMem               ;Richtiger Typ?
+		exec    TypeOfMem               ;Right type?
 		btst    #MEMB_CHIP,d0
 		bne     .ramok
 		move.l  SP,a0
@@ -405,18 +353,13 @@ gfxbase         dc.l    0                       ;GfxBase
 .msg_sprinit    dc.b    "spriteimage not initialized",0
 .msg_badmem     dc.b    "spriteimage must be in CHIP RAM",0
 		even
-*<
-
-*********************************************************
-* Patch         ChangeVPBitMap()                    V39 *
-* Tests         - BitMaps haben gleiche Ausmaße         *
-*********************************************************
-*> [ChangeVPBitMap()]
- PATCH P_ChangeVPBitMap,"ChangeVPBitMap(0x%08lx,0x%08lx,0x%08lx)",REG_A0,REG_A1,REG_A2
-
+		
+*---------------
+		
+	PATCH P_ChangeVPBitMap,"ChangeVPBitMap(0x%08lx,0x%08lx,0x%08lx)",REG_A0,REG_A1,REG_A2
 		movem.l d0-d7/a0-a7,-(SP)
-		move.l  (vp_RasInfo,a0),a3      ;^ViewPort holen
-		move.l  (ri_BitMap,a3),a3       ;^aktuelle BitMap
+		move.l  (vp_RasInfo,a0),a3      ;fetch ^ViewPort
+		move.l  (ri_BitMap,a3),a3       ;^current BitMap
 		move    (bm_BytesPerRow,a3),d0  ;BytesPerRow
 		cmp     (bm_BytesPerRow,a1),d0
 		bne     .notidentical
@@ -438,15 +381,10 @@ gfxbase         dc.l    0                       ;GfxBase
 
 .msg_notsame    dc.b    "Current bitmap @0x%08lx and new bitmap @0x%08lx do not match",0
 		even
-*<
-
-*********************************************************
-* Patch         DrawEllipse()                           *
-* Tests         - Radius > 0!                           *
-*********************************************************
-*> [DrawEllipse()]
- PATCH P_DrawEllipse,"DrawEllipse(0x%08lx,%ld,%ld,%ld,%ld)",REG_A1,REG_D0|REGF_WORD,REG_D1|REGF_WORD,REG_D2|REGF_WORD,REG_D3|REGF_WORD
-
+		
+*---------------
+		
+	PATCH P_DrawEllipse,"DrawEllipse(0x%08lx,%ld,%ld,%ld,%ld)",REG_A1,REG_D0|REGF_WORD,REG_D1|REGF_WORD,REG_D2|REGF_WORD,REG_D3|REGF_WORD
 		tst     d2                      ;A > 0
 		bls     .bad
 		tst     d3                      ;B > 0
@@ -462,15 +400,10 @@ gfxbase         dc.l    0                       ;GfxBase
 
 .msg_badrad     dc.b    "ellipse radius must be > 0",0
 		even
-*<
-
-*********************************************************
-* Patch         EraseRect()                             *
-* Tests         - Box-Koordinaten                       *
-*********************************************************
-*> [EraseRect()]
- PATCH P_EraseRect,"EraseRect(0x%08lx,%ld,%ld,%ld,%ld)",REG_A1,REG_D0|REGF_WORD,REG_D1|REGF_WORD,REG_D2|REGF_WORD,REG_D3|REGF_WORD
-
+		
+*---------------
+		
+	PATCH P_EraseRect,"EraseRect(0x%08lx,%ld,%ld,%ld,%ld)",REG_A1,REG_D0|REGF_WORD,REG_D1|REGF_WORD,REG_D2|REGF_WORD,REG_D3|REGF_WORD
 		cmp     d2,d0
 		bgt     .bad                    ;xmin > xmax ?
 		cmp     d3,d1
@@ -486,16 +419,11 @@ gfxbase         dc.l    0                       ;GfxBase
 
 .msg_badrel     dc.b    "max must be >= min",0
 		even
-*<
-
-*********************************************************
-* Patch         FreeColorMap()                          *
-* Tests         - NULL-Ptr                              *
-*********************************************************
-*> [FreeColorMap()]
- PATCH P_FreeColorMap,"FreeColorMap(0x%08lx)",REG_A0
-
-		move.l  a0,d0                   ;;REGISTER WIRD VERÄNDERT
+		
+*---------------
+		
+	PATCH P_FreeColorMap,"FreeColorMap(0x%08lx)",REG_A0
+		move.l  a0,d0                   ;;Register is trashed
 		bne     .THIS
 		movem.l d0-d7/a0-a7,-(SP)
 		move.l  SP,a0
@@ -509,15 +437,10 @@ gfxbase         dc.l    0                       ;GfxBase
 
 .msg_v39        dc.b    "V39+ will be required",0
 		even
-*<
-
-*********************************************************
-* Patch         GetExtSpriteA                       V39 *
-* Tests         - V40+                                  *
-*********************************************************
-*> [GetExtSpriteA()]
- PATCH P_GetExtSpriteA,"GetExtSpriteA(0x%08lx,0x%08lx)",REG_A2,REG_A1
-
+		
+*---------------
+		
+	PATCH P_GetExtSpriteA,"GetExtSpriteA(0x%08lx,0x%08lx)",REG_A2,REG_A1
 		movem.l d0-d7/a0-a7,-(SP)
 		move.l  SP,a0
 		lea     (.msg_v40,PC),a1
@@ -530,17 +453,12 @@ gfxbase         dc.l    0                       ;GfxBase
 
 .msg_v40        dc.b    "V40+ will be required for proper operation",0
 		even
-*<
-
-*********************************************************
-* Patch         MakeVPort()                             *
-* Tests         - RasInfo, DualPF                       *
-*********************************************************
-*> [MakeVPort()]
- PATCH P_MakeVPort,"MakeVPort(0x%08lx,0x%08lx)",REG_A0,REG_A1
-
+		
+*---------------
+		
+	PATCH P_MakeVPort,"MakeVPort(0x%08lx,0x%08lx)",REG_A0,REG_A1
 		movem.l d0-d7/a0-a7,-(SP)
-		tst.l   (vp_RasInfo,a1)         ;RasInfo gesetzt?
+		tst.l   (vp_RasInfo,a1)         ;RasInfo set?
 		bne     .rasinfo                ;; TypeOfMem()
 		move.l  SP,a0
 		lea     (.msg_norasinfo,PC),a1
@@ -551,7 +469,7 @@ gfxbase         dc.l    0                       ;GfxBase
 .rasinfo        move    (vp_Modes,a1),d0        ;DualPF?
 		and     #V_DUALPF,d0
 		beq     .exit
-		move.l  (vp_RasInfo,a1),a0      ;zweiter RasInfo?
+		move.l  (vp_RasInfo,a1),a0      ;second RasInfo?
 		tst.l   (ri_Next,a0)
 		bne     .exit
 		move.l  SP,a0
@@ -565,15 +483,10 @@ gfxbase         dc.l    0                       ;GfxBase
 .msg_norasinfo  dc.b    "ViewPort->RasInfo has not been set",0
 .msg_no2ndras   dc.b    "DUALPF ViewPort->RasInfo.Next has not been set",0
 		even
-*<
-
-*********************************************************
-* Patch         RectFill()                              *
-* Tests         - Box-Koordinaten                       *
-*********************************************************
-*> [RectFill()]
- PATCH P_RectFill,"RectFill(0x%08lx,%ld,%ld,%ld,%ld)",REG_A1,REG_D0|REGF_WORD,REG_D1|REGF_WORD,REG_D2|REGF_WORD,REG_D3|REGF_WORD
-
+		
+*---------------
+		
+	PATCH P_RectFill,"RectFill(0x%08lx,%ld,%ld,%ld,%ld)",REG_A1,REG_D0|REGF_WORD,REG_D1|REGF_WORD,REG_D2|REGF_WORD,REG_D3|REGF_WORD
 		cmp     d2,d0
 		bgt     .bad                    ;xmin > xmax ?
 		cmp     d3,d1
@@ -589,15 +502,10 @@ gfxbase         dc.l    0                       ;GfxBase
 
 .msg_badrel     dc.b    "max must be >= min",0
 		even
-*<
-
-*********************************************************
-* Patch         ScalerDiv()                             *
-* Tests         - Range                                 *
-*********************************************************
-*> [ScalerDiv()]
- PATCH P_ScalerDiv,"ScalerDiv(%lu,%lu,%lu)",REG_D0|REGF_UWORD,REG_D1|REGF_UWORD,REG_D2|REGF_UWORD
-
+		
+*---------------
+		
+	PATCH P_ScalerDiv,"ScalerDiv(%lu,%lu,%lu)",REG_D0|REGF_UWORD,REG_D1|REGF_UWORD,REG_D2|REGF_UWORD
 		cmp     #16383,d0               ;D0>16383?
 		bhi     .bad
 		cmp     #1,d1                   ;D1<1?
@@ -619,15 +527,10 @@ gfxbase         dc.l    0                       ;GfxBase
 
 .msg_badrange   dc.b    "parameters are out of range",0
 		even
-*<
-
-*********************************************************
-* Patch         SetChipRev()                        V39 *
-* Tests         - Don't touch                           *
-*********************************************************
-*> [SetChipRev()]
- PATCH P_SetChipRev,"SetChipRev(%lu)",REG_D0
-
+		
+*---------------
+		
+	PATCH P_SetChipRev,"SetChipRev(%lu)",REG_D0
 		movem.l d0-d7/a0-a7,-(SP)
 		move.l  SP,a0
 		lea     (.msg_donttouch,PC),a1
@@ -637,20 +540,14 @@ gfxbase         dc.l    0                       ;GfxBase
 		movem.l (SP)+,d0-d7/a0-a7
 		bra     .THIS
 
-.msg_donttouch  dc.b    "don't use this function!",0
+.msg_donttouch  dc.b    "do not use this function!",0
 		even
-*<
-
-*********************************************************
-* Patch         SetFont()                               *
-* Tests         - NULL-Font nicht erlaubt               *
-*               - Font-Typen-Tests                      *
-*********************************************************
-*> [SetFont()]
- PATCH P_SetFont,"SetFont(0x%08lx,0x%08lx)",REG_A1,REG_A0
-
-	;-- NULL-Font --------------------------;
-		move.l  a0,d0                   ;; REGISTER WIRD VERÄNDERT
+		
+*---------------
+		
+	PATCH P_SetFont,"SetFont(0x%08lx,0x%08lx)",REG_A1,REG_A0
+	;-- NULL Font --------------------------;
+		move.l  a0,d0                   ;; Register is trashed
 		bne     .font_ok
 		movem.l d0-d7/a0-a7,-(SP)
 		move.l  SP,a0
@@ -661,15 +558,15 @@ gfxbase         dc.l    0                       ;GfxBase
 		movem.l (SP)+,d0-d7/a0-a7
 		bra     .THIS
 	;-- Font OK ----------------------------;
-.font_ok        move.l  (tf_CharSpace,a0),d0    ;; REGISTER WIRD VERÄNDERT
+.font_ok        move.l  (tf_CharSpace,a0),d0    ;; Register is trashed
 		or.l    (tf_CharKern,a0),d0
-		beq     .font_test              ;beide waren NULL
+		beq     .font_test              ;both were NULL
 		tst.l   (tf_CharSpace,a0)       ;Space == NULL?
 		beq     .font_bad
 		tst.l   (tf_CharKern,a0)        ;Kern == NULL?
 		bne     .THIS                   ; Font OK
 .font_bad       movem.l d0-d7/a0-a7,-(SP)
-		moveq   #0,d0                   ;Fontgröße
+		moveq   #0,d0                   ;Font size
 		move    (tf_YSize,a0),d0
 		move.l  d0,-(sp)
 		move.l  (LN_NAME,a0),-(sp)
@@ -682,13 +579,13 @@ gfxbase         dc.l    0                       ;GfxBase
 		add.l   #2*4,sp
 		movem.l (SP)+,d0-d7/a0-a7
 		bra     .THIS
-.font_test      movem.l a1/d1/d2,-(sp)          ;3. Bedingung prüfen
+.font_test      movem.l a1/d1/d2,-(sp)          ;Check 3rd condition
 		moveq   #0,d2
 		move.b  (tf_HiChar,a0),d2
 		sub.b   (tf_LoChar,a0),d2
 		addq    #1,d2
-		move    (tf_XSize,a0),d0        ;X-Size
-		move.l  (tf_CharLoc,a0),a1      ;CharLoc holen
+		move    (tf_XSize,a0),d0        ;X Size
+		move.l  (tf_CharLoc,a0),a1      ;get CharLoc
 .testloop       move.l  (a1)+,d1
 		cmp     d0,d1
 		bgt     .font_test_bad
@@ -701,15 +598,10 @@ gfxbase         dc.l    0                       ;GfxBase
 .msg_nullfont   dc.b    "NULL fonts are not allowed",0
 .msg_badfont    dc.b    "BTW: %s/%lu variant is obsoleted in V36+",0
 		even
-*<
-
-*********************************************************
-* Patch         SetMaxPen()                         V39 *
-* Tests         - MaxPen=0                              *
-*********************************************************
-*> [SetMaxPen()
- PATCH P_SetMaxPen,"SetMaxPen(0x%08lx,%lu)",REG_A0,REG_D0
-
+		
+*---------------
+		
+	PATCH P_SetMaxPen,"SetMaxPen(0x%08lx,%lu)",REG_A0,REG_D0
 		tst.l   d0
 		bne     .THIS
 		movem.l d0-d7/a0-a7,-(SP)
@@ -721,17 +613,12 @@ gfxbase         dc.l    0                       ;GfxBase
 		movem.l (SP)+,d0-d7/a0-a7
 		bra     .THIS
 
-.msg_nonsense   dc.b    "maxpen==0 doesn't make much sense",0
+.msg_nonsense   dc.b    "maxpen==0 does not make much sense",0
 		even
-*<
-
-*********************************************************
-* Patch         WaitBOVP()                              *
-* Tests         - Don't use                             *
-*********************************************************
-*> [WaitBOVP()]
- PATCH P_WaitBOVP,"WaitBOVP(0x%08lx)",REG_A0
-
+		
+*---------------
+		
+	PATCH P_WaitBOVP,"WaitBOVP(0x%08lx)",REG_A0
 		movem.l d0-d7/a0-a7,-(SP)
 		move.l  SP,a0
 		lea     (.msg_dontuse,PC),a1
@@ -741,9 +628,10 @@ gfxbase         dc.l    0                       ;GfxBase
 		movem.l (SP)+,d0-d7/a0-a7
 		bra     .THIS
 
-.msg_dontuse    dc.b    "busy wait, don't use if ever possible",0
+.msg_dontuse    dc.b    "busy wait, do not use if ever possible",0
 		even
-*<
+
+*---------------
 
 		END
 		

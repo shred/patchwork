@@ -20,22 +20,22 @@
 
 PW_MAIN		SET	-1
 
-		INCLUDE exec/ports.i
-		INCLUDE exec/memory.i
-		INCLUDE dos/dos.i
-		INCLUDE dos/rdargs.i
-		INCLUDE lvo/exec.i		;LVOs
-		INCLUDE lvo/dos.i
+		INCLUDE "exec/ports.i"
+		INCLUDE "exec/memory.i"
+		INCLUDE "dos/dos.i"
+		INCLUDE "dos/rdargs.i"
+		INCLUDE "lvo/exec.i"
+		INCLUDE "lvo/dos.i"
 
-		INCLUDE patchwork_rev.i
-		INCLUDE patchwork.i
-		INCLUDE refs.i
+		INCLUDE PatchWork_rev.i
+		INCLUDE PatchWork.i
+		INCLUDE Refs.i
 
 		SECTION text,CODE
 
-Start	;-- DOS-Lib öffnen ---------------------;
+Start	;-- Open DOS lib -----------------------;
 		lea	(dosname,PC),a1
-		moveq	#37,d0			;mindestens OS2.04
+		moveq	#37,d0			;OS2.04+ required
 		exec	OpenLibrary
 		move.l	d0,dosbase
 		beq	.error1
@@ -48,8 +48,8 @@ Start	;-- DOS-Lib öffnen ---------------------;
 		moveq	#40,d0
 		exec	OpenLibrary
 		move.l	d0,disasmbase
-	;-- MessagePort einrichten -------------;
-		moveq	#MP_SIZE,d0		;MessagePort belegen
+	;-- Create MessagePort -----------------;
+		moveq	#MP_SIZE,d0
 		move.l	#MEMF_PUBLIC|MEMF_CLEAR,d1
 		exec	AllocVec
 		move.l	d0,msgport
@@ -64,28 +64,28 @@ Start	;-- DOS-Lib öffnen ---------------------;
 		move.l	d0,(MP_SIGTASK,a3)
 		lea	(MP_MSGLIST,a3),a0
 		NEWLIST a0
-	;-- Läuft PW bereits? ------------------;
-		exec.q	Forbid			;natürlich! ;-)
-		lea	(pwportname,PC),a1	;nach dem Port suchen
+	;-- Is a PatchWork running? ------------;
+		exec.q	Forbid			;of course... :)
+		lea	(pwportname,PC),a1	;look for the port
 		exec.q	FindPort
 		tst.l	d0
-		beq	.no_port		;wir sind das erste mal hier!
-	;-- Anderen PW abbrechen ---------------;
+		beq	.no_port		;we're here for the first time
+	;-- Close other PatchWork --------------;
 		move.l	d0,a0
-		move.l	(MP_SIGTASK,a0),a1	;anderen Task holen
-		move.l	#SIGBREAKF_CTRL_C,d0	;einfach ein CTRL-C schicken
+		move.l	(MP_SIGTASK,a0),a1	;get other task
+		move.l	#SIGBREAKF_CTRL_C,d0	;send a CTRL-C signal
 		exec.q	Signal
-		exec.q	Permit			;Multitasing läuft wieder
+		exec.q	Permit			;enable multitasking
 		lea	(msg_removing,PC),a0
 		move.l	a0,d1
 		dos	PutStr
-		bra	.already		; und selbst beenden
-	;-- Der erste Start --------------------;
-.no_port	move.l	(msgport,PC),a1		;Port setzen
+		bra	.already		; and close ourself
+	;-- First start ------------------------;
+.no_port	move.l	(msgport,PC),a1		;set port
 		exec.q	AddPort
-		exec.q	Permit			;und weiter geht's
-	;-- Parameter einlesen -----------------;
-		lea	(template,PC),a0	;Parsen
+		exec.q	Permit			;and continue
+	;-- Read parameters --------------------;
+		lea	(template,PC),a0	;Parse
 		move.l	a0,d1
 		lea	(args,PC),a0
 		move.l	a0,d2
@@ -93,7 +93,7 @@ Start	;-- DOS-Lib öffnen ---------------------;
 		dos	ReadArgs
 		move.l	d0,dosargs
 		beq	.error5
-	;-- Bearbeiten -------------------------;
+	;-- Process ----------------------------;
 		lea	(args,PC),a0
 		lea	(gl,PC),a1
 		moveq	#0,d0			;Tresh
@@ -120,93 +120,92 @@ Start	;-- DOS-Lib öffnen ---------------------;
 		dos	PutStr
 		movem.l (SP)+,d0-d1/a0-a1
 .nominos	move	d0,(gl_MinOS,a1)
-		moveq	#2,d0			;Stacklines
+		moveq	#2,d0			;Stack lines
 		tst.l	(arg_Stacklines,a0)
 		beq	.stkok
 		move.l	(arg_Stacklines,a0),a2
 		move.l	(a2),d0
 .stkok		move.l	d0,(gl_Stacklines,a1)
-	;-- Timer initialisieren ---------------;
-		bsr	InitTimer		;Timer initialisieren
+	;-- Initialize timer -------------------;
+		bsr	InitTimer
 		tst.l	d0
 		beq	.error_tmr
-	;-- Hauptprogramm ----------------------;
+	;-- Main program -----------------------;
 		lea	(msg_copyright,PC),a0
 		move.l	a0,d1
 		dos	PutStr
-		bsr	SP_Exec			;Exec-Patches setzen
-		bsr	SP_Dos			;DOS-Patches setzen
-		bsr	SP_Graphics		;Graphics-Patches setzen
-		bsr	SP_Intuition		;Intuition-Patches setzen
-		bsr	SP_Utility		;Utility-Patches setzen
-		bsr	SP_Commodities		;Commodities-Patches setzen
-		bsr	SP_Gadtools		;Gadtools-Patches setzen
-		move.l	#SIGBREAKF_CTRL_C,d0	;Warte auf CTRL-C
+		bsr	SP_Exec
+		bsr	SP_Dos
+		bsr	SP_Graphics
+		bsr	SP_Intuition
+		bsr	SP_Utility
+		bsr	SP_Commodities
+		bsr	SP_Gadtools
+		move.l	#SIGBREAKF_CTRL_C,d0	;Wait for CTRL-C
 		exec	Wait
-		bsr	RP_Gadtools		;Gadtools-Patches entfernen
-		bsr	RP_Commodities		;Commodities-Patches entfernen
-		bsr	RP_Utility		;Utility-Patches entfernen
-		bsr	RP_Intuition		;Intuition-Patches entfernen
-		bsr	RP_Graphics		;Graphics-Patches entfernen
-		bsr	RP_Dos			;DOS-Patches entfernen
-		bsr	RP_Exec			;Exec-Patches entfernen
-		bsr	ExitTimer		;Timer beenden
+		bsr	RP_Gadtools
+		bsr	RP_Commodities
+		bsr	RP_Utility
+		bsr	RP_Intuition
+		bsr	RP_Graphics
+		bsr	RP_Dos
+		bsr	RP_Exec
+		bsr	ExitTimer		;exit timer
 		lea	(msg_removed,PC),a0
 		move.l	a0,d1
 		dos	PutStr
-	;-- Fertig -----------------------------;
-.error_tmr	move.l	(dosargs,PC),d1		;Result freigeben
+.error_tmr	move.l	(dosargs,PC),d1		;release result
 		dos	FreeArgs
-		move.l	(msgport,PC),a1		;MsgPort aushängen
+		move.l	(msgport,PC),a1		;remove message port
 		exec	RemPort
 .already	move.l	(msgport,PC),a1
 		exec	FreeVec
-		move.l	(utilsbase,PC),a1	;UTILS freigeben
+		move.l	(utilsbase,PC),a1	;release libraries
 		exec	CloseLibrary
 		move.l	(dosbase,PC),a1
 		exec	CloseLibrary
-		moveq	#0,d0			;Alles OK
+		moveq	#0,d0
 .exit		rts
-	;-- Fehler -----------------------------;
-.error6		move.l	(dosargs,PC),d1		;Result freigeben
+
+.error6		move.l	(dosargs,PC),d1		;release result
 		dos	FreeArgs
-.error5		move.l	(msgport,PC),a1		;MsgPort aushängen
+.error5		move.l	(msgport,PC),a1		;remove message port
 		exec	RemPort
-.error4		move.l	(msgport,PC),a1		;MsgPort entfernen
+.error4		move.l	(msgport,PC),a1		;release message port
 		exec	FreeVec
 
-		move.l	(disasmbase,PC),d0	;Disassembler schließen, wenn verfügbar
+		move.l	(disasmbase,PC),d0	;close disassembler if available
 		beq	.nodisasm
 		move.l	d0,a1
 		exec	CloseLibrary
 .nodisasm
 
-.error3		move.l	(utilsbase,PC),a1	;UTILS freigeben
+.error3		move.l	(utilsbase,PC),a1	;release libraries
 		exec	CloseLibrary
-.error2		move.l	(dosbase,PC),a1		;DOS freigeben
+.error2		move.l	(dosbase,PC),a1
 		exec	CloseLibrary
-.error1		moveq	#10,d0			;Schlug fehl
+.error1		moveq	#10,d0			; Failed
 		bra.b	.exit
 
-	;-- Versionstrings ---------------------;
+	;-- Version String ---------------------;
 		VERSTAG
 		dc.b	"(C) 1997-2010 Richard Körber",13,10,0
 		PRGNAME
 		dc.b	" - http://patchwork.shredzone.org",13,10,0
 		even
 
-	;-- Variablen --------------------------;
+	;-- Variables --------------------------;
 		XDEF	gl,dosbase,args,utilsbase,disasmbase
-gl		ds.b	gl_SIZEOF		;Globale Variablen
-dosbase		dc.l	0			;^DOS-Library
-utilsbase	dc.l	0			;^Utils-Library
-disasmbase	dc.l	0			;^Disassembler-Library
-dosargs		dc.l	0			;^Ergebnis von Parse
+gl		ds.b	gl_SIZEOF		;Globals
+dosbase		dc.l	0			;^DOS Library
+utilsbase	dc.l	0			;^Utils Library
+disasmbase	dc.l	0			;^Disassembler Library
+dosargs		dc.l	0			;^Parser result
 msgport		dc.l	0			;^MessagePort
-args		ds.b	arg_SIZEOF		;Parameter-Array
+args		ds.b	arg_SIZEOF		;Parameter Array
 template	TEMPLATE
 
-	;-- Texte ------------------------------;
+	;-- Texts ------------------------------;
 msg_removing	dc.b	"Removing "
 		PRGNAME
 		dc.b	" now.\n",0
@@ -228,11 +227,11 @@ pwportname	PRGNAME
 		dc.b	" port",0		;Rendezvous Port
 		even
 
-
+*---
+* Add patch table
 *
-* AddPatchTab	-- Patch-Tabelle verwenden
-*	-> a0.l ^Patch-Tabelle
-*	-> a1.l ^Library-Base
+*	-> a0.l ^Patch table
+*	-> a1.l ^Library base
 *
 		XDEF	AddPatchTab
 AddPatchTab	movem.l d0-d3/a0-a6,-(SP)
@@ -243,24 +242,25 @@ AddPatchTab	movem.l d0-d3/a0-a6,-(SP)
 .patching	move	(a4)+,d0
 		beq	.pdone
 		move	d0,a0		;a0: Offset
-		move.l	(a4)+,a3	;a3: Funktion
+		move.l	(a4)+,a3	;a3: Function
 		lea	(6,a3),a1
-		move.l	a1,d0		;d0: neue Funktion
+		move.l	a1,d0		;d0: new function
 		move.l	a5,a1		;a1: Base
 		exec.q	Disable
 		exec.q	SetFunction
-		move.l	d0,(2,a3)	;alten Zeiger eintragen
-		exec.q	CacheClearU	;Caches löschen
+		move.l	d0,(2,a3)	;set old pointer
+		exec.q	CacheClearU	;clear caches
 		exec.q	Enable
 		bra	.patching
 .pdone		exec.q	Permit
 		movem.l (SP)+,d0-d3/a0-a6
 		rts
 
+*---
+* Remove patch table
 *
-* RemPatchTab	-- Patch-Tabelle entfernen
-*	-> a0.l ^Patch-Tabelle
-*	-> a1.l ^Library-Base
+*	-> a0.l ^Patch table
+*	-> a1.l ^Library base
 *
 		XDEF	RemPatchTab
 RemPatchTab	movem.l d0-d3/a0-a6,-(SP)
@@ -271,9 +271,9 @@ RemPatchTab	movem.l d0-d3/a0-a6,-(SP)
 .patching	move	(a4)+,d0
 		beq	.pdone
 		move	d0,a0		;a0: Offset
-		move.l	(a4)+,a3	;a3: Funktion
-		move.l	(2,a3),d0	;d0: alte Funktion
-		beq	.patching	; 0: nächste
+		move.l	(a4)+,a3	;a3: Function
+		move.l	(2,a3),d0	;d0: old function
+		beq	.patching	; 0: next
 		move.l	a5,a1		;a1: base
 		exec.q	Disable
 		exec.q	SetFunction
@@ -284,14 +284,13 @@ RemPatchTab	movem.l d0-d3/a0-a6,-(SP)
 		movem.l (SP)+,d0-d3/a0-a6
 		rts
 
-
-*
-* alert_badone	-- Schlechtes Patch-Control-Programm!
+*---
+* Alert about a bad patch control program!
 *
 		XDEF	alert_badone
 alert_badone	move.l	#$8BADC0DE,d7
 		exec	Alert
-.inf		bra	.inf		;Nie mehr zurückkehren!
+.inf		bra	.inf		;Do not return any more
 
 		END
 		

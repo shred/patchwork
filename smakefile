@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+SRCP	  = src
+INCP      = include
 OBJP      = bin
 
 OBJS      = $(OBJP)/Main.o $(OBJP)/Hit.o $(OBJP)/Timer.o $(OBJP)/Exec.o \
@@ -26,7 +28,7 @@ OBJS      = $(OBJP)/Main.o $(OBJP)/Hit.o $(OBJP)/Timer.o $(OBJP)/Exec.o \
 
 LIBS      = lib:debug.lib lib:amiga.lib
 
-AOPTS     = ERRORS=0 OPT=NRQLPS NOEXE INCPATH=Include:
+AOPTS     = ERRORS=0 OPT=NRQLPS NOEXE INCPATH=Include:,$(INCP)
 LOPTS     = NODEBUG SMALLCODE SMALLDATA
 
 .PHONY : all install clean
@@ -45,31 +47,31 @@ $(OBJP):
 $(OBJP)/PatchWork: $(OBJS)
     phxlnk $(LOPTS) TO $(OBJP)/PatchWork FROM $(OBJS) $(LIBS)
 
-$(OBJP)/Main.o: Main.s PatchWork.i patchwork_rev.i
-    phxass $(AOPTS) FROM Main.s TO $(OBJP)/Main.o
+$(OBJP)/Main.o: $(SRCP)/Main.s $(SRCP)/PatchWork.i $(SRCP)/PatchWork_rev.i
+    phxass $(AOPTS) FROM $(SRCP)/Main.s TO $(OBJP)/Main.o
 
-$(OBJP)/Hit.o: Hit.s PatchWork.i
-    phxass $(AOPTS) FROM Hit.s TO $(OBJP)/Hit.o
+$(OBJP)/Hit.o: $(SRCP)/Hit.s $(SRCP)/PatchWork.i
+    phxass $(AOPTS) FROM $(SRCP)/Hit.s TO $(OBJP)/Hit.o
 
-$(OBJP)/Timer.o: Timer.s PatchWork.i
-    phxass $(AOPTS) FROM Timer.s TO $(OBJP)/Timer.o
+$(OBJP)/Timer.o: $(SRCP)/Timer.s $(SRCP)/PatchWork.i
+    phxass $(AOPTS) FROM $(SRCP)/Timer.s TO $(OBJP)/Timer.o
 
-$(OBJP)/Exec.o: Exec.s PatchWork.i
-    phxass $(AOPTS) FROM Exec.s TO $(OBJP)/Exec.o
+$(OBJP)/Exec.o: $(SRCP)/Exec.s $(SRCP)/PatchWork.i
+    phxass $(AOPTS) FROM $(SRCP)/Exec.s TO $(OBJP)/Exec.o
 
-$(OBJP)/Dos.o: Dos.s PatchWork.i
-    phxass $(AOPTS) FROM Dos.s TO $(OBJP)/Dos.o
+$(OBJP)/Dos.o: $(SRCP)/Dos.s $(SRCP)/PatchWork.i
+    phxass $(AOPTS) FROM $(SRCP)/Dos.s TO $(OBJP)/Dos.o
 
-$(OBJP)/Graphics.o: Graphics.s PatchWork.i
-    phxass $(AOPTS) FROM Graphics.s TO $(OBJP)/Graphics.o
+$(OBJP)/Graphics.o: $(SRCP)/Graphics.s $(SRCP)/PatchWork.i
+    phxass $(AOPTS) FROM $(SRCP)/Graphics.s TO $(OBJP)/Graphics.o
 
-$(OBJP)/Intuition.o: Intuition.s PatchWork.i
-    phxass $(AOPTS) FROM Intuition.s TO $(OBJP)/Intuition.o
+$(OBJP)/Intuition.o: $(SRCP)/Intuition.s $(SRCP)/PatchWork.i
+    phxass $(AOPTS) FROM $(SRCP)/Intuition.s TO $(OBJP)/Intuition.o
 
-$(OBJP)/Utility.o: Utility.s PatchWork.i
-    phxass $(AOPTS) FROM Utility.s TO $(OBJP)/Utility.o
+$(OBJP)/Utility.o: $(SRCP)/Utility.s $(SRCP)/PatchWork.i
+    phxass $(AOPTS) FROM $(SRCP)/Utility.s TO $(OBJP)/Utility.o
 
-$(OBJP)/Commodities.o: Commodities.s PatchWork.i
-    phxass $(AOPTS) FROM Commodities.s TO $(OBJP)/Commodities.o
+$(OBJP)/Commodities.o: $(SRCP)/Commodities.s $(SRCP)/PatchWork.i
+    phxass $(AOPTS) FROM $(SRCP)/Commodities.s TO $(OBJP)/Commodities.o
 
 #
