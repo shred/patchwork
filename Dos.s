@@ -20,14 +20,12 @@
 
 PW_DOS          SET     -1
 
-		INCDIR  "INCLUDE:"
 		INCLUDE "exec/nodes.i"
 		INCLUDE "dos/dos.i"
 		INCLUDE "dos/var.i"
 		INCLUDE "lvo/exec.i"
 		INCLUDE "lvo/dos.i"
 
-		INCDIR  "CURRINC:"
 		INCLUDE patchwork.i
 		INCLUDE refs.i
 

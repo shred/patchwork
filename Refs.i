@@ -11,7 +11,7 @@
 *
 * This program is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
 * GNU General Public License for more details.
 *
 * You should have received a copy of the GNU General Public License
@@ -20,68 +20,68 @@
 
 *---- Generelle Referenzen --------------------------------------*
 
-		XREF    KPrintF
-		XREF    KPutChar
+		XREF	KPrintF
+		XREF	KPutChar
 
 *---- Referenzen von   PW_Main.s    -----------------------------*
 
-		IFND    PW_MAIN
-	XREF    gl, dosbase, args, utilsbase, disasmbase, AddPatchTab
-	XREF    RemPatchTab, alert_badone
+		IFND	PW_MAIN
+		 XREF	gl, dosbase, args, utilsbase, disasmbase, AddPatchTab
+		 XREF	RemPatchTab, alert_badone
 		ENDC
 
 *---- Referenzen von   PW_Exec.s    -----------------------------*
 
-		IFND    PW_EXEC
-		 XREF   SP_Exec, RP_Exec
+		IFND	PW_EXEC
+		 XREF	SP_Exec, RP_Exec
 		ENDC
 
-*---- Referenzen von   PW_Dos.s     -----------------------------*
+*---- Referenzen von   PW_Dos.s	    -----------------------------*
 
-		IFND    PW_DOS
-		 XREF   SP_Dos, RP_Dos
+		IFND	PW_DOS
+		 XREF	SP_Dos, RP_Dos
 		ENDC
 
-*---- Referenzen von   PW_Graphics.s    -------------------------*
+*---- Referenzen von   PW_Graphics.s	-------------------------*
 
-		IFND    PW_GRAPHICS
-		 XREF   SP_Graphics, RP_Graphics
+		IFND	PW_GRAPHICS
+		 XREF	SP_Graphics, RP_Graphics
 		ENDC
 
-*---- Referenzen von   PW_Intuition.s    ------------------------*
+*---- Referenzen von   PW_Intuition.s	 ------------------------*
 
-		IFND    PW_INTUITION
-		 XREF   SP_Intuition, RP_Intuition
+		IFND	PW_INTUITION
+		 XREF	SP_Intuition, RP_Intuition
 		ENDC
 
 *---- Referenzen von   PW_Utility.s    --------------------------*
 
-		IFND    PW_UTILITY
-		 XREF   SP_Utility, RP_Utility
+		IFND	PW_UTILITY
+		 XREF	SP_Utility, RP_Utility
 		ENDC
 
-*---- Referenzen von   PW_Commodities.s    ----------------------*
+*---- Referenzen von   PW_Commodities.s	   ----------------------*
 
-		IFND    PW_COMMODITIES
-		 XREF   SP_Commodities, RP_Commodities
+		IFND	PW_COMMODITIES
+		 XREF	SP_Commodities, RP_Commodities
 		ENDC
 
-*---- Referenzen von   PW_Hit.s     -----------------------------*
+*---- Referenzen von   PW_Hit.s	    -----------------------------*
 
-		IFND    PW_HIT
-		 XREF   ShowHit
+		IFND	PW_HIT
+		 XREF	ShowHit
 		ENDC
 
 *---- Referenzen von   PW_Timer.s     ---------------------------*
 
-		IFND    PW_TIMER
-		 XREF   InitTimer, ExitTimer, StartTimer, StopTimer, CalcTimer
+		IFND	PW_TIMER
+		 XREF	InitTimer, ExitTimer, StartTimer, StopTimer, CalcTimer
 		ENDC
 
 *---- Referenzen von   PW_Gadtools.s   --------------------------*
 
-		IFND    PW_GADTOOLS
-		 XREF   SP_Gadtools, RP_Gadtools
+		IFND	PW_GADTOOLS
+		 XREF	SP_Gadtools, RP_Gadtools
 		ENDC
 
 *----------------------------------------------------------------*

@@ -20,7 +20,6 @@
 
 PW_UTILITY      SET     -1
 
-		INCDIR  "INCLUDE:"
 		INCLUDE "exec/lists.i"
 		INCLUDE "exec/nodes.i"
 		INCLUDE "exec/libraries.i"
@@ -31,7 +30,6 @@ PW_UTILITY      SET     -1
 		INCLUDE "lvo/exec.i"
 		INCLUDE "lvo/utility.i"
 
-		INCDIR  "CURRINC:"
 		INCLUDE patchwork.i
 		INCLUDE refs.i
 

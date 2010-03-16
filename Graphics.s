@@ -20,7 +20,6 @@
 
 PW_GRAPHICS     SET     -1
 
-		INCDIR  "INCLUDE:"
 		INCLUDE "exec/lists.i"
 		INCLUDE "exec/nodes.i"
 		INCLUDE "exec/libraries.i"
@@ -35,7 +34,6 @@ PW_GRAPHICS     SET     -1
 		INCLUDE "lvo/graphics.i"
 		INCLUDE "lvo/utility.i"
 
-		INCDIR  "CURRINC:"
 		INCLUDE patchwork.i
 		INCLUDE refs.i
 

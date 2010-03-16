@@ -84,26 +84,10 @@ Well, then I constructed a real tool out of PatchWork. I added
 better outputs (as known from e.g. Enforcer) and checked even more
 restrictions. The result is what you have on your harddisk now.
 
-I stopped PatchWork due to the low acceptance of the community. Most
-of the people didn't know about it after all, or just didn't use
-it. Then Thomas Richter asked me to add PatchWork to his MuForce
-packet. I agreed immediately, and resumed my work on PatchWork.
-
-Anyhow, my time is very limited, so don't expect much more improvements,
-unless there is a really overwhelming feedback and acceptance of the
-community. (Remember that @{I}you@{UI} are a part of the community!)
-
-
 Please note that this is only a pre-release. It is by far from
 being complete, and I expect several bugs. But I want to know if
 this tool is also useful for other programmers. If you like it,
 please send me a small e-mail.
-
-
-Remember: the future of PatchWork still depends on @{B}YOU@{UB}!
-
-
-                                                Richard Körber
 
 @EndNode
 @Node Features "PatchWork: Features"
@@ -118,8 +102,8 @@ This are the features of PatchWork:
            - commodities.library
            - dos.library
            - exec.library
-           - graphics.library
            - gadtools.library
+           - graphics.library
            - intuition.library
            - utility.library
 
@@ -150,85 +134,21 @@ PatchWork is @{B}NOT@{UB}:
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
-Please read the following parts carefully.
+@{B} GPLv3 LICENSED @{UB}
+@{B}----------------@{UB}
 
-If you do not entirely agree to these Copyright notes, you must delete
-this archive and all related files.
+   This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-__________________________________________________________________________
-@{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
+   This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-@{B} COPYRIGHT @{UB}
-@{B}===========@{UB}
-
-   @{I}NOTE:@{UI} You accept the following terms by starting the software,
-even for a test drive only.
-
-   PatchWork is Copyright (C) 1997-2002 Richard Körber.
-   All rights reserved.
-
-   You only have the right to use the software, but no rights on
-the software itself. Disassembling, resourcing and all other ways
-of reverse engineering is forbidden.
-
-
-@{B} FREEWARE @{UB}
-@{B}----------@{UB}
-
-   PatchWork is FreeWare. You are allowed to use the packet without
-paying a fee or similar to the author, or anybody else. So there is
-no reason not to use it.
-
-
-@{B} COPYING @{UB}
-@{B}---------@{UB}
-
-   You can copy the packet as long as it remains entire and unchanged.
-
-   You are allowed to compress the packet using a customary compression
-software (as lha, lzh, lzx, dms). You must not compress single files of
-the packet (e.g. PowerPacker or Imploder).
-
-
-@{B} DISTRIBUTION @{UB}
-@{B}--------------@{UB}
-
-   You must not exceed an usual price on the market for your working
-and material. This means a maximum of 3 Euro (or the equivalent amount
-in other currencies) for disks and 15 Euro for CD-ROMs containing a PD
-software collection.
-
-   I explicitly permit the distribution via AmiNet series, and as part
-of the mmu.library packet by Thomas Richter.
-
-   I explicitly forbid the distribution on a coverdisk of a magazine,
-if it is announced as "Full Version", "Special Offer" or similar.
-
-
-@{B} LIABILITY @{UB}
-@{B}-----------@{UB}
-
-   You are using the program as it is, with all flaws, and on your
-own risk! I grant no warranty for the software meeting a special
-purpose. This software may cause financial damage or harm people.
-
-   Please note that one purpose of this software is to crash your
-system if poor software is executed. This crash may also result in
-data loss, loss of all unsaved documents and all files on your RAM
-disk.
-
-
-@{B} LIMITATIONS @{UB}
-@{B}-------------@{UB}
-
-   You are not allowed to use this software and its results
-
-     · for fascist or military purposes
-     · on Amigas used in a sensible area
-     · if you do not agree to the copyright note
-
-   In this case you must delete the software and all related and
-generated files immediately!
+   You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 @{B} CONTENTS OF THE PACKAGE @{UB}
@@ -238,11 +158,22 @@ generated files immediately!
 
 PatchWork/PatchWork             (Main program)
 PatchWork/PatchWork.guide       (This documentation)
+PatchWork/LICENSE               (Full GPLv3 license text)
 PatchWork.info
 FILE_ID.DIZ
 
    This package may be a part of the mmu.library package by Thomas
 Richter.
+
+
+@{B} SOURCE CODE @{UB}
+@{B}-------------@{UB}
+
+   The source code is not distributed with the AmiNet, but is available
+in the Subversion repository of the official development web site at:
+
+   http://patchwork.shredzone.org
+
 
 @EndNode
 @Node Adresse "PatchWork: Address"
@@ -258,11 +189,7 @@ You can reach me through one of the following ways:
 
    Use e-mails if ever possible. My address is:
 
-        shred@shredzone.de
-
-   Please do not send mails larger than 40KB without prior permission.
-If you should have serious trouble reaching me, check my web page for
-other e-mail addresses.
+        shred (at) shredzone (dot) de
 
 
 @{B} WORLD WIDE WEB @{UB}
@@ -304,43 +231,6 @@ __________________________________________________________________________
     a flawed Patch Utility, so find out who made it and write him a
     mail.
 
-__________________________________________________________________________
-@{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
-
-PatchWork is written and tested on:
-
-** HARDWARE **
-
-System:  Amiga 4000
-CPU:     CPU=68060/50 MHz (Rev 1), FPU=68060/50 MHz, MMU=68060
-Chips:   AGA (RAMSEY F, GARY Normal, CHUNKY None) VBR=0x0803AE08
-Agnus:   Alice 8374 Rev. 3-4 (Mode: PAL)
-Denise:  Lisa 8364 (Revision: 0)
-AmigaOS: 3.5 (V40.68, BoingBag 1, SetPatch V44.6)
-         Exec V40.10   Workbench V44.2
-Support: GraphicOS: CyberGraphX 4, AudioOS: AHI, TCP/IP: Miami
-Clock:   Power 50 Hz, VBlank 50 Hz, E 709379 Hz
-RAM:     Motherboard 32 bit, 60 ns, Double CAS, 4x Bandwidth
-
-Memory:            CHIP    FAST   TOTAL  ROM = 512.0KB   SLOW = 0
-         NORMAL  ~2.0MB  42.0MB ~44.0MB
-          VIRT.       0       0       0
-          TOTAL  ~2.0MB  42.0MB ~44.0MB
-
-
-** EXPANSIONS **
-
-Nr ID      Adresse  Größe Hersteller           Produkt
-----------------------------------------------------------------------------
- 1 2140.22 40000000  64MB Phase 5              CyberVision 64 Graphics
- 2 2140.19 00EA0000 128KB Phase 5              CyberStorm '060 MK-II Flash ROM
- 3 082C.10 00E90000  64KB BSC                  Multiface II Multi I/O
- 4 4754.0C 00EC0000  64KB MacroSystem Germany  Toccata Audio
- 5 0877.CA 00ED0000  64KB VillageTronic        Ariadne II Ethernet
- 6 4754.05 00EE0000  64KB MacroSystem Germany  MaestroPro Audio
-
-@{I}(This list has been made using Identify.)@{UI}
-
 @EndNode
 @Node History "PatchWork: History"
 
@@ -348,21 +238,29 @@ Nr ID      Adresse  Größe Hersteller           Produkt
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
+V0.18   » (16. 3.2010)
+        · Maintenance update with minor changes
+        · Now Open Source and GPLv3 licensed!
+        
 V0.17   » (14. 1.2002)
         · Bugfix: "RunCommand() strlen(argptr) does not match to argsize"
           complained though the strlen was correct in reality.
           [Thomas Richter]
+          
 V0.16   » ( 5. 1.2000)
         · PatchWork turned out to be millennium proof... ;-)
         · "SetPointer() hot spot is outside of the sprite" is severity 0
           now [Olivier Fabre convinced me]
+          
 V0.15   » ( 5.11.1999)
         · V0.14 revision was not bumped
         · Using disassembler.library now to disassemble around the PC,
           with the parameters DISPC and DISRANGE (thanks, Thomas Richter)
+          
 V0.14   » (24.10.1999)
         · gadtools.library tests implemented
         · Documentation has been reworked
+        
 V0.13   » (10. 9.1999)
         · Bugfix: CxBroker nb_Unique of 3 is legal [Jeroen T. Vermeulen]
         · Ambiguous formulation in this guide's SetCxObjPri() chapter
@@ -371,6 +269,7 @@ V0.13   » (10. 9.1999)
         · Renamed "Badness" to "Severity"
         · Reassembled it with proper optimizer settings, saving some
           bytes
+          
 V0.12   » ( 4. 4.1998)
         · Bugfix: the ShowHit function scratched A5, resulting that all
           subsequent relative accesses to A5 threw enforcer hits. This
@@ -381,9 +280,11 @@ V0.12   » ( 4. 4.1998)
           PatchWork was accurate. [Dave]
         · DISABLECHECK implemented
         · Permit() similar checking for Enable()
+        
 V0.11   » (12. 2.1998)
         · utility.library tests implemented
         · commodities.library tests implemented
+        
 V0.10   » ( 7.11.1997)
         · Bugfix: BestModeIDA() said "0 is not allowed" when the tag is
           exactly *non* null. No good... [Børge Nøst]
@@ -397,13 +298,16 @@ V0.10   » ( 7.11.1997)
         · Removed the superfluous and annoying CreateNewProc() suggestion
         · intuition.library tests implemented
         · PatchWork quits now if called a second time
+        
 V0.9    » ( 7.10.1997)
         · Bugfix: signed compares for EraseRect() and RectFill()
         · WaitBOVP() temporarily disabled, due to a clean usage in CGX3
         · Added the MinOS option [Eric Sauvageau]
         · Bad patch manager will result in an Alert (untested)
+        
 V0.8    » ( 6. 7.1997)
         · AllocMem() and AllocVec() checking against -1 [Dave Jones]
+        
 V0.7    » (10. 6.1997)
         · graphics.library tests implemented
         · CopyMem() and CopyMemQuick() with overlapping areas are
@@ -417,20 +321,26 @@ V0.7    » (10. 6.1997)
         · CreateProc() isn't really obsoleted [Kenny], so it will
           be just a suggestion to use CreateNewProc() and got severity
           level 0.
+          
 V0.6    » (29. 5.1997)
         · ROMHITS implemented
+        
 V0.5    » (29. 5.1997)
         · dos.library tests implemented
+        
 V0.4    » (29. 5.1997)
         · Improved output using a new structure, showing library
           name, function parameters, severity level, cause
+          
 V0.3    » (28. 5.1997)
         · STACKLINES,SHOWPC,STACKCHECK,AREGCHECK,DREGCHECK added
         · Bugfix: bad Forbid() state recognition, works fine now
+        
 V0.2    » (28. 5.1997)
         · CopyMem(), CopyMemQuick() react on size==0
         · Permit() checks tdNestCnt
         · DEADLY implemented
+        
 V0.1    » (26. 5.1997)
         · First internal pre-release
 
@@ -446,8 +356,7 @@ I wish to thank all the people who wrote me! :-)
 I also want to credit:
 
   @{B} Thomas Richter @{UB}     for MuForce, the disassembler.library and all his
-                       kind help and hints. Without him, PatchWork would
-                       have been discontinued.
+                       kind help and hints.
 
   @{B} Eric Sauvageau @{UB}     for his @{U}great@{UU} MINOS idea!
 
@@ -462,7 +371,7 @@ __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
             //
-        \\\\ //   -- Amiga - Cow inside --
+        \\\\ //   -- Amiga - Friendship Forever --
          \\X/
 
 @EndNode
@@ -476,20 +385,16 @@ This is what I plan in future releases:
 
   · Limit the output to a task name using wildcards
 
-  · Using asynchronous output and also output on the shell.
+  · Using asynchronous output and also output on the shell
 
   · Fixing all bugs
 
   · Checking even more functions and also other libraries
 
-  · Modularize it, and make the module format public so library programmers
-    can write PatchWork modules for their libraries.
-
 If you have some more ideas, just write! :-)
 
 Anyhow, I have a lot of other projects and very limited time, so please
-be patient. Also, don't take anything for granted. Personally, I don't
-believe that all the above will ever be implemented. (Sigh)
+be patient.
 
 @EndNode
 @Node Usage "PatchWork: Usage"
@@ -518,7 +423,7 @@ enhancer (e.g. PatchControl).
 @{B} START @{UB}
 @{B}-------@{UB}
 
-   You must start PatchWork from the shell.
+   You need to start PatchWork from the shell, as it is no Workbench tool.
 
    PatchWork won't detach, so you should use "run <>NIL: PatchWork" if you
 want to start it in the startup-sequence.
@@ -557,6 +462,7 @@ or starting another instance of PatchWork.
 
 @{B}ROMHITS/S@{UB}       Usually, all hits caused by the AmigaOS ROM will be
                 suppressed. With this option set, they will also be shown.
+                Yes, the AmigaOS ROM actually throws PatchWork hits!
 
 @{B}DEADLY/S@{UB}        With this option set, some functions will return a worst
                 case scenario return code instead of the real return code

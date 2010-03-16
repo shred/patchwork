@@ -18,9 +18,10 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *
 
+* Requires DisLib by Thomas Richter, available in the AmiNet
+
 PW_HIT          SET     -1
 
-		INCDIR  "INCLUDE:"
 		INCLUDE "exec/lists.i"
 		INCLUDE "exec/nodes.i"
 		INCLUDE "exec/semaphores.i"
@@ -33,7 +34,6 @@ PW_HIT          SET     -1
 		INCLUDE "lvo/disassembler.i"
 		INCLUDE "libraries/disassembler.i"
 
-		INCDIR  "CURRINC:"
 		INCLUDE patchwork.i
 		INCLUDE refs.i
 

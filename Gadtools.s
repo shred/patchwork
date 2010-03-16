@@ -20,7 +20,6 @@
 
 PW_GADTOOLS     SET     -1
 
-		INCDIR  "INCLUDE:"
 		INCLUDE "exec/lists.i"
 		INCLUDE "exec/nodes.i"
 		INCLUDE "exec/libraries.i"
@@ -31,7 +30,6 @@ PW_GADTOOLS     SET     -1
 		INCLUDE "lvo/utility.i"
 		INCLUDE "lvo/gadtools.i"
 
-		INCDIR  "CURRINC:"
 		INCLUDE patchwork.i
 		INCLUDE refs.i
 

@@ -20,7 +20,6 @@
 
 PW_INTUITION    SET     -1
 
-		INCDIR  "INCLUDE:"
 		INCLUDE "exec/lists.i"
 		INCLUDE "exec/nodes.i"
 		INCLUDE "exec/semaphores.i"
@@ -33,7 +32,6 @@ PW_INTUITION    SET     -1
 		INCLUDE "lvo/intuition.i"
 		INCLUDE "PhxMacros.i"
 
-		INCDIR  "CURRINC:"
 		INCLUDE patchwork.i
 		INCLUDE refs.i
 

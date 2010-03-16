@@ -20,7 +20,6 @@
 
 PW_EXEC         SET     -1
 
-		INCDIR  "INCLUDE:"
 		INCLUDE "exec/lists.i"
 		INCLUDE "exec/nodes.i"
 		INCLUDE "exec/semaphores.i"
@@ -32,7 +31,6 @@ PW_EXEC         SET     -1
 		INCLUDE "dos/dos.i"
 		INCLUDE "lvo/exec.i"
 
-		INCDIR  "CURRINC:"
 		INCLUDE patchwork.i
 		INCLUDE refs.i
 

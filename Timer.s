@@ -20,17 +20,14 @@
 
 PW_TIMER        SET     -1
 
-		INCDIR  "Include:"
 		INCLUDE exec/execbase.i
 		INCLUDE exec/memory.i
 		INCLUDE devices/timer.i
 		INCLUDE lvo/exec.i
 		INCLUDE lvo/utility.i
 		INCLUDE lvo/timer.i
-		INCLUDE dprintf.i
 		INCLUDE PhxMacros.i
 
-		INCDIR  "CURRINC:"
 		INCLUDE patchwork_rev.i
 		INCLUDE patchwork.i
 		INCLUDE refs.i
