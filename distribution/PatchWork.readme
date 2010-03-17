@@ -1,28 +1,28 @@
-Short:    Check OS functions to be called correctly (V0.18)
-Uploader: rkoerber@gmx.de (Richard Koerber)
-Author:   rkoerber@gmx.de (Richard Koerber)
-Type:     dev/debug
-Kurz:     Prüft die richtige Verwendung des OS (V0.18)
-Keywords: debug os patch enforcer segtracker sushi
+Short:        Assert library calls to be AutoDocs conformous
+Author:       Richard Koerber
+Uploader:     aminet@shredzone.de (Richard Koerber)
+Type:         dev/debug
+Version:      0.18
+Architecture: m68k-amigaos >= 2.0.4
+Kurz:         Prüft auf AutoDocs-konforme Library-Aufrufe
+Keywords:     debug os patch enforcer segtracker sushi
+Language:     English
+URL:          http://patchwork.shredzone.org
 
-Requires: AmigaOS 2.04 (V37) or higher
-Language: English
+PatchWork is a debugging tool similar to Enforcer and Mungwall. It
+asserts that calls to AmigaOS libraries are AutoDocs conformous.
 
-URL:      http://patchwork.shredzone.org
+It patches some functions of exec, dos, gadtools, graphics, commodity,
+utility and intuition library, and checks the invocation parameters
+to match the requirements given in the AutoDocs.
 
+Bad calls are reported to the debug serial port or to a Sushi console
+along with a register and stack dump.
 
-PatchWork is a debugging tool that patches into several AmigaOS
-functions (currently of exec.library, dos.library, gadtools.library,
-graphics.library, commodity.library, utility.library and
-intuition.library, more to come). It checks if the passed structures
-and parameters meets the requirements as stated in the AutoDocs.
+PatchWork is Open Source software and distributed under GPLv3. Source
+code, bug tracking and the latest version is available at the official
+development web site at:
 
-I.e. it checks several dos.library structures to be longword aligned,
-and *much* more!
+  http://patchwork.shredzone.org.
 
-All bad calls are output to the debug serial port, or to a console
-window using Sushi.
-
-Open Source, GPLv3 licensed. You can find the source and updates
-at http://patchwork.shredzone.org.
-
+Your feedback is appreciated!
