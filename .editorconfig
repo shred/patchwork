@@ -1,0 +1,17 @@
+root = true
+
+[**.{s,i}]
+indent_style = tab
+indent_size = 8
+trim_trailing_whitespace = true
+
+[**.{guide,readme,DIZ}]
+charset = iso-8859-1
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+
+[makefile]
+indent_style = tab
+indent_size = 4
+trim_trailing_whitespace = true

@@ -1,8 +1,8 @@
 *
 * PatchWork
 *
-* Copyright (C) 2010 Richard "Shred" Körber
-*   http://patchwork.shredzone.org
+* Copyright (C) 2021 Richard "Shred" Koerber
+*	http://patchwork.shredzone.org
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 * GNU General Public License for more details.
 *
 * You should have received a copy of the GNU General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 
 		IFND    PATCHWORK_I
@@ -122,5 +122,3 @@ CARG            SET     3
 		ENDM
 
 		ENDC
-		
-*jEdit: :tabSize=8:indentSize=8:mode=assembly-m68k:

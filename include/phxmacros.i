@@ -1,41 +1,34 @@
-*****************************************************************
-*								*
-*	PhxMacros.i	 PhxAss Macro Extension			*
-*								*
-*****************************************************************
 *
-*	$VER: PhxMacros 1.6 (2.10.97)
-*	(C) 1996-97 Richard Körber -- All rights reserved
+* PatchWork
 *
-*	Requires PhxAss V4.33 or higher!
+* Copyright (C) 2021 Richard "Shred" Koerber
+*	http://patchwork.shredzone.org
 *
-* 1.6	 2.10.97 (shred) added getexec, FALSE, TRUE, NULL
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
 *
-* 1.5	27. 2.97 (shred) added fpush, ftop, fpop, fpushm, ftopm,
-*		       fpopm, fstore, frecall and clra
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+* GNU General Public License for more details.
 *
-* 1.4	14. 2.97 (shred) added db, dw and dl macros (compatibility)
-*		       added Amiga macros
+* You should have received a copy of the GNU General Public License
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
-* 1.3	21.10.96 (shred) renamed peek to top, took def2 from phx,
-*		       added args and unargs
-*
-* 1.2	14.10.96 (phx) removed IFCPU macro, fixed ODD macro,
-*		       fixed FLIP macro, fixed EXTBL macro,
-*		       added another (better) DEF macro, called DEF2.
-*
-*****************************************************************
+
+**
+** DEPRECATED!
+**
+** For better compatibility and readability of the assembler source
+** codes, I want to get rid of this dependency.
+**
+** Please do not use these macros in new code.
+**
 
 		IFND	_PHXMACROS_I
 _PHXMACROS_I	SET	-1
-
-align		MACRO			;align <val>
-		cnop	0,\1
-		ENDM
-
-odd		MACRO			;opposite of 'even'
-		cnop	1,2
-		ENDM
 
 inc		MACRO			;increment
 		addq.\0 #1,\1		;  inc.(b|w|l) <ea>
@@ -322,24 +315,6 @@ extbl		MACRO			;extb.l for 68000, auto optimizing
 		ENDC
 		ENDM
 
-db		MACRO			; db <exp>[,<exp>]  equals dc.b
-		REPT	NARG
-		dc.b	\+
-		ENDR
-		ENDM
-
-dw		MACRO			; dw <exp>[,<exp>]  equals dc.w
-		REPT	NARG
-		dc.w	\+
-		ENDR
-		ENDM
-
-dl		MACRO			; dl <exp>[,<exp>]  equals dc.l
-		REPT	NARG
-		dc.l	\+
-		ENDR
-		ENDM
-
 proc		MACRO			;procedure header
 __REG\1		REG	\2		;  proc	 <name>,<registerset>
 \1		pushm.l __REG\1
@@ -374,46 +349,6 @@ CARG		SET	NARG
 
 unargs		MACRO			;restore from last args
 		add.l	#__ARGCNT*4,sp	;  unargs
-		ENDM
-
-	; The following macros will define strings in the DATA section!
-
-leastr		MACRO			;  leastr     <string>,<address register>
-		lea	string\@,\2
-		SAVE
-		DATA
-string\@	dc.b	\1,0
-		even
-		RESTORE
-		ENDM
-
-peastr		MACRO			;  peastr     <string>
-		pea	string\@
-		SAVE
-		DATA
-string\@	dc.b	\1,0
-		even
-		RESTORE
-		ENDM
-
-defstr		MACRO			;  defstr     <label>,<string>
-		SAVE
-		DATA
-\1		dc.b	\2,0
-		even
-		RESTORE
-		ENDM
-
-def		MACRO			; def.(b|w|l) <label>[,<label>...]
-		SAVE
-		BSS
-		REPT	NARG
-\+		ds.\0	1
-		ENDR
-		IFC	"\0","B"
-		even
-		ENDC
-		RESTORE
 		ENDM
 
 	; STRING OPERATIONS
@@ -556,7 +491,4 @@ getexec		MACRO
 		move.l	4.w,\1
 		ENDM
 
-*-----------------------------------------------------------*
 		ENDC
-		
-*jEdit: :tabSize=8:indentSize=8:mode=assembly-m68k:

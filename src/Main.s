@@ -1,8 +1,8 @@
 *
 * PatchWork
 *
-* Copyright (C) 2010 Richard "Shred" Körber
-*   http://patchwork.shredzone.org
+* Copyright (C) 2021 Richard "Shred" Koerber
+*	http://patchwork.shredzone.org
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -15,23 +15,20 @@
 * GNU General Public License for more details.
 *
 * You should have received a copy of the GNU General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 
-PW_MAIN		SET	-1
+		INCLUDE	"exec/ports.i"
+		INCLUDE	"exec/memory.i"
+		INCLUDE	"dos/dos.i"
+		INCLUDE	"dos/rdargs.i"
+		INCLUDE	"lvo/exec.i"
+		INCLUDE	"lvo/dos.i"
 
-		INCLUDE "exec/ports.i"
-		INCLUDE "exec/memory.i"
-		INCLUDE "dos/dos.i"
-		INCLUDE "dos/rdargs.i"
-		INCLUDE "lvo/exec.i"
-		INCLUDE "lvo/dos.i"
+		INCLUDE	PatchWork_rev.i
+		INCLUDE	PatchWork.i
 
-		INCLUDE PatchWork_rev.i
-		INCLUDE PatchWork.i
-		INCLUDE Refs.i
-
-		SECTION text,CODE
+		SECTION	text,CODE
 
 Start	;-- Open DOS lib -----------------------;
 		lea	(dosname,PC),a1
@@ -114,11 +111,11 @@ Start	;-- Open DOS lib -----------------------;
 		bhi	.minos_err
 		move.l	d1,d0
 		bra	.nominos
-.minos_err	movem.l d0-d1/a0-a1,-(SP)
+.minos_err	movem.l	d0-d1/a0-a1,-(SP)
 		lea	(msg_bados,PC),a0
 		move.l	a0,d1
 		dos	PutStr
-		movem.l (SP)+,d0-d1/a0-a1
+		movem.l	(SP)+,d0-d1/a0-a1
 .nominos	move	d0,(gl_MinOS,a1)
 		moveq	#2,d0			;Stack lines
 		tst.l	(arg_Stacklines,a0)
@@ -189,13 +186,16 @@ Start	;-- Open DOS lib -----------------------;
 
 	;-- Version String ---------------------;
 		VERSTAG
-		dc.b	"(C) 1997-2010 Richard Körber",13,10,0
+		COPYRIGHT
+		dc.b	13,10,0
 		PRGNAME
-		dc.b	" - http://patchwork.shredzone.org",13,10,0
+		dc.b	" - "
+		PROJECTURL
+		dc.b	13,10,0
 		even
 
 	;-- Variables --------------------------;
-		XDEF	gl,dosbase,args,utilsbase,disasmbase
+		PUBLIC	gl,dosbase,args,utilsbase,disasmbase
 gl		ds.b	gl_SIZEOF		;Globals
 dosbase		dc.l	0			;^DOS Library
 utilsbase	dc.l	0			;^Utils Library
@@ -212,9 +212,13 @@ msg_removing	dc.b	"Removing "
 msg_removed	PRGNAME
 		dc.b	" has been removed successfully.\n\n",0
 msg_copyright	VERS
-		dc.b	" (C) 1997-2010 by Richard Körber\n"
+		dc.b	" "
+		COPYRIGHT
+		dc.b	"\n"
 		PRGNAME
-		dc.b	" - http://patchwork.shredzone.org\n\n"
+		dc.b	" - "
+		PROJECTURL
+		dc.b	"\n\n"
 		dc.b	"Press <CTRL> <C> to stop "
 		PRGNAME
 		dc.b	" again.\n",0
@@ -224,7 +228,7 @@ dosname		dc.b	"dos.library",0		;DOS-Lib
 utilsname	dc.b	"utility.library",0	;Utils-Lib
 disasmname	dc.b	"disassembler.library",0 ;Disasm-Lib
 pwportname	PRGNAME
-		dc.b	" port",0		;Rendezvous Port
+		dc.b	$A0,"port",0		;Rendezvous Port
 		even
 
 *---
@@ -233,8 +237,8 @@ pwportname	PRGNAME
 *	-> a0.l ^Patch table
 *	-> a1.l ^Library base
 *
-		XDEF	AddPatchTab
-AddPatchTab	movem.l d0-d3/a0-a6,-(SP)
+		PUBLIC	AddPatchTab
+AddPatchTab	movem.l	d0-d3/a0-a6,-(SP)
 		move.l	4.w,a6
 		exec.q	Forbid
 		move.l	a0,a4
@@ -253,7 +257,7 @@ AddPatchTab	movem.l d0-d3/a0-a6,-(SP)
 		exec.q	Enable
 		bra	.patching
 .pdone		exec.q	Permit
-		movem.l (SP)+,d0-d3/a0-a6
+		movem.l	(SP)+,d0-d3/a0-a6
 		rts
 
 *---
@@ -262,8 +266,8 @@ AddPatchTab	movem.l d0-d3/a0-a6,-(SP)
 *	-> a0.l ^Patch table
 *	-> a1.l ^Library base
 *
-		XDEF	RemPatchTab
-RemPatchTab	movem.l d0-d3/a0-a6,-(SP)
+		PUBLIC	RemPatchTab
+RemPatchTab	movem.l	d0-d3/a0-a6,-(SP)
 		move.l	4.w,a6
 		exec.q	Forbid
 		move.l	a0,a4
@@ -281,17 +285,13 @@ RemPatchTab	movem.l d0-d3/a0-a6,-(SP)
 		exec.q	Enable
 		bra	.patching
 .pdone		exec.q	Permit
-		movem.l (SP)+,d0-d3/a0-a6
+		movem.l	(SP)+,d0-d3/a0-a6
 		rts
 
 *---
 * Alert about a bad patch control program!
 *
-		XDEF	alert_badone
+		PUBLIC	alert_badone
 alert_badone	move.l	#$8BADC0DE,d7
 		exec	Alert
 .inf		bra	.inf		;Do not return any more
-
-		END
-		
-*jEdit: :tabSize=8:indentSize=8:mode=assembly-m68k:
