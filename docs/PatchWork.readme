@@ -1,0 +1,28 @@
+Short:        Assert library calls to be AutoDocs conformous
+Author:       Richard 'Shred' Koerber
+Uploader:     aminet@shredzone.de (Richard Koerber)
+Type:         dev/debug
+Version:      0.18
+Architecture: m68k-amigaos >= 2.0.4
+
+Keywords:     debug os patch muforce segtracker sushi
+License:      GNU General Public License v3
+URL:          https://patchwork.shredzone.org
+
+PatchWork is a debugging tool similar to MuForce and Mungwall. It
+asserts that calls to AmigaOS libraries are AutoDocs conformous.
+
+It patches some functions of exec, dos, gadtools, graphics, commodity,
+utility and intuition library, and checks the invocation parameters
+to match the requirements given in the AutoDocs.
+
+Bad calls are reported to the debug serial port or to a Sushi console
+along with a register and stack dump.
+
+PatchWork is Open Source software and distributed under GPLv3. Source
+code as git repository, issue tracking, and the latest version is
+available at the official development web site:
+
+  https://patchwork.shredzone.org
+
+Your feedback is appreciated!

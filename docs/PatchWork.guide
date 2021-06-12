@@ -1,10 +1,10 @@
 @database PatchWork.guide
 @author "Richard Körber"
-@(c) "1997-2010 Richard Körber - all rights reserved"
-@$VER: PatchWork.guide V0.18 (16. 3.2010)
+@(c) "1997-2021 Richard Körber - all rights reserved"
+@$VER: PatchWork.guide V0.18 (26. 4.2021)
 @wordwrap
 
-@Node Main "PatchWork: Table Of Contents"
+@Node Main "Table Of Contents"
 
 
            ####         #          #     #   #             #
@@ -22,9 +22,9 @@ __________________________________________________________________________
                           @{B}-- TABLE OF CONTENTS --@{UB}
 
 
-        1.   @{" Introduction        " link Einleitung}  how it all started
+        1.   @{" Introduction        " link Intro}  how it all started
         2.   @{" Features            " link Features}  of the program
-        3.   @{" Copyright           " link Copyright}  distribution
+        3.   @{" Copyright           " link Copyright}  and source code
 
         4.   @{" Usage               " link Usage}  important information!
         5.   @{" Patch Utilities     " link PatchUtils}  could fail!
@@ -40,60 +40,53 @@ __________________________________________________________________________
         8.6  @{" intuition.library   " link intuition}
         8.7  @{" utility.library     " link utility}
 
-        A.   @{" Address             " link Adresse}  of the author
-        B.   @{" Known Bugs          " link Bugs}  and their workaround
-        C.   @{" History             " link History}  all changes
-        D.   @{" Future              " link Future}  my plans
-        E.   @{" Credits             " link Credits}  Thank you!
+        A.   @{" Known Bugs          " link Bugs}  and their workaround
+        B.   @{" History             " link History}  all changes
+        C.   @{" Future              " link Future}  my plans
+        D.   @{" Credits             " link Credits}  Thank you!
 
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
- PatchWork (C) 1997-2010 Richard Körber -- GPLv3 Licensed
+ PatchWork (C) 1997-2021 Richard Körber -- GPLv3 Licensed
 
 @EndNode
-@Node Einleitung "PatchWork: Introduction"
+@Node Intro "Introduction"
 
 @{B} I N T R O D U C T I O N @{UB}
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
-PatchWork is another system debugging tool like MuForce, Enforcer,
-Mungwall, Poolwatch and so on. It also makes it's output to the
-debug port, so you should use Sushi to read it, unless you have
-got a second Amiga available...
+PatchWork is another system debugging tool like MuForce, Enforcer, Mungwall,
+or Poolwatch. It also makes its output to the debug port, so you should use
+Sushi to read it, unless you have got a second Amiga available...
 
 Now, what does PatchWork do?
 
-It all began when I read the exec.library autodocs and started to
-wonder if all the warnings and restrictions mentioned in there are
-really observed. There was no such tool available (at least I hope
-so ;-), so I sat down and wrote a first test version of PatchWork.
+It all began when I read the exec.library autodocs and started to wonder if
+all the warnings and restrictions mentioned in there are really being
+observed. There was no such tool available, at least I hope so ;-), so I
+sat down and wrote a first test version of PatchWork.
 
-I expected to see no single PatchWork hit, but I was wrong. There
-are a lot of programs throwing PatchWork hits, recent programs as
-well as some old Commodore commands! So there really seems to be a
-demand for that tool...
+I expected to see no single PatchWork hit, but to my very surprise I was
+wrong. There are a lot of programs throwing PatchWork hits, recent programs as
+well as some old Commodore commands, and even ROM functions! So there really
+seems to be a demand for that tool...
 
-Well, then I constructed a real tool out of PatchWork. I added
-better outputs (as known from e.g. Enforcer) and checked even more
-restrictions. The result is what you have on your harddisk now.
-
-Please note that this is only a pre-release. It is by far from
-being complete, and I expect several bugs. But I want to know if
-this tool is also useful for other programmers. If you like it,
-please send me a small e-mail.
+Well, then I constructed a real tool out of PatchWork. I added better outputs
+(as known from e.g. MuForce) and checked even more restrictions. The result
+is what you have on your harddisk now.
 
 @EndNode
-@Node Features "PatchWork: Features"
+@Node Features "Features"
 
 @{B} F E A T U R E S @{UB}
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
-This are the features of PatchWork:
+These are the features of PatchWork:
 
-   · Catches bad function calls from
+   · Catches bad function calls from:
            - commodities.library
            - dos.library
            - exec.library
@@ -109,21 +102,27 @@ This are the features of PatchWork:
 
    · Additionally, the function call will be shown, too!
 
-   · Four different severity levels, threshold adjustable
+   · Four different severity levels, and an adjustable threshold
 
-   · Annoys you with pedantic PatchWork hits... ;-)
+   · Does not need a MMU, so there is no excuse @{I}not@{UI} to use it!
+
+   · Pesters you with pedantic PatchWork hits... ;-)
+
+   · Assembler code, handcrafted with 37% more love than comparable tools.
+     The speed impact on your system is very low, so you can just keep
+     PatchWork running in the background.
 
 
-PatchWork is @{B}NOT@{UB}:
+What PatchWork is @{B}NOT@{UB}:
 
-   · A replacement for Enforcer and/or Mungwall. Use them, too!
+   · A replacement for MuForce and/or Mungwall. Use them, too!
 
    · A system protector that magically 'repairs' bad function calls.
      This is not the philosophy behind PatchWork!
 
 
 @EndNode
-@Node Copyright "PatchWork: Copyright"
+@Node Copyright "Copyright"
 
 @{B} C O P Y R I G H T @{UB}
 __________________________________________________________________________
@@ -132,88 +131,67 @@ __________________________________________________________________________
 @{B} GPLv3 LICENSED @{UB}
 @{B}----------------@{UB}
 
-   This program is free software: you can redistribute it and/or modify
+This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-   This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-along with this program.  If not, see http://www.gnu.org/licenses/
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/
 
 
 @{B} CONTENTS OF THE PACKAGE @{UB}
 @{B}-------------------------@{UB}
 
-   The package is only entire with these files:
+The package is only complete with these files:
 
 PatchWork/PatchWork             (Main program)
 PatchWork/PatchWork.guide       (This documentation)
-PatchWork/LICENSE               (Full GPLv3 license text)
+PatchWork/LICENSE.txt           (Full GPLv3 license text)
 PatchWork.info
 FILE_ID.DIZ
 
-   This package may be a part of the mmu.library package by Thomas
-Richter.
+This package might also be a part of the mmu.library package by
+Thomas Richter.
 
 
 @{B} SOURCE CODE @{UB}
 @{B}-------------@{UB}
 
-   The source code is not distributed with the AmiNet, but is available
-in the Subversion repository of the official development web site at:
+PatchWork is free open source software. You can find the latest source code,
+an issue tracker and more on the official development web site:
 
-   http://patchwork.shredzone.org
-
-
-@EndNode
-@Node Adresse "PatchWork: Address"
-
-@{B} A D D R E S S @{UB}
-__________________________________________________________________________
-@{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
-
-You can reach me through one of the following ways:
-
-@{B} E MAIL @{UB}
-@{B}--------@{UB}
-
-   Use e-mails if ever possible. My address is:
-
-        shred (at) shredzone (dot) de
-
-
-@{B} WORLD WIDE WEB @{UB}
-@{B}----------------@{UB}
-
-   Updates are available through my web page. URL:
-
-        http://patchwork.shredzone.org
+   https://patchwork.shredzone.org
 
 
 @EndNode
-@Node Bugs "PatchWork: Bugs"
+@Node Bugs "Bugs"
+@Topic "Annex"
 
 @{B} B U G S @{UB}
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
+If you found a bug or have a feature request, please don't hesistate to open
+a new issue on the issue tracker at the official development web site:
+
+   https://patchwork.shredzone.org
+
+
 @{B} KNOWN BUGS @{UB}
 @{B}------------@{UB}
 
-  · PatchWork will hang up the system for some reason. I hope this bug
-    will be fixed when I implement the asynchronous I/O routines.
-
-  · There will for sure be some more bugs inside. Please help me find
-    them to make PatchWork a reliable tool.
+  · PatchWork may freeze the system for some unknown reason. I hope this
+    bug will be fixed once I implement the asynchronous I/O routines.
 
 
-@{B} KNOWN ENFORCER/MUNGWALL/PATCHWORK HITS @{UB}
-@{B}----------------------------------------@{UB}
+@{B} KNOWN MUFORCE/MUNGWALL/PATCHWORK HITS @{UB}
+@{B}---------------------------------------@{UB}
 
   · none known yet...  :-)
 
@@ -223,39 +201,41 @@ __________________________________________________________________________
 
   · If PatchWork crashes during startup, or shows an 8BADC0DE alert,
     you should try the NOPERMIT option. Anyhow this is an indicator for
-    a flawed Patch Utility, so find out who made it and write him a
-    mail.
+    a flawed patch management utility, so find out who made it and write
+    them a mail. It's not PatchWork's fault.
 
 @EndNode
-@Node History "PatchWork: History"
+@Node History "History"
+@Topic "Annex"
 
 @{B} H I S T O R Y @{UB}
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
-V0.18   » (16. 3.2010)
-        · Maintenance update with minor changes
+V0.18   » (??.??.2021)
         · Now Open Source and GPLv3 licensed!
-        
+        · Maintenance update with minor changes
+        · Now built on Linux using vasm
+
 V0.17   » (14. 1.2002)
         · Bugfix: "RunCommand() strlen(argptr) does not match to argsize"
           complained though the strlen was correct in reality.
           [Thomas Richter]
-          
+
 V0.16   » ( 5. 1.2000)
         · PatchWork turned out to be millennium proof... ;-)
         · "SetPointer() hot spot is outside of the sprite" is severity 0
           now [Olivier Fabre convinced me]
-          
+
 V0.15   » ( 5.11.1999)
         · V0.14 revision was not bumped
         · Using disassembler.library now to disassemble around the PC,
           with the parameters DISPC and DISRANGE (thanks, Thomas Richter)
-          
+
 V0.14   » (24.10.1999)
         · gadtools.library tests implemented
         · Documentation has been reworked
-        
+
 V0.13   » (10. 9.1999)
         · Bugfix: CxBroker nb_Unique of 3 is legal [Jeroen T. Vermeulen]
         · Ambiguous formulation in this guide's SetCxObjPri() chapter
@@ -264,7 +244,7 @@ V0.13   » (10. 9.1999)
         · Renamed "Badness" to "Severity"
         · Reassembled it with proper optimizer settings, saving some
           bytes
-          
+
 V0.12   » ( 4. 4.1998)
         · Bugfix: the ShowHit function scratched A5, resulting that all
           subsequent relative accesses to A5 threw enforcer hits. This
@@ -275,11 +255,11 @@ V0.12   » ( 4. 4.1998)
           PatchWork was accurate. [Dave]
         · DISABLECHECK implemented
         · Permit() similar checking for Enable()
-        
+
 V0.11   » (12. 2.1998)
         · utility.library tests implemented
         · commodities.library tests implemented
-        
+
 V0.10   » ( 7.11.1997)
         · Bugfix: BestModeIDA() said "0 is not allowed" when the tag is
           exactly *non* null. No good... [Børge Nøst]
@@ -293,16 +273,16 @@ V0.10   » ( 7.11.1997)
         · Removed the superfluous and annoying CreateNewProc() suggestion
         · intuition.library tests implemented
         · PatchWork quits now if called a second time
-        
+
 V0.9    » ( 7.10.1997)
         · Bugfix: signed compares for EraseRect() and RectFill()
         · WaitBOVP() temporarily disabled, due to a clean usage in CGX3
         · Added the MinOS option [Eric Sauvageau]
         · Bad patch manager will result in an Alert (untested)
-        
+
 V0.8    » ( 6. 7.1997)
         · AllocMem() and AllocVec() checking against -1 [Dave Jones]
-        
+
 V0.7    » (10. 6.1997)
         · graphics.library tests implemented
         · CopyMem() and CopyMemQuick() with overlapping areas are
@@ -316,31 +296,32 @@ V0.7    » (10. 6.1997)
         · CreateProc() isn't really obsoleted [Kenny], so it will
           be just a suggestion to use CreateNewProc() and got severity
           level 0.
-          
+
 V0.6    » (29. 5.1997)
         · ROMHITS implemented
-        
+
 V0.5    » (29. 5.1997)
         · dos.library tests implemented
-        
+
 V0.4    » (29. 5.1997)
         · Improved output using a new structure, showing library
           name, function parameters, severity level, cause
-          
+
 V0.3    » (28. 5.1997)
         · STACKLINES,SHOWPC,STACKCHECK,AREGCHECK,DREGCHECK added
         · Bugfix: bad Forbid() state recognition, works fine now
-        
+
 V0.2    » (28. 5.1997)
         · CopyMem(), CopyMemQuick() react on size==0
         · Permit() checks tdNestCnt
         · DEADLY implemented
-        
+
 V0.1    » (26. 5.1997)
         · First internal pre-release
 
 @EndNode
-@Node Credits "PatchWork: Credits"
+@Node Credits "Credits"
+@Topic "Annex"
 
 @{B} C R E D I T S @{UB}
 __________________________________________________________________________
@@ -348,16 +329,16 @@ __________________________________________________________________________
 
 I wish to thank all the people who wrote me! :-)
 
-I also want to credit:
+I also want to give credits to:
 
   @{B} Thomas Richter @{UB}     for MuForce, the disassembler.library and all his
                        kind help and hints.
 
-  @{B} Eric Sauvageau @{UB}     for his @{U}great@{UU} MINOS idea!
+  @{B} Eric Sauvageau @{UB}     for his great MINOS idea.
 
   @{B} Dave Jones @{UB}         for his help regarding memory flushing.
 
-  @{B} Frank Wille @{UB}        for PhxAss, the best assembler available! (FreeWare)
+  @{B} Frank Wille @{UB}        for PhxAss, the best assembler available!
 
   @{B} Michael Sinz @{UB}       for Enforcer, SegTracker and his help for all the
                        bugfree Amiga software.
@@ -366,33 +347,43 @@ __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
             //
-        \\\\ //   -- Amiga - Friendship Forever --
+        \\\\ //   -- Amiga - Old Love Never Dies --
          \\X/
 
 @EndNode
-@Node Future "PatchWork: Future"
+@Node Future "Future"
+@Topic "Annex"
 
 @{B} F U T U R E @{UB}
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
+The Amiga platform is dead, or so they say. Is there a future?
+
+Yes, there is. Many people are still enjoying their Amiga as a retro
+computer, either on a real hardware, a replica, or on an emulator. I
+decided to spend more time writing Amiga software again, so hopefully
+there will be new PatchWork releases in the future.
+
 This is what I plan in future releases:
+
+  · Add patchwork checks for AmigaOS 3.2
 
   · Limit the output to a task name using wildcards
 
-  · Using asynchronous output and also output on the shell
+  · Using asynchronous output and also output to the shell
 
-  · Fixing all bugs
+  · Fixing known bugs
 
   · Checking even more functions and also other libraries
 
-If you have some more ideas, just write! :-)
+If you have more ideas, just open an issue on the development web site at:
 
-Anyhow, I have a lot of other projects and very limited time, so please
-be patient.
+   https://patchwork.shredzone.org
 
 @EndNode
-@Node Usage "PatchWork: Usage"
+@Node Usage "Usage"
+@Topic "Usage"
 
 @{B} U S A G E @{UB}
 __________________________________________________________________________
@@ -409,28 +400,28 @@ __________________________________________________________________________
 @{B} INSTALLATION @{UB}
 @{B}--------------@{UB}
 
-   Just copy PatchWork into your CLI path and this guide file into whereever
-you store good documentations. ;)
+Just copy PatchWork into your CLI path, and this guide file into whereever
+you collect good documentations. ;)
 
-   You should start PatchWork @{I}after@{UI} SetPatch and @{I}after@{UI} any SetFunction()
-enhancer (e.g. PatchControl).
+You should start PatchWork @{I}after@{UI} SetPatch and @{I}after@{UI} any
+SetFunction() manager (like PatchControl).
 
 @{B} START @{UB}
 @{B}-------@{UB}
 
-   You need to start PatchWork from the shell, as it is no Workbench tool.
+You need to start PatchWork from the shell, as it is no Workbench tool.
 
-   PatchWork won't detach, so you should use "run <>NIL: PatchWork" if you
-want to start it in the startup-sequence.
+PatchWork won't detach itself, so you should use "run <>NIL: PatchWork" if
+you want to start it in the startup-sequence.
 
-   You can always remove PatchWork by pressing <CTRL>-<C>, sending a break,
-or starting another instance of PatchWork.
+You can always shut down a running PatchWork by pressing <CTRL>-<C>,
+sending a break, or starting another instance of PatchWork.
 
 @{B} SHELL PARAMETERS @{UB}
 @{B}------------------@{UB}
 
-@{B}LEVEL/K/N@{UB}       Set the severity threshold to be put out. Defaults
-                to 0. More about severity levels see below.
+@{B}LEVEL/K/N@{UB}       Set the severity threshold. Defaults to 0. More about
+                severity levels see below.
 
 @{B}MINOS/K/N@{UB}       You can provide the minimal required OS version of your
                 program here. Any PatchWork hit that is fixed starting
@@ -442,153 +433,151 @@ or starting another instance of PatchWork.
 @{B}SMALL/S@{UB}         Small output. Shows the cause of the hit and the PC,
                 TCB and Task name.
 
-@{B}STACKLINES/K/N@{UB}  Number of stack lines to be output. Each stack line
+@{B}STACKLINES/K/N@{UB}  Number of stack lines to be written. Each stack line
                 consists of 32 stack bytes. There is no limit here!
 
-@{B}STACKCHECK/S@{UB}    Check also all stack entries with SegTracker
+@{B}STACKCHECK/S@{UB}    Check all stack entries with SegTracker
 
 @{B}SHOWPC/S@{UB}        Show 32 bytes around the current PC
 
-@{B}AREGCHECK/S@{UB}     Check also the contents of the address registers
-                with SegTracker.
+@{B}AREGCHECK/S@{UB}     Check the contents of the address registers with
+                SegTracker.
 
-@{B}DREGCHECK/S@{UB}     Check also the contents of the data registers with
+@{B}DREGCHECK/S@{UB}     Check the contents of the data registers with
                 SegTracker.
 
 @{B}ROMHITS/S@{UB}       Usually, all hits caused by the AmigaOS ROM will be
                 suppressed. With this option set, they will also be shown.
-                Yes, the AmigaOS ROM actually throws PatchWork hits!
+                Yes, the AmigaOS ROM actually throws PatchWork hits, and a
+                lot of them!
 
 @{B}DEADLY/S@{UB}        With this option set, some functions will return a worst
-                case scenario return code instead of the real return code
-                under certain conditions. See patch documentation below.
+                case value instead of the real return value under certain
+                conditions. See patch documentation below.
 
 @{B}DISABLECHECK/S@{UB}  It is only allowed to disable system interrupts for a
-                maximum time of 250ms.  This option will check if this time
-                range is kept. A 68020 or better is required for this test.
-                It won't work on most Amiga emulations and might trouble on
-                DraCo. Even more, this test could cause hardware timeouts,
-                so be very careful and do not use this option permanently.
-                @{B}If you don't know what I'm talking about, I strongly
-                encourage you not to use this option!@{UB}
+                maximum time of 250ms. This option will check if that time
+                limit is kept. A 68020 or better is required for this test.
+                Even more, this test could cause hardware timeouts, so be very
+                careful and do not use this option permanently.
+                @{B}If in doubt, do not use this option!@{UB}
 
 @{B}NOPERMIT/S@{UB}      Does not patch the Permit() function. This is useful
-                if your system crashes on start of PatchWork (or shows an
-                8BADC0DE alert), caused by a poor patch utility. There is no
-                reason to use this option if PatchWork starts up without any
-                problems.
+                if your system crashes while starting PatchWork (or shows an
+                8BADC0DE alert), caused by a poor patch management utility.
+                There is no reason to use this option if PatchWork starts up
+                without any problems on your machine.
 
 @{B}DISPC/S@{UB}         Show a disassembly of the code around the current PC. This
-                option requires Thomas Richter's disassembler.library to
-                be installed properly.
+                option requires Thomas Richter's disassembler.library in the
+                LIBS: assignment.
 
 @{B}DISRANGE/K/N@{UB}    Range of bytes to be disassembled before and after the
                 PC. Defaults to 32.
 
 
-@{B} BADNESS LEVELS @{UB}
-@{B}----------------@{UB}
+@{B} SEVERITY LEVELS @{UB}
+@{B}-----------------@{UB}
 
-   All hits are divided into four levels of severity. The higher the
-level, the more probable is a system crash caused by it.
+All hits are divided into four severity levels. The higher the level, the
+more likely is a system crash being caused by the problem.
 
    0    Hits with level 0 won't crash the system. They are legal and
-        absolutely harmless. The only function of level 0 hits are
-        for mental notes, e.g. that a special OS version is required
-        for the function or the way it is used. Also see MINOS.
+        absolutely harmless. Level 0 hits are just reminders, e.g. that
+        a minimal AmigaOS version is required for the function or the way
+        it is used. Also see MINOS.
 
-   1    Hits with level 1 also won't crash the system, but they are
-        ugly, obsoleted, needless or waste system time, as e.g. an
-        "AllocMem(0)" or "OldOpenLibrary("...")".
+   1    Hits with level 1 won't crash the system as well. Instead they
+        warn that an obsoleted function has been invoked, or that the
+        invocation parameters are just useless or time-wasting.
+        "AllocMem(0)" or "OldOpenLibrary()" would result in level 1 hits.
 
    2    Hits with level 2 might crash the system, especially with
-        multitasking interaction. This are e.g. FindPort()s without
+        multitasking interaction. These are e.g. FindPort()s without
         a prior Forbid(). You must not rely on a result you get from
-        a level 2 hit! It has most probably already changed. If not,
-        it is just luck, but nothing more... ;-)
+        a level 2 hit, as the state might have already been changed
+        after the function returned.
 
         With the DEADLY option, some of the level 2 hits will try to
-        crash your program by returning worst case return codes.
+        crash your program by returning worst case values.
 
-   3    Hits with level 3 will crash the system sooner or later. They
-        are used @{B}against@{UB} the rules of AutoDocs, and thus will have
-        unpredictable results. Or they will result in memory loss. In
-        any way, they are used @{B}wrong@{UB}.
+   3    Hits with level 3 will make your software unstable, and will
+        crash the system sooner or later. They are used against explicit
+        rules of the AutoDocs, and will thus have unpredictable results.
+        They might also result in memory leaks. In any way, even if they
+        seem to work, they are just @{B}wrong@{UB} and must be corrected.
 
         Two examples: CopyMem() with overlapping memory areas, or
         DeleteMsgPort() without clearing up the message queue before.
 
-   @{B}ANY@{UB} hit starting from level 1 is a real bad hit, and should be
-removed if possible, to enhance system stability and future compatibility.
+@{B}ANY@{UB} hit starting from level 1 is a real bad hit, and should be fixed
+if possible, to enhance system stability and future compatibility.
 
 @EndNode
-@Node Work "PatchWork: How it works"
+@Node Work "How it works"
+@Topic "Usage"
 
 @{B} H O W   I T   W O R K S @{UB}
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
-   Piece of cake: PatchWork just patches some library functions.
-If one of them is called, PatchWork checks the passed structures and
-parameters and finds out if they meet the AutoDocs specifications.
+In a nutshell, PatchWork just patches a set of library functions. If one
+of them is called, PatchWork checks the structures and parameters that
+are passed in, and validates if they meet the AutoDocs specifications.
 
-   If a test should fail, you will be notified through the debug
-channel, or through the Sushi output console.
+If a check should fail, you will be notified through the debug channel,
+or through the Sushi output console.
 
-   PatchWork is not made to protect the system from crashing. It won't
-correct bad structures and parameters. It just reports what you forgot
-and then leaves you alone with that mess.
+PatchWork is not made to protect your system from crashing. It won't
+correct bad structures and parameters. It just reports what it found,
+and will then leave you alone with that mess. :-)
 
-   In fact, you can even try to crash your program by using the DEADLY
-option.
+In fact, you can even try to crash your program by using the DEADLY option.
 
-   Note: we can discuss about anything, but not about something you
-explicitely MUST or MUST NOT do regarding to the AutoDocs. The AutoDocs
-are law! Even if it should work, it is simply wrong to break the rules,
-and it will most probably fail in future releases! See the philosophy
-chapter.
+Note: We can discuss about anything, but not about something you explicitely
+MUST or MUST NOT do according to the AutoDocs. The AutoDocs are law! Even
+if it turns out that your code doesn't seem to crash your system, it is
+simply wrong to make assumptions or break explicit rules.
 
 @EndNode
-@Node PatchUtils "PatchWork: Patch Utilities"
+@Node PatchUtils "Patch Utilities"
+@Topic "Usage"
 
 @{B} P A T C H   U T I L I T I E S @{UB}
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
+The AmigaOS' native patch functionality is quite limited. If multiple
+patches are applied to library calls, they must be removed in reverse
+order. Otherwise the system might crash.
 
-The AmigaOS' patch function is quite limited. It is only possible to remove
-all patches in the opposite order they were installed. Otherwise, trouble
-will occur.
+There are some patch management utilities that try to mitigate the
+problem by managing the patches that are applied. With such a patch
+manager, patches can be applied and removed in any order. It is highly
+recommended to use such an utility, to enhance system stability.
 
-So, some smart programmers wrote utilities that patches the OS patch function
-and replace it with a better one. Then you can remove all patches in any order
-you like. I strongly suggest to use such a program.
+Anyhow there may be problems if some of those utilities are used in
+combination with PatchWork. This is because PatchWork is also patching
+some very fundamental functions, like AllocMem() and Permit().
 
-Anyhow, some problems may occur, since PatchWork patches some fundamental
-functions (e. g. AllocMem() and Permit()). If you have such problems, delete
-the bad patch utility and find a new one.
+If PatchWork is used together with a poorly written patch manager, your
+system may become unstable or crash right away when PatchWork is started.
+The only way to fix that is to use a different patch manager utility.
 
-
-@{B} STACK TROUBLE @{UB}
-@{B}---------------@{UB}
-
-It is crucial that PatchWork finds the caller's PC on the stack, and nothing
-before that. If a patch utility pushes some data on the stack before starting
-the patch functions, PatchWork will show the utilities PC instead of the callers
-PC.
-
-I currently don't know a patch utility with that problem. Anyhow, be prepared.
+Let me explain a little deeper how PatchWork hooks into the system, and
+about the problems that might be caused by that.
 
 
 @{B} FUNCTION TROUBLE @{UB}
 @{B}------------------@{UB}
 
-A serious problem is if the new SetFunction() routine of the patch utility uses
-any OS functions after setting the new function vector. Let me explain why.
+A serious problem is if the replacement SetFunction() routine of the
+patch manager uses certain OS functions right after setting the new
+function vector. Let me explain why.
 
-For example, our program will patch the Permit() function.
+For example, our program is supposed to patch the Permit() function.
 
-This is the state before SetFunction() has been called.
+This is the state before SetFunction() is invoked:
 
                 +----------+                            +--------------------+
   BEFORE        | Permit() |--------------------------->| Permit OS function |
@@ -598,10 +587,11 @@ This is the state before SetFunction() has been called.
                                  +--------------+
 
 We can see the Permit() entry pointing to the Permit OS function in ROM, and
-our patch which has not yet been inserted.
+our patch which has not been inserted yet.
 
-Usually, SetFunction() writes the new function address into the library and
-returns a pointer to the old function address.
+Usually SetFunction() writes the new function pointer into the library's
+function table, and then returns the pointer to the old function that was
+found there and that is now about to be patched.
 
   After         +----------+                            +--------------------+
   SetFunction() | Permit() |-+               Return --->| Permit OS function |
@@ -610,8 +600,8 @@ returns a pointer to the old function address.
                              +-->| Permit patch |-----> NIL
                                  +--------------+
 
-Our patch can now jump to the original Permit OS function, thus building a
-chain:
+Our patch can now use the old function pointer to jump to the original
+Permit OS function:
 
                 +----------+                            +--------------------+
   AFTER         | Permit() |-+                     +--->| Permit OS function |
@@ -620,18 +610,35 @@ chain:
                              +-->| Permit patch |--+
                                  +--------------+
 
-But there is one weak point! After SetFunction() has been executed (but before
-our patch points back to the ROM function), the Permit patch still points to NIL.
-If someone would call Permit() at this stage, the system would crash immediately.
+If Permit() is invoked now, our Permit patch is called first. It does whatever
+it is supposed to do, and then delegates to the original Permit function of
+the operating system.
 
-Usually, there is no chance for that, since patches are applied while the system
-is Forbid()den. But when the patch utility calls Permit(), or breaks the disabled
-state, the system will crash!
+There is one weak point though! After SetFunction() has been executed, but
+before our patch is pointing back to the original ROM function, the Permit
+patch points to NIL. If another task would call Permit() in this very moment,
+the system would crash.
 
-PatchWork does not point to NIL, but will show up the alert "8BADC0DE" instead.
-If this one will show up while starting PatchWork, you will know that your
-patch utility is faulty. Anyhow, this alert won't show in all cases. Another
-good hint is if your system crashes after launching PatchWork.
+This usually cannot happen, as patches are applied while multitasking is
+forbidden. But if the patch management utility itself would call Permit(),
+the system would crash.
+
+If a PatchWork patch is invoked before it is properly chained to the original
+function, it will show an "8BADC0DE" alert. If you get such an alert while
+starting PatchWork, it is a sign that your patch manager is faulty. Another
+sign for a faulty patch manager is if your Amiga immediately crashes while
+starting PatchWork.
+
+
+@{B} STACK TROUBLE @{UB}
+@{B}---------------@{UB}
+
+It is crucial that PatchWork finds the caller's PC on the stack, and nothing
+before that. If a patch utility pushes some data onto the stack before
+starting the patch functions, PatchWork will show the code of the patch
+manager instead of the true invoker.
+
+I haven't found a patch utility with that problem yet. Anyhow, be prepared.
 
 
 @{B} WORKING ONES @{UB}
@@ -644,56 +651,77 @@ These Utilities are known to work with PatchWork:
   · No patch utility at all... ;-)
 
 
-@{B} NOT WORKING ONES @{UB}
-@{B}------------------@{UB}
+@{B} FAILING ONES @{UB}
+@{B}--------------@{UB}
 
 These Utilities are known to fail:
 
   · SaferPatches V2.03 and before
-  · MagicMenu V2.25 (use NOPERMIT)
+  · MagicMenu V2.25 (use PatchWork's NOPERMIT option)
 
 
 @{B} INSTALLATION @{UB}
 @{B}--------------@{UB}
 
-If you are using patch utilities, then make sure that they are started before
-PatchWork is running. Don't start them afterwards!
+If you are using a patch manager, make sure it is started first, before
+PatchWork is launched. Don't start it afterwards!
 
-If the system will then crash during startup, or the alert occurs, then delete
-that tool and use a newer or other one...
+If the system crashes while PatchWork is starting, or if the "8BADC0DE"
+alert appears, then try to use a newer version of the patch manager utility,
+or find a different one.
 
-There is an alternative you may try: use the NOPERMIT parameter to disable the
-exec/Permit() patch. This will help in some cases, as e.g. MagicMenu V2.25.
+There is an alternative you can try. If PatchWork is started with the
+NOPERMIT parameter, it won't patch the exec/Permit() function. This will
+help in some cases, as e.g. MagicMenu V2.25. However it also disables the
+Permit() check, so only use this option if necessary.
 
 @EndNode
-@Node Output "PatchWork: Output example"
+@Node Output "Output example"
+@Topic "Usage"
 
 @{B} O U T P U T   E X A M P L E @{UB}
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
-   This is how a PatchWork hit looks like:
+This is how a PatchWork hit looks like:
 
 exec.library OldOpenLibrary("dos.library")
 Severity 1: obsoleted, use OpenLibrary() instead
-PC=08339720 TCB=08399D58 ("Shell Process")
-Data: 00000001 020CE5C5 00004000 08350BA4 00000001 00000001 020CFF85 08339714
-Addr: 08350BA4 08339732 08014E0C 08339714 084F3C08 00F92D70 0800083C 084F3BFC
-----> 08339732 - "pwtest"  Hunk 0000, Offset 0000001A
-----> 00F92D70 - "ROM - dos 39.23 (8.9.92)"  Hunk 0000, Offset 00000314
-PC-8: 00000000 00000000 0833653C 00000000 00000030 00000000 43FA0018 2C780004
-PC *: 4EAEFE68 22402C78 00044EAE FE627000 4E75646F 732E6C69 62726172 79004E71
-Stck: 084F3BFC 08339724 00F9359C 00004000 0839A74C 08533B40 00001970 48E7303E
-Stck: 24482649 61A66730 2C6A0018 206A0014 4EAEFF94 2848204B 610000B8 661C2449
-----> 08339720 - "pwtest"  Hunk 0000, Offset 00000008
-----> 08339724 - "pwtest"  Hunk 0000, Offset 0000000C
-----> 00F9359C - "ROM - dos 39.23 (8.9.92)"  Hunk 0000, Offset 00000B40
+PC=07E9BCFC TCB=07BF34A0 ("Shell Process")
+Data: FFFFFFFF 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+Addr: 07EA2A3A 07E9FF46 00000000 00000000 00000000 00000000 078007F8 07BF4510
+----> 07EA2A3A - "pwtest"	Hunk 0001, Offset 00008A4A
+----> 07E9FF46 - "pwtest"	Hunk 0001, Offset 00005F56
+PC-8: 51CEFF22 4E7570FF 23C007EA 251E41FA 6D4E23C8 07EA2522 43FA4250 2C780004
+PC *: 4EAEFE68 23C007EA 253A6100 7F886100 089A23C0 07EA266A 6700024C 203C0000
+07e9bcdc :  51ce ff22                  dbra d6,$7e9bc00
+07e9bce0 :  4e75                       rts
+07e9bce2 :  70ff                       moveq.l #-$1,d0
+07e9bce4 :  23c0 07ea 251e             move.l d0,$7ea251e
+07e9bcea :  41fa 6d4e                  lea.l $7ea2a3a(pc),a0
+07e9bcee :  23c8 07ea 2522             move.l a0,$7ea2522
+07e9bcf4 :  43fa 4250                  lea.l $7e9ff46(pc),a1
+07e9bcf8 :  2c78 0004                  movea.l $4.w,a6
+07e9bcfc : *4eae fe68                  jsr -$198(a6)
+07e9bd00 :  23c0 07ea 253a             move.l d0,$7ea253a
+07e9bd06 :  6100 7f88                  bsr $7ea3c90
+07e9bd0a :  6100 089a                  bsr $7e9c5a6
+07e9bd0e :  23c0 07ea 266a             move.l d0,$7ea266a
+07e9bd14 :  6700 024c                  beq $7e9bf62
+07e9bd18 :  203c 0000 2800             move.l #$2800,d0
+Stck: 07E9BD00 07BA246C 00000001 00F95C92 00000FA0 4D656761 20536F75 6E644372
+Stck: 61636B65 72000000 07BF5E28 00000B48 02090909 05050500 00001111 114E4E4E
+----> 07E9BCFC - "pwtest"	Hunk 0001, Offset 00001D0C
+----> 07E9BD00 - "pwtest"	Hunk 0001, Offset 00001D10
+----> 07BA246C - "pwtest"	Hunk 0000, Offset 0000000C
+----> 00F95C92 - "ROM - dos 40.3 (1.4.93)"	Hunk 0000, Offset 000005AE
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
-   Now for the single lines:
+Now for the single lines:
 
-   The first line contains what function caused the hit:
+The first line contains what function caused the hit:
+
 @{FG SHINE}
 exec.library OldOpenLibrary("dos.library")@{FG FILL}
                             ^^^^^^^^^^^^^--- passed parameters
@@ -701,173 +729,207 @@ exec.library OldOpenLibrary("dos.library")@{FG FILL}
 ^^^^^^^^^^^^-------------------------------- library name
 @{FG TEXT}
 
-   The second one describes the hit itself:
+The second one describes the hit itself:
+
 @{FG SHINE}
 Severity 1: obsoleted, use OpenLibrary() instead@{FG FILL}
             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^--- cause
 ^^^^^^^^^^---------------------------------------- severity level
 @{FG TEXT}
 
-   (With the TINY option set, no more lines are displayed.)
+(With the TINY option set, no more lines are displayed.)
 
-   The third line locates the hit:
+The third line locates the hit:
+
 @{FG SHINE}
-PC=08339720 TCB=08399D58 ("Shell Process")@{FG FILL}
+PC=07E9BCFC TCB=07BF34A0 ("Shell Process")@{FG FILL}
                           ^^^^^^^^^^^^^^^--- task name
                 ^^^^^^^^-------------------- address of the task structure
    ^^^^^^^^--------------------------------- address of the JSR instruction
                                              that caused the hit.
 @{FG TEXT}
 
-   (With the SMALL option set, no more lines are displayed.)
+(With the SMALL option set, no more lines are displayed.)
 
-   After that, the data and address register contents follow:
+After that, the data and address register contents follow:
+
 @{FG SHINE}
-Data: 00000001 020CE5C5 00004000 08350BA4 00000001 00000001 020CFF85 08339714
-Addr: 08350BA4 08339732 08014E0C 08339714 084F3C08 00F92D70 0800083C 084F3BFC
+Data: FFFFFFFF 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+Addr: 07EA2A3A 07E9FF46 00000000 00000000 00000000 00000000 078007F8 07BF4510
 @{FG TEXT}
 
-   If you enabled DREGCHECK or AREGCHECK, the contents of any register
-   will be passed to SegTracker (of course SegTracker must be running):
+If you enabled DREGCHECK or AREGCHECK, the contents of any register will be
+passed to SegTracker (of course SegTracker must be running):
+
 @{FG SHINE}
-----> 08339732 - "pwtest"  Hunk 0000, Offset 0000001A
-----> 00F92D70 - "ROM - dos 39.23 (8.9.92)"  Hunk 0000, Offset 00000314
+----> 07EA2A3A - "pwtest"	Hunk 0001, Offset 00008A4A
+----> 07E9FF46 - "pwtest"	Hunk 0001, Offset 00005F56
 @{FG TEXT}
 
-   With SHOWPC enabled, 64 bytes around the PC at hit time will be shown:
+With SHOWPC enabled, 64 bytes around the PC at hit time will be shown:
+
 @{FG SHINE}
-PC-8: 00000000 00000000 0833653C 00000000 00000030 00000000 43FA0018 2C780004
-PC *: 4EAEFE68 22402C78 00044EAE FE627000 4E75646F 732E6C69 62726172 79004E71
+PC-8: 51CEFF22 4E7570FF 23C007EA 251E41FA 6D4E23C8 07EA2522 43FA4250 2C780004
+PC *: 4EAEFE68 23C007EA 253A6100 7F886100 089A23C0 07EA266A 6700024C 203C0000
 @{FG TEXT}
 
-   After that, all stack lines will be shown. You can change the number
-   of stack lines using the STACKLINES parameter. Defaults to 2 lines.
+If the DISPC option is used, about 32 bytes of code around the invoking JSR
+are disassembled.
+
 @{FG SHINE}
-Stck: 084F3BFC 08339724 00F9359C 00004000 0839A74C 08533B40 00001970 48E7303E
-Stck: 24482649 61A66730 2C6A0018 206A0014 4EAEFF94 2848204B 610000B8 661C2449
+07e9bcdc :  51ce ff22                  dbra d6,$7e9bc00
+07e9bce0 :  4e75                       rts
+07e9bce2 :  70ff                       moveq.l #-$1,d0
+07e9bce4 :  23c0 07ea 251e             move.l d0,$7ea251e
+07e9bcea :  41fa 6d4e                  lea.l $7ea2a3a(pc),a0
+07e9bcee :  23c8 07ea 2522             move.l a0,$7ea2522
+07e9bcf4 :  43fa 4250                  lea.l $7e9ff46(pc),a1
+07e9bcf8 :  2c78 0004                  movea.l $4.w,a6
+07e9bcfc : *4eae fe68                  jsr -$198(a6)
+07e9bd00 :  23c0 07ea 253a             move.l d0,$7ea253a
+07e9bd06 :  6100 7f88                  bsr $7ea3c90
+07e9bd0a :  6100 089a                  bsr $7e9c5a6
+07e9bd0e :  23c0 07ea 266a             move.l d0,$7ea266a
+07e9bd14 :  6700 024c                  beq $7e9bf62
+07e9bd18 :  203c 0000 2800             move.l #$2800,d0
 @{FG TEXT}
 
-   If SegTracker is running, it will be fed with the PC:
+With the DISRANGE option, the number of disassembled bytes can
+be changed. These options need the disassembler.library to be installed.
+
+After that, all stack lines will be shown. You can change the number of stack
+lines using the STACKLINES parameter. Defaults to 2 lines.
+
 @{FG SHINE}
-----> 08339720 - "pwtest"  Hunk 0000, Offset 00000008
+Stck: 07E9BD00 07BA246C 00000001 00F95C92 00000FA0 4D656761 20536F75 6E644372
+Stck: 61636B65 72000000 07BF5E28 00000B48 02090909 05050500 00001111 114E4E4E
 @{FG TEXT}
 
-   And last but not least, if STACKCHECK is enabled, all longwords shown
-   in the stack lines above are passed to SegTracker:
+If SegTracker is running, it will be fed with the PC:
+
 @{FG SHINE}
-----> 08339724 - "pwtest"  Hunk 0000, Offset 0000000C
-----> 00F9359C - "ROM - dos 39.23 (8.9.92)"  Hunk 0000, Offset 00000B40
+----> 07E9BCFC - "pwtest"	Hunk 0001, Offset 00001D0C
+@{FG TEXT}
+
+And last but not least, if STACKCHECK is enabled, all longwords shown in the
+stack lines above are passed to SegTracker:
+
+@{FG SHINE}
+----> 07E9BD00 - "pwtest"	Hunk 0001, Offset 00001D10
+----> 07BA246C - "pwtest"	Hunk 0000, Offset 0000000C
+----> 00F95C92 - "ROM - dos 40.3 (1.4.93)"	Hunk 0000, Offset 000005AE
 @{FG TEXT}
 
 @EndNode
-@Node Philosophy "PatchWork: Philosophy"
+@Node Philosophy "Philosophy"
+@Topic "Annex"
 
 @{B} P H I L O S O P H Y @{UB}
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
-   I got a lot of feedback like: "Hey, this function is working fine, so
+I am getting a lot of feedback like: "Hey, this function is working fine,
 why does PatchWork bark about it?" Okay, let me tell you the philosophy
 behind PatchWork, and software documentation in general.
 
-   In the early days, when the first home computers like the ZX Spectrum
-and C64 were popular, computers were some kind of static. They were
-constructed by some smart people, and then they were never touched again.
-Even if there were hardware improvements, the kernel ROM did not change,
-to ensure compatibility to the existing software.
+In the early days, when the first home computers like the ZX Spectrum and
+C64 were popular, computers were some kind of static. They were constructed
+by smart engineers, and then they were never touched again. Even if there
+were hardware improvements, the kernel ROM did not change, to ensure
+compatibility with existing software.
 
-   This was because everyone could buy a book with the commented ROM
-listing, and then they knew where to find what function, and exact details
-of the kernel functionality. And since only one software could run on
-these systems simultaneously, you didn't need to care about sharing
-resources and you never had to deal with 3rd party software updates.
+This was because everyone could buy a book with the commented ROM listing,
+and then they knew where to find what function, and exact details of the
+kernel functionality. And since only one software could run on these systems
+simultaneously, you didn't need to care about sharing resources, and you
+never had to deal with 3rd party software updates.
 
-   Well, times have changed. The static ROM has been replaced by operating
+Well, times have changed. The static ROM has been replaced by operating
 systems, which are updated frequently (at least they should be). These
 systems are able to run a number of programs simultaneously, but since
 they run on the same hardware, they have to share their resources.
 
-   You have to follow exact rules if you want to write software that can
+You have to follow exact rules if you want to write software that can
 interact with several versions of the operating system and other software
 installed on the software.
 
-   First, you always have to use the operating system instead of accessing
+First, you always have to use the operating system instead of accessing
 the hardware resources yourself. A good example for this is the DraCo,
-which is able to run all conformous software without modifications, just
-because they do not access the Amiga chipset directly.
+which is able to run well-written Amiga software without modifications,
+just because they do not access the Amiga chipset directly.
 
-   The other, even more crucial thing is documentation. You don't know how
+The other, even more crucial thing is documentation. You don't know how
 the operating system or the piece of software works exactly. You aren't
 ought to know it, and you won't even be able to know since software is
 growing more and more complex. So there is only one interface between your
 software and the operating system. This is the documentation that explains
 how your operating system works.
 
-   If you are a tool programmer, you rely that the OS call works exactly
-as documented. You want to have a certain result if you pass in the right
+If you are a tool programmer, you rely that the OS call works exactly as
+documented. You want to have a certain result if you pass in the right
 mixture of parameters.
 
-   If you are a driver or patch programmer, you rely that OS functions
-were called in a definite way. You cannot catch all variations and
-eventualities, since this would unnecessarily slow down your function.
+If you are a driver or patch programmer, you rely that OS functions were
+called in a definite way. You cannot catch all variations and eventualities,
+since this would unnecessarily slow down your function.
 
-   I want to mention a good example of what happens if people ignore the
-documentation. When Amiga started to get popular, it was delivered with
-the AmigaOS 1.2, and later with AmigaOS 1.3. Some people wrote programs
-like they have been used to write it on their C64: they knew the address
-of some functions in the ROM, and they knew for example that the
+I want to mention a good example of what happens when people ignore the
+documentation. When the Amiga started to become popular, it was delivered
+with AmigaOS 1.2, and later with AmigaOS 1.3. Some people wrote programs
+like they had been used to write them on their C64: They knew the addresses
+of some functions in the ROM, or they knew for example that the
 graphics.library was always the 3rd library after exec.library (or was
 it the 4th, I don't know exactly). So, to save some microseconds, they
 ignored the documentation and used their hacks. And they worked fine!
 
-   Until the day when Commodore released the AmigaOS 2.0.
+Then came the day when Commodore released AmigaOS 2.0.
 
-   This was really a black day for the Amiga, because a LOT of games and
-hacker tools crashed on the new AmigaOS. Commodore was not to blame,
-they did the right thing. Instead of trying to be compatible to as much
-existing software as possible (which was the philosophy of Microsoft
-these days), they were only downward compatible to their documented
-features. So all conformous software still worked on AmigaOS 2.0, while
-all the hacks crashed awfully.
+This was really a black day for the Amiga, because a LOT of games and
+hacker tools crashed on the new AmigaOS. Commodore was not to be blamed,
+they did the right thing. Instead of trying to be compatible to as many
+existing programs as possible (which was the philosophy of Microsoft
+these days), they did a hard break and were only downward compatible to
+their documented features. So all conformously written software still
+worked on AmigaOS 2.0, while all the hacks crashed awfully.
 
-   Unfortunately, Commodore WAS blamed for the crashing applications! In
-all shops, the new Amiga models were considered as unstable, not compatible
-and just awful. I heard a lot of vendors who told their customers this
-scrap! They suggested to buy the AmigaOS 1.3 and a switchboard as well,
-but the mounting would void the warranty. Most customers decided to better
-buy a PC with Windows 3.1, which was said to be more stable.
+Sadly, Commodore WAS blamed for the crashing applications! In all shops,
+the new Amiga models were considered as unstable, not compatible and just
+awful. I heard a lot of vendors telling their customers this bullsh*t!
+They suggested to also buy an AmigaOS 1.3 ROM and a ROM switch, but it
+would void the warranty. Most customers decided to better buy a PC with
+Windows 3.1, which was said to be more stable.
 
-   This rumour of AmigaOS being incompatible and unstable, is told until
-today. And all this just because some lame programmers ignored the rules
-and wrote some bad hacks.
+This rumour of AmigaOS being incompatible and unstable, was told for a
+long time. And all this just because some lame programmers ignored the
+rules and wrote some bad hacks.
 
-   As you see, the documentation is the most important part if you want to
+As you see, the documentation is the most important part if you want to
 write rock stable and reliable software. And this is why you should use
 PatchWork! Certainly, PatchWork is no guarantee that your software will
 still run on future AmigaOS releases, but it comes very close to that.
 
-   PatchWork knows about the AutoDocs, the MUSTs and MUST-NOTs. And it is
+PatchWork knows about the AutoDocs, the MUSTs and MUST-NOTs. And it is
 quite pedantic. It will surely annoy you some time with hits that seem to
 be harmless at the first sight. But if you fix these hits, you can be sure
 that your program might also work with clean system patches, OS updates or
 other software.
 
-   Anyhow, if you don't get any PatchWork hits, it is no sign for your
-program being 100% compatible. It also depends on some other factors. The
-best rule of thumb is not to play the smart Alec and regard undocumented
-features as given. If you find some behaviour that is not documented,
-better try to find a documented way to reach your aim, instead of just
-using the undocumented feature and rely on that it will still work in
-future versions.
+Anyhow, if you don't get any PatchWork hits, it is no sign for your program
+being 100% compatible. It also depends on some other factors. The best rule
+of thumb is not to try to outsmart the system, and not to regard undocumented
+features as given. If you find some behaviour that is not documented, better
+try to find a documented way to reach your goal, instead of just using the
+undocumented feature and rely on that it will still work in the future.
 
 @EndNode
-@Node commodities "PatchWork: commodities.library"
+@Node commodities "commodities.library"
+@Topic "Checks"
 
 @{B} c o m m o d i t i e s . l i b r a r y @{UB}
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
-   These commodities.library patches are implemented:
+These commodities.library patches are implemented:
 
                 @{" AttachCxObj " link AttachCxObj}
                 @{" CxBroker " link CxBroker}
@@ -882,7 +944,9 @@ __________________________________________________________________________
                 @{" SetCxObjPri " link SetCxObjPri}
 
 @EndNode
-@Node AttachCxObj "PatchWork: commodities.library / AttachCxObj"
+@Node AttachCxObj "commodities.library / AttachCxObj"
+@Nav "AttachCxObj"
+@Parent commodities
 
 @{B} c o m m o d i t i e s . l i b r a r y @{UB}                      @{B} AttachCxObj @{UB}
 __________________________________________________________________________
@@ -897,7 +961,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node CxBroker "PatchWork: commodities.library / CxBroker"
+@Node CxBroker "commodities.library / CxBroker"
+@Nav "CxBroker"
+@Parent commodities
 
 @{B} c o m m o d i t i e s . l i b r a r y @{UB}                         @{B} CxBroker @{UB}
 __________________________________________________________________________
@@ -942,7 +1008,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node CxMsgData "PatchWork: commodities.library / CxMsgData"
+@Node CxMsgData "commodities.library / CxMsgData"
+@Nav "CxMsgData"
+@Parent commodities
 
 @{B} c o m m o d i t i e s . l i b r a r y @{UB}                        @{B} CxMsgData @{UB}
 __________________________________________________________________________
@@ -957,7 +1025,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node CxMsgID "PatchWork: commodities.library / CxMsgID"
+@Node CxMsgID "commodities.library / CxMsgID"
+@Nav "CxMsgID"
+@Parent commodities
 
 @{B} c o m m o d i t i e s . l i b r a r y @{UB}                          @{B} CxMsgID @{UB}
 __________________________________________________________________________
@@ -967,12 +1037,14 @@ __________________________________________________________________________
 
 @{B}SEVERITY@{UB}        Level 3
 
-@{B}EXPLANATION@{UB}     NULL is not allowed, and will throw Enforcer hits.
+@{B}EXPLANATION@{UB}     NULL is not allowed, and will throw MuForce hits.
 
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node CxMsgType "PatchWork: commodities.library / CxMsgType"
+@Node CxMsgType "commodities.library / CxMsgType"
+@Nav "CxMsgType"
+@Parent commodities
 
 @{B} c o m m o d i t i e s . l i b r a r y @{UB}                        @{B} CxMsgType @{UB}
 __________________________________________________________________________
@@ -982,12 +1054,14 @@ __________________________________________________________________________
 
 @{B}SEVERITY@{UB}        Level 3
 
-@{B}EXPLANATION@{UB}     NULL is not allowed, and will throw Enforcer hits.
+@{B}EXPLANATION@{UB}     NULL is not allowed, and will throw MuForce hits.
 
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node DisposeCxMsg "PatchWork: commodities.library / DisposeCxMsg"
+@Node DisposeCxMsg "commodities.library / DisposeCxMsg"
+@Nav "DisposeCxMsg"
+@Parent commodities
 
 @{B} c o m m o d i t i e s . l i b r a r y @{UB}                     @{B} DisposeCxMsg @{UB}
 __________________________________________________________________________
@@ -997,12 +1071,14 @@ __________________________________________________________________________
 
 @{B}SEVERITY@{UB}        Level 3
 
-@{B}EXPLANATION@{UB}     NULL is not allowed, and will throw Enforcer hits.
+@{B}EXPLANATION@{UB}     NULL is not allowed, and will throw MuForce hits.
 
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node DivertCxMsg "PatchWork: commodities.library / DivertCxMsg"
+@Node DivertCxMsg "commodities.library / DivertCxMsg"
+@Nav "DivertCxMsg"
+@Parent commodities
 
 @{B} c o m m o d i t i e s . l i b r a r y @{UB}                      @{B} DivertCxMsg @{UB}
 __________________________________________________________________________
@@ -1012,12 +1088,14 @@ __________________________________________________________________________
 
 @{B}SEVERITY@{UB}        Level 3
 
-@{B}EXPLANATION@{UB}     NULL is not allowed, and will throw Enforcer hits.
+@{B}EXPLANATION@{UB}     NULL is not allowed, and will throw MuForce hits.
 
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node EnqueueCxObj "PatchWork: commodities.library / EnqueueCxObj"
+@Node EnqueueCxObj "commodities.library / EnqueueCxObj"
+@Nav "EnqueueCxObj"
+@Parent commodities
 
 @{B} c o m m o d i t i e s . l i b r a r y @{UB}                     @{B} EnqueueCxObj @{UB}
 __________________________________________________________________________
@@ -1032,7 +1110,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node InsertCxObj "PatchWork: commodities.library / InsertCxObj"
+@Node InsertCxObj "commodities.library / InsertCxObj"
+@Nav "InsertCxObj"
+@Parent commodities
 
 @{B} c o m m o d i t i e s . l i b r a r y @{UB}                      @{B} InsertCxObj @{UB}
 __________________________________________________________________________
@@ -1047,7 +1127,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node RouteCxMsg "PatchWork: commodities.library / RouteCxMsg"
+@Node RouteCxMsg "commodities.library / RouteCxMsg"
+@Nav "RouteCxMsg"
+@Parent commodities
 
 @{B} c o m m o d i t i e s . l i b r a r y @{UB}                       @{B} RouteCxMsg @{UB}
 __________________________________________________________________________
@@ -1057,7 +1139,7 @@ __________________________________________________________________________
 
 @{B}SEVERITY@{UB}        Level 3
 
-@{B}EXPLANATION@{UB}     NULL is not allowed, and will throw Enforcer hits.
+@{B}EXPLANATION@{UB}     NULL is not allowed, and will throw MuForce hits.
 
 @{B}DEADLY@{UB}          has no effect.
 
@@ -1068,12 +1150,14 @@ __________________________________________________________________________
 
 @{B}SEVERITY@{UB}        Level 3
 
-@{B}EXPLANATION@{UB}     NULL is not allowed, and will throw Enforcer hits.
+@{B}EXPLANATION@{UB}     NULL is not allowed, and will throw MuForce hits.
 
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node SetCxObjPri "PatchWork: commodities.library / SetCxObjPri"
+@Node SetCxObjPri "commodities.library / SetCxObjPri"
+@Nav "SetCxObjPri"
+@Parent commodities
 
 @{B} c o m m o d i t i e s . l i b r a r y @{UB}                      @{B} SetCxObjPri @{UB}
 __________________________________________________________________________
@@ -1100,7 +1184,8 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          0xFACEDEAD is returned in any case.
 
 @EndNode
-@Node dos "PatchWork: dos.library"
+@Node dos "dos.library"
+@Topic "Checks"
 
 @{B} d o s . l i b r a r y @{UB}
 __________________________________________________________________________
@@ -1128,7 +1213,9 @@ __________________________________________________________________________
 automagically be transformed into an APTR for your convenience!
 
 @EndNode
-@Node AttemptLockDosList "PatchWork: dos.library / AttemptLockDosList"
+@Node AttemptLockDosList "dos.library / AttemptLockDosList"
+@Nav "AttemptLockDosList"
+@Parent dos
 
 @{B} d o s . l i b r a r y @{UB}                               @{B} AttemptLockDosList @{UB}
 __________________________________________________________________________
@@ -1152,7 +1239,9 @@ __________________________________________________________________________
                 failed. Unfortunately, this won't crash your system. :(
 
 @EndNode
-@Node CreateProc "PatchWork: dos.library / CreateProc"
+@Node CreateProc "dos.library / CreateProc"
+@Nav "CreateProc"
+@Parent dos
 
 @{B} d o s . l i b r a r y @{UB}                                       @{B} CreateProc @{UB}
 __________________________________________________________________________
@@ -1179,7 +1268,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node DoPkt "PatchWork: dos.library / DoPkt"
+@Node DoPkt "dos.library / DoPkt"
+@Nav "DoPkt"
+@Parent dos
 
 @{B} d o s . l i b r a r y @{UB}                                            @{B} DoPkt @{UB}
 __________________________________________________________________________
@@ -1195,7 +1286,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node Examine "PatchWork: dos.library / Examine"
+@Node Examine "dos.library / Examine"
+@Nav "Examine"
+@Parent dos
 
 @{B} d o s . l i b r a r y @{UB}                                          @{B} Examine @{UB}
 __________________________________________________________________________
@@ -1206,13 +1299,15 @@ __________________________________________________________________________
 @{B}SEVERITY@{UB}        Level 3
 
 @{B}EXPLANATION@{UB}     Longword alignment is vital for this function. Other-
-                wise Enforcer and Mungwall hits will occur! Creating this
+                wise MuForce and Mungwall hits will occur! Creating this
                 structure on stack is not sufficient.
 
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node ExamineFH "PatchWork: dos.library / ExamineFH"
+@Node ExamineFH "dos.library / ExamineFH"
+@Nav "ExamineFH"
+@Parent dos
 
 @{B} d o s . l i b r a r y @{UB}                                        @{B} ExamineFH @{UB}
 __________________________________________________________________________
@@ -1223,13 +1318,15 @@ __________________________________________________________________________
 @{B}SEVERITY@{UB}        Level 3
 
 @{B}EXPLANATION@{UB}     Longword alignment is vital for this function. Other-
-                wise Enforcer and Mungwall hits will occur! Creating this
+                wise MuForce and Mungwall hits will occur! Creating this
                 structure on stack is not sufficient.
 
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node ExAll "PatchWork: dos.library / ExAll"
+@Node ExAll "dos.library / ExAll"
+@Nav "ExAll"
+@Parent dos
 
 @{B} d o s . l i b r a r y @{UB}                                            @{B} ExAll @{UB}
 __________________________________________________________________________
@@ -1257,7 +1354,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node ExAllEnd "PatchWork: dos.library / ExAllEnd"
+@Node ExAllEnd "dos.library / ExAllEnd"
+@Nav "ExAllEnd"
+@Parent dos
 
 @{B} d o s . l i b r a r y @{UB}                                         @{B} ExAllEnd @{UB}
 __________________________________________________________________________
@@ -1285,7 +1384,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node ExNext "PatchWork: dos.library / ExNext"
+@Node ExNext "dos.library / ExNext"
+@Nav "ExNext"
+@Parent dos
 
 @{B} d o s . l i b r a r y @{UB}                                           @{B} ExNext @{UB}
 __________________________________________________________________________
@@ -1296,13 +1397,15 @@ __________________________________________________________________________
 @{B}SEVERITY@{UB}        Level 3
 
 @{B}EXPLANATION@{UB}     Longword alignment is vital for this function. Other-
-                wise Enforcer and Mungwall hits will occur! Creating this
+                wise MuForce and Mungwall hits will occur! Creating this
                 structure on stack is not sufficient.
 
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node GetVar "PatchWork: dos.library / GetVar"
+@Node GetVar "dos.library / GetVar"
+@Nav "GetVar"
+@Parent dos
 
 @{B} d o s . l i b r a r y @{UB}                                           @{B} GetVar @{UB}
 __________________________________________________________________________
@@ -1330,7 +1433,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node Info "PatchWork: dos.library / Info"
+@Node Info "dos.library / Info"
+@Nav "Info"
+@Parent dos
 
 @{B} d o s . l i b r a r y @{UB}                                             @{B} Info @{UB}
 __________________________________________________________________________
@@ -1341,13 +1446,15 @@ __________________________________________________________________________
 @{B}SEVERITY@{UB}        Level 3
 
 @{B}EXPLANATION@{UB}     Longword alignment is vital for this function. Other-
-                wise Enforcer and Mungwall hits will occur! Creating this
+                wise MuForce and Mungwall hits will occur! Creating this
                 structure on stack is not sufficient.
 
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node MatchEnd "PatchWork: dos.library / MatchEnd"
+@Node MatchEnd "dos.library / MatchEnd"
+@Nav "MatchEnd"
+@Parent dos
 
 @{B} d o s . l i b r a r y @{UB}                                         @{B} MatchEnd @{UB}
 __________________________________________________________________________
@@ -1358,13 +1465,15 @@ __________________________________________________________________________
 @{B}SEVERITY@{UB}        Level 3
 
 @{B}EXPLANATION@{UB}     Longword alignment is vital for this function. Other-
-                wise Enforcer and Mungwall hits will occur! Creating this
+                wise MuForce and Mungwall hits will occur! Creating this
                 structure on stack is not sufficient.
 
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node MatchFirst "PatchWork: dos.library / MatchFirst"
+@Node MatchFirst "dos.library / MatchFirst"
+@Nav "MatchFirst"
+@Parent dos
 
 @{B} d o s . l i b r a r y @{UB}                                       @{B} MatchFirst @{UB}
 __________________________________________________________________________
@@ -1375,7 +1484,7 @@ __________________________________________________________________________
 @{B}SEVERITY@{UB}        Level 3
 
 @{B}EXPLANATION@{UB}     Longword alignment is vital for this function. Other-
-                wise Enforcer and Mungwall hits will occur! Creating this
+                wise MuForce and Mungwall hits will occur! Creating this
                 structure on stack is not sufficient.
 
 @{B}DEADLY@{UB}          has no effect.
@@ -1385,7 +1494,9 @@ __________________________________________________________________________
                 Flavio Stanchina (flavio@ies.it) to remove those hits.
 
 @EndNode
-@Node MatchNext "PatchWork: dos.library / MatchNext"
+@Node MatchNext "dos.library / MatchNext"
+@Nav "MatchNext"
+@Parent dos
 
 @{B} d o s . l i b r a r y @{UB}                                        @{B} MatchNext @{UB}
 __________________________________________________________________________
@@ -1396,13 +1507,15 @@ __________________________________________________________________________
 @{B}SEVERITY@{UB}        Level 3
 
 @{B}EXPLANATION@{UB}     Longword alignment is vital for this function. Other-
-                wise Enforcer and Mungwall hits will occur! Creating this
+                wise MuForce and Mungwall hits will occur! Creating this
                 structure on stack is not sufficient.
 
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node RunCommand "PatchWork: dos.library / RunCommand"
+@Node RunCommand "dos.library / RunCommand"
+@Nav "RunCommand"
+@Parent dos
 
 @{B} d o s . l i b r a r y @{UB}                                       @{B} RunCommand @{UB}
 __________________________________________________________________________
@@ -1429,7 +1542,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node SetVBuf "PatchWork: dos.library / SetVBuf"
+@Node SetVBuf "dos.library / SetVBuf"
+@Nav "SetVBuf"
+@Parent dos
 
 @{B} d o s . l i b r a r y @{UB}                                          @{B} SetVBuf @{UB}
 __________________________________________________________________________
@@ -1457,7 +1572,8 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node exec "PatchWork: exec.library"
+@Node exec "exec.library"
+@Topic "Checks"
 
 @{B} e x e c . l i b r a r y @{UB}
 __________________________________________________________________________
@@ -1487,7 +1603,9 @@ __________________________________________________________________________
                 @{" Vacate " link Vacate}
 
 @EndNode
-@Node AddPort "PatchWork: exec.library / AddPort"
+@Node AddPort "exec.library / AddPort"
+@Nav "AddPort"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                                        @{B} AddPort @{UB}
 __________________________________________________________________________
@@ -1502,12 +1620,14 @@ __________________________________________________________________________
                 so FindPort() can find your node without trouble.
 
                 If ln_Name is a NULL pointer, FindPort() will cause
-                Enforcer hits.
+                MuForce hits.
 
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node AllocMem "PatchWork: exec.library / AllocMem"
+@Node AllocMem "exec.library / AllocMem"
+@Nav "AllocMem"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                                       @{B} AllocMem @{UB}
 __________________________________________________________________________
@@ -1536,7 +1656,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node AllocVec "PatchWork: exec.library / AllocVec"
+@Node AllocVec "exec.library / AllocVec"
+@Nav "AllocVec"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                                       @{B} AllocVec @{UB}
 __________________________________________________________________________
@@ -1565,7 +1687,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node CopyMem "PatchWork: exec.library / CopyMem"
+@Node CopyMem "exec.library / CopyMem"
+@Nav "CopyMem"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                                        @{B} CopyMem @{UB}
 __________________________________________________________________________
@@ -1607,7 +1731,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node CopyMemQuick "PatchWork: exec.library / CopyMemQuick"
+@Node CopyMemQuick "exec.library / CopyMemQuick"
+@Nav "CopyMemQuick"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                                   @{B} CopyMemQuick @{UB}
 __________________________________________________________________________
@@ -1661,7 +1787,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node CreateIORequest "PatchWork: exec.library / CreateIORequest"
+@Node CreateIORequest "exec.library / CreateIORequest"
+@Nav "CreateIORequest"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                                @{B} CreateIORequest @{UB}
 __________________________________________________________________________
@@ -1673,7 +1801,7 @@ __________________________________________________________________________
 
 @{B}EXPLANATION@{UB}     There is something wrong with your code. Size cannot
                 be smaller than the size of a minimal IORequest struc-
-                ture. This will most probably cause Enforcer hits and
+                ture. This will most probably cause MuForce hits and
                 Mungwall hits.
 
 @{B}DEADLY@{UB}          has no effect.
@@ -1691,7 +1819,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node DeleteMsgPort "PatchWork: exec.library / DeleteMsgPort"
+@Node DeleteMsgPort "exec.library / DeleteMsgPort"
+@Nav "DeleteMsgPort"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                                  @{B} DeleteMsgPort @{UB}
 __________________________________________________________________________
@@ -1720,7 +1850,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node Enable "PatchWork: exec.library / Enable"
+@Node Enable "exec.library / Enable"
+@Nav "Enable"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                                         @{B} Enable @{UB}
 __________________________________________________________________________
@@ -1761,7 +1893,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node FindPort "PatchWork: exec.library / FindPort"
+@Node FindPort "exec.library / FindPort"
+@Nav "FindPort"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                                       @{B} FindPort @{UB}
 __________________________________________________________________________
@@ -1775,7 +1909,7 @@ __________________________________________________________________________
                 freeze multitasking before searching through the public
                 list for a message port. Otherwise the port could be
                 shut up shortly after you've got the pointer. The next
-                PutMsg() will then throw Enforcer hits in best case, or
+                PutMsg() will then throw MuForce hits in best case, or
                 it will just trash memory. Also see AutoDocs!
 
 @{B}DEADLY@{UB}          In DEADLY mode, this function call will return the
@@ -1783,7 +1917,7 @@ __________________________________________________________________________
                 Otherwise it will pass NULL if the Port wasn't there
                 anyhow, or 0xFACEDEAD if the Port was found. So, just
                 finding out if this port existed will still work, but
-                accessing it will cause Enforcer hits.
+                accessing it will cause MuForce hits.
 
 @{B}REMARK@{UB}          Some people claim that this hit is annoying, since they
                 consider this practice to be legal if you only want to
@@ -1804,7 +1938,9 @@ __________________________________________________________________________
                 if we iterate through them.
 
 @EndNode
-@Node FindSemaphore "PatchWork: exec.library / FindSemaphore"
+@Node FindSemaphore "exec.library / FindSemaphore"
+@Nav "FindSemaphore"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                                  @{B} FindSemaphore @{UB}
 __________________________________________________________________________
@@ -1817,7 +1953,7 @@ __________________________________________________________________________
 @{B}EXPLANATION@{UB}     You MUST freeze multitasking before searching a
                 public Semaphore. Otherwise the semaphore could be
                 removed shortly after you've got the pointer. An access
-                to the structure will then throw Enforcer hits in best
+                to the structure will then throw MuForce hits in best
                 case, or it will just trash memory. Also see AutoDocs!
 
 @{B}DEADLY@{UB}          In DEADLY mode, this function call will return the
@@ -1825,7 +1961,7 @@ __________________________________________________________________________
                 Otherwise it will pass NULL if the Semaphore wasn't
                 there anyhow, or 0xFACEDEAD if the Semaphore was found.
                 So, just finding out if this semaphore existed will still
-                work, but accessing it will cause Enforcer hits.
+                work, but accessing it will cause MuForce hits.
 
 @{B}REMARK@{UB}          Some people claim that this hit is annoying, since they
                 consider this practice to be legal if you only want to
@@ -1846,7 +1982,9 @@ __________________________________________________________________________
                 if we iterate through them.
 
 @EndNode
-@Node FindTask "PatchWork: exec.library / FindTask"
+@Node FindTask "exec.library / FindTask"
+@Nav "FindTask"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                                       @{B} FindTask @{UB}
 __________________________________________________________________________
@@ -1860,7 +1998,7 @@ __________________________________________________________________________
                 multitasking before searching through the public task
                 list. Otherwise the task could be removed shortly after
                 you've got the pointer. Any access to the TCB will then
-                throw Enforcer hits in best case, or it will just trash
+                throw MuForce hits in best case, or it will just trash
                memory.
 
                 Anyhow, FindTask(NULL) will work fine even with enabled
@@ -1875,7 +2013,7 @@ __________________________________________________________________________
                 return NULL if the task really wasn't there, or
                 0xFACEDEAD if the task was found. So, just finding out
                 if this task existed will still work, but accessing it
-                will cause Enforcer hits.
+                will cause MuForce hits.
 
 @{B}REMARK@{UB}          Some people claim that this hit is annoying, since they
                 consider this practice to be legal if you only want to
@@ -1896,7 +2034,9 @@ __________________________________________________________________________
                 if we iterate through them.
 
 @EndNode
-@Node FreeSignal "PatchWork: exec.library / FreeSignal"
+@Node FreeSignal "exec.library / FreeSignal"
+@Nav "FreeSignal"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                                     @{B} FreeSignal @{UB}
 __________________________________________________________________________
@@ -1912,7 +2052,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node InitSemaphore "PatchWork: exec.library / InitSemaphore"
+@Node InitSemaphore "exec.library / InitSemaphore"
+@Nav "InitSemaphore"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                                  @{B} InitSemaphore @{UB}
 __________________________________________________________________________
@@ -1930,7 +2072,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node OldOpenLibrary "PatchWork: exec.library / OldOpenLibrary"
+@Node OldOpenLibrary "exec.library / OldOpenLibrary"
+@Nav "OldOpenLibrary"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                                 @{B} OldOpenLibrary @{UB}
 __________________________________________________________________________
@@ -1965,7 +2109,9 @@ __________________________________________________________________________
                 is the missing library version checking.
 
 @EndNode
-@Node Permit "PatchWork: exec.library / Permit"
+@Node Permit "exec.library / Permit"
+@Nav "Permit"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                                         @{B} Permit @{UB}
 __________________________________________________________________________
@@ -1985,7 +2131,9 @@ __________________________________________________________________________
                 option set.
 
 @EndNode
-@Node Procure "PatchWork: exec.library / Procure"
+@Node Procure "exec.library / Procure"
+@Nav "Procure"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                                        @{B} Procure @{UB}
 __________________________________________________________________________
@@ -2001,7 +2149,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node ReleaseSemaphore "PatchWork: exec.library / ReleaseSemaphore"
+@Node ReleaseSemaphore "exec.library / ReleaseSemaphore"
+@Nav "ReleaseSemaphore"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                               @{B} ReleaseSemaphore @{UB}
 __________________________________________________________________________
@@ -2018,7 +2168,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node ReleaseSemaphoreList "PatchWork: exec.library / ReleaseSemaphoreList"
+@Node ReleaseSemaphoreList "exec.library / ReleaseSemaphoreList"
+@Nav "ReleaseSemaphoreList"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                           @{B} ReleaseSemaphoreList @{UB}
 __________________________________________________________________________
@@ -2035,7 +2187,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node SetFunction "PatchWork: exec.library / SetFunction"
+@Node SetFunction "exec.library / SetFunction"
+@Nav "SetFunction"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                                    @{B} SetFunction @{UB}
 __________________________________________________________________________
@@ -2104,7 +2258,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node Vacate "PatchWork: exec.library / Vacate"
+@Node Vacate "exec.library / Vacate"
+@Nav "Vacate"
+@Parent exec
 
 @{B} e x e c . l i b r a r y @{UB}                                         @{B} Vacate @{UB}
 __________________________________________________________________________
@@ -2120,7 +2276,8 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node gadtools "PatchWork: gadtools.library"
+@Node gadtools "gadtools.library"
+@Topic "Checks"
 
 @{B} g a d t o o l s . l i b r a r y @{UB}
 __________________________________________________________________________
@@ -2135,7 +2292,9 @@ __________________________________________________________________________
                 @{" GT_SetGadgetAttrsA " link GT_SetGadgetAttrsA}
 
 @EndNode
-@Node CreateContext "PatchWork: gadtools.library / CreateContext"
+@Node CreateContext "gadtools.library / CreateContext"
+@Nav "CreateContext"
+@Parent gadtools
 
 @{B} g a d t o o l s . l i b r a r y @{UB}                          @{B} CreateContext @{UB}
 __________________________________________________________________________
@@ -2150,7 +2309,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node CreateGadgetA "PatchWork: gadtools.library / CreateGadgetA"
+@Node CreateGadgetA "gadtools.library / CreateGadgetA"
+@Nav "CreateGadgetA"
+@Parent gadtools
 
 @{B} g a d t o o l s . l i b r a r y @{UB}                          @{B} CreateGadgetA @{UB}
 __________________________________________________________________________
@@ -2183,7 +2344,7 @@ __________________________________________________________________________
 @{B}SEVERITY@{UB}        Level 3
 
 @{B}EXPLANATION@{UB}     You have not passed in a NewGadget structure. This hit
-                will most probably also cause Enforcer hits.
+                will most probably also cause MuForce hits.
 
 @{B}DEADLY@{UB}          has no effect.
 
@@ -2196,7 +2357,7 @@ __________________________________________________________________________
 
 @{B}EXPLANATION@{UB}     You must pass a valid VisualInfo in your NewGadget
                 structure. This hit will most probably also cause
-                Enforcer hits.
+                MuForce hits.
 
 @{B}DEADLY@{UB}          has no effect.
 
@@ -2209,12 +2370,14 @@ __________________________________________________________________________
 
 @{B}EXPLANATION@{UB}     You must pass a valid TextAttr in your NewGadget
                 structure. This hit will most probably also cause
-                Enforcer hits.
+                MuForce hits.
 
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node GT_GetGadgetAttrsA "PatchWork: gadtools.library / GT_GetGadgetAttrsA"
+@Node GT_GetGadgetAttrsA "gadtools.library / GT_GetGadgetAttrsA"
+@Nav "GT_GetGadgetAttrsA"
+@Parent gadtools
 
 @{B} g a d t o o l s . l i b r a r y @{UB}                     @{B} GT_GetGadgetAttrsA @{UB}
 __________________________________________________________________________
@@ -2229,7 +2392,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node GT_RefreshWindow "PatchWork: gadtools.library / GT_RefreshWindow"
+@Node GT_RefreshWindow "gadtools.library / GT_RefreshWindow"
+@Nav "GT_RefreshWindow"
+@Parent gadtools
 
 @{B} g a d t o o l s . l i b r a r y @{UB}                       @{B} GT_RefreshWindow @{UB}
 __________________________________________________________________________
@@ -2244,7 +2409,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node GT_SetGadgetAttrsA "PatchWork: gadtools.library / GT_SetGadgetAttrsA"
+@Node GT_SetGadgetAttrsA "gadtools.library / GT_SetGadgetAttrsA"
+@Nav "GT_SetGadgetAttrsA"
+@Parent gadtools
 
 @{B} g a d t o o l s . l i b r a r y @{UB}                     @{B} GT_SetGadgetAttrsA @{UB}
 __________________________________________________________________________
@@ -2259,7 +2426,8 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node graphics "PatchWork: graphics.library"
+@Node graphics "graphics.library"
+@Topic "Checks"
 
 @{B} g r a p h i c s . l i b r a r y @{UB}
 __________________________________________________________________________
@@ -2286,7 +2454,9 @@ __________________________________________________________________________
                 @{" WaitBOVP " link WaitBOVP}
 
 @EndNode
-@Node AllocSpriteDataA "PatchWork: graphics.library / AllocSpriteDataA"
+@Node AllocSpriteDataA "graphics.library / AllocSpriteDataA"
+@Nav "AllocSpriteDataA"
+@Parent graphics
 
 @{B} g r a p h i c s . l i b r a r y @{UB}                       @{B} AllocSpriteDataA @{UB}
 __________________________________________________________________________
@@ -2302,7 +2472,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node AreaEllipse "PatchWork: graphics.library / AreaEllipse"
+@Node AreaEllipse "graphics.library / AreaEllipse"
+@Nav "AreaEllipse"
+@Parent graphics
 
 @{B} g r a p h i c s . l i b r a r y @{UB}                            @{B} AreaEllipse @{UB}
 __________________________________________________________________________
@@ -2319,7 +2491,9 @@ __________________________________________________________________________
 @{B}REMEMBER@{UB}        that AreaCircle() is only a macro calling AreaEllipse()!
 
 @EndNode
-@Node BestModeIDA "PatchWork: graphics.library / BestModeIDA"
+@Node BestModeIDA "graphics.library / BestModeIDA"
+@Nav "BestModeIDA"
+@Parent graphics
 
 @{B} g r a p h i c s . l i b r a r y @{UB}                            @{B} BestModeIDA @{UB}
 __________________________________________________________________________
@@ -2352,7 +2526,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node BitMapScale "PatchWork: graphics.library / BitMapScale"
+@Node BitMapScale "graphics.library / BitMapScale"
+@Nav "BitMapScale"
+@Parent graphics
 
 @{B} g r a p h i c s . l i b r a r y @{UB}                            @{B} BitMapScale @{UB}
 __________________________________________________________________________
@@ -2407,7 +2583,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node ChangeSprite "PatchWork: graphics.library / ChangeSprite"
+@Node ChangeSprite "graphics.library / ChangeSprite"
+@Nav "ChangeSprite"
+@Parent graphics
 
 @{B} g r a p h i c s . l i b r a r y @{UB}                           @{B} ChangeSprite @{UB}
 __________________________________________________________________________
@@ -2438,7 +2616,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node ChangeVPBitMap "PatchWork: graphics.library / ChangeVPBitMap"
+@Node ChangeVPBitMap "graphics.library / ChangeVPBitMap"
+@Nav "ChangeVPBitMap"
+@Parent graphics
 
 @{B} g r a p h i c s . l i b r a r y @{UB}                         @{B} ChangeVPBitMap @{UB}
 __________________________________________________________________________
@@ -2456,7 +2636,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node DrawEllipse "PatchWork: graphics.library / DrawEllipse"
+@Node DrawEllipse "graphics.library / DrawEllipse"
+@Nav "DrawEllipse"
+@Parent graphics
 
 @{B} g r a p h i c s . l i b r a r y @{UB}                            @{B} DrawEllipse @{UB}
 __________________________________________________________________________
@@ -2473,7 +2655,9 @@ __________________________________________________________________________
 @{B}REMEMBER@{UB}        that DrawCircle() is only a macro calling DrawEllipse()!
 
 @EndNode
-@Node EraseRect "PatchWork: graphics.library / EraseRect"
+@Node EraseRect "graphics.library / EraseRect"
+@Nav "EraseRect"
+@Parent graphics
 
 @{B} g r a p h i c s . l i b r a r y @{UB}                              @{B} EraseRect @{UB}
 __________________________________________________________________________
@@ -2488,7 +2672,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node FreeColorMap "PatchWork: graphics.library / FreeColorMap"
+@Node FreeColorMap "graphics.library / FreeColorMap"
+@Nav "FreeColorMap"
+@Parent graphics
 
 @{B} g r a p h i c s . l i b r a r y @{UB}                           @{B} FreeColorMap @{UB}
 __________________________________________________________________________
@@ -2503,7 +2689,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node GetExtSpriteA "PatchWork: graphics.library / GetExtSpriteA"
+@Node GetExtSpriteA "graphics.library / GetExtSpriteA"
+@Nav "GetExtSpriteA"
+@Parent graphics
 
 @{B} g r a p h i c s . l i b r a r y @{UB}                          @{B} GetExtSpriteA @{UB}
 __________________________________________________________________________
@@ -2518,7 +2706,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node MakeVPort "PatchWork: graphics.library / MakeVPort"
+@Node MakeVPort "graphics.library / MakeVPort"
+@Nav "MakeVPort"
+@Parent graphics
 
 @{B} g r a p h i c s . l i b r a r y @{UB}                              @{B} MakeVPort @{UB}
 __________________________________________________________________________
@@ -2545,7 +2735,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node RectFill "PatchWork: graphics.library / RectFill"
+@Node RectFill "graphics.library / RectFill"
+@Nav "RectFill"
+@Parent graphics
 
 @{B} g r a p h i c s . l i b r a r y @{UB}                               @{B} RectFill @{UB}
 __________________________________________________________________________
@@ -2560,7 +2752,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node ScalerDiv "PatchWork: graphics.library / ScalerDiv"
+@Node ScalerDiv "graphics.library / ScalerDiv"
+@Nav "ScalerDiv"
+@Parent graphics
 
 @{B} g r a p h i c s . l i b r a r y @{UB}                              @{B} ScalerDiv @{UB}
 __________________________________________________________________________
@@ -2575,7 +2769,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node SetChipRev "PatchWork: graphics.library / SetChipRev"
+@Node SetChipRev "graphics.library / SetChipRev"
+@Nav "SetChipRev"
+@Parent graphics
 
 @{B} g r a p h i c s . l i b r a r y @{UB}                             @{B} SetChipRev @{UB}
 __________________________________________________________________________
@@ -2590,7 +2786,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node SetFont "PatchWork: graphics.library / SetFont"
+@Node SetFont "graphics.library / SetFont"
+@Nav "SetFont"
+@Parent graphics
 
 @{B} g r a p h i c s . l i b r a r y @{UB}                                @{B} SetFont @{UB}
 __________________________________________________________________________
@@ -2601,7 +2799,7 @@ __________________________________________________________________________
 @{B}SEVERITY@{UB}        Level 3
 
 @{B}EXPLANATION@{UB}     Since V36, NULL fonts are not allowed any more. They
-                will produce Enforcer hits!
+                will produce MuForce hits!
 
 @{B}DEADLY@{UB}          has no effect.
 
@@ -2612,14 +2810,16 @@ __________________________________________________________________________
 
 @{B}SEVERITY@{UB}        Level 0
 
-@{B}EXPLANATION@{UB}     Just a remember that this font does not meet the V36
+@{B}EXPLANATION@{UB}     Just a reminder that this font does not meet the V36
                 requirements any more. SetFont will convert it for proper
                 use, but you shouldn't use this font any more.
 
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node SetMaxPen "PatchWork: graphics.library / SetMaxPen"
+@Node SetMaxPen "graphics.library / SetMaxPen"
+@Nav "SetMaxPen"
+@Parent graphics
 
 @{B} g r a p h i c s . l i b r a r y @{UB}                              @{B} SetMaxPen @{UB}
 __________________________________________________________________________
@@ -2634,7 +2834,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node WaitBOVP "PatchWork: graphics.library / WaitBOVP"
+@Node WaitBOVP "graphics.library / WaitBOVP"
+@Nav "WaitBOVP"
+@Parent graphics
 
 @{B} g r a p h i c s . l i b r a r y @{UB}                               @{B} WaitBOVP @{UB}
 __________________________________________________________________________
@@ -2651,10 +2853,11 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @{B}REMARK@{UB}          This check has been temporarily disactivated, since
-                CyberGraphX does a clean emulation without busy loop.
+                CyberGraphX is doing a clean emulation without busy loop.
 
 @EndNode
-@Node intuition "PatchWork: intuition.library"
+@Node intuition "intuition.library"
+@Topic "Checks"
 
 @{B} i n t u i t i o n . l i b r a r y @{UB}
 __________________________________________________________________________
@@ -2678,7 +2881,9 @@ __________________________________________________________________________
                 @{" SetPointer " link SetPointer}
 
 @EndNode
-@Node CloseWindow "PatchWork: intuition.library / CloseWindow"
+@Node CloseWindow "intuition.library / CloseWindow"
+@Nav "CloseWindow"
+@Parent intuition
 
 @{B} i n t u i t i o n . l i b r a r y @{UB}                          @{B} CloseWindow @{UB}
 __________________________________________________________________________
@@ -2688,7 +2893,7 @@ __________________________________________________________________________
 
 @{B}SEVERITY@{UB}        Level 3
 
-@{B}EXPLANATION@{UB}     This are two very serious mistakes in one. If you
+@{B}EXPLANATION@{UB}     These are two very serious mistakes in one. If you
                 use a shared Window MessagePort, you MUST reply all
                 pending messages, then clear the UserPort pointer and
                 set the IDCMP flags to 0. See the intuition AutoDocs
@@ -2696,7 +2901,7 @@ __________________________________________________________________________
                 window.
 
                 It is most likely that this hit is followed by several
-                Enforcer and Mungwall hits.
+                MuForce and Mungwall hits.
 
 @{B}DEADLY@{UB}          has no effect.
 
@@ -2713,7 +2918,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node EasyRequestArgs "PatchWork: intuition.library / EasyRequestArgs"
+@Node EasyRequestArgs "intuition.library / EasyRequestArgs"
+@Nav "EasyRequestArgs"
+@Parent intuition
 
 @{B} i n t u i t i o n . l i b r a r y @{UB}                      @{B} EasyRequestArgs @{UB}
 __________________________________________________________________________
@@ -2740,7 +2947,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node GadgetMouse "PatchWork: intuition.library / GadgetMouse"
+@Node GadgetMouse "intuition.library / GadgetMouse"
+@Nav "GadgetMouse"
+@Parent intuition
 
 @{B} i n t u i t i o n . l i b r a r y @{UB}                          @{B} GadgetMouse @{UB}
 __________________________________________________________________________
@@ -2757,7 +2966,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node GetDefaultPubScreen "PatchWork: intuition.library / GetDefaultPubScreen"
+@Node GetDefaultPubScreen "intuition.library / GetDefaultPubScreen"
+@Nav "GetDefaultPubScreen"
+@Parent intuition
 
 @{B} i n t u i t i o n . l i b r a r y @{UB}                  @{B} GetDefaultPubScreen @{UB}
 __________________________________________________________________________
@@ -2773,11 +2984,13 @@ __________________________________________________________________________
                 screen, but you must not use this pointer for reading
                 the screen's structure! In DEADLY mode, NULL is returned
                 when GetDefaultPubScreen() returned NULL itself. Otherwise
-                0xFACEDEAD is returned, so you will get an Enforcer hit
+                0xFACEDEAD is returned, so you will get an MuForce hit
                 when you try to read the screen structure.
 
 @EndNode
-@Node MakeClass "PatchWork: intuition.library / MakeClass"
+@Node MakeClass "intuition.library / MakeClass"
+@Nav "MakeClass"
+@Parent intuition
 
 @{B} i n t u i t i o n . l i b r a r y @{UB}                            @{B} MakeClass @{UB}
 __________________________________________________________________________
@@ -2792,7 +3005,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node MakeScreen "PatchWork: intuition.library / MakeScreen"
+@Node MakeScreen "intuition.library / MakeScreen"
+@Nav "MakeScreen"
+@Parent intuition
 
 @{B} i n t u i t i o n . l i b r a r y @{UB}                           @{B} MakeScreen @{UB}
 __________________________________________________________________________
@@ -2807,7 +3022,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          Always returns FALSE (non-zero).
 
 @EndNode
-@Node ModifyIDCMP "PatchWork: intuition.library / ModifyIDCMP"
+@Node ModifyIDCMP "intuition.library / ModifyIDCMP"
+@Nav "ModifyIDCMP"
+@Parent intuition
 
 @{B} i n t u i t i o n . l i b r a r y @{UB}                          @{B} ModifyIDCMP @{UB}
 __________________________________________________________________________
@@ -2821,7 +3038,7 @@ __________________________________________________________________________
                 of the window BEFORE setting the IDCMP flags to 0.
 
                 It is most likely that this hit is followed by several
-                Enforcer and Mungwall hits.
+                MuForce and Mungwall hits.
 
                 Also see @{" CloseWindow " link CloseWindow}.
 
@@ -2839,7 +3056,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect, to guarantee an useable system.
 
 @EndNode
-@Node RemakeDisplay "PatchWork: intuition.library / RemakeDisplay"
+@Node RemakeDisplay "intuition.library / RemakeDisplay"
+@Nav "RemakeDisplay"
+@Parent intuition
 
 @{B} i n t u i t i o n . l i b r a r y @{UB}                        @{B} RemakeDisplay @{UB}
 __________________________________________________________________________
@@ -2854,7 +3073,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          Always returns FALSE (non-zero).
 
 @EndNode
-@Node Request "PatchWork: intuition.library / Request"
+@Node Request "intuition.library / Request"
+@Nav "Request"
+@Parent intuition
 
 @{B} i n t u i t i o n . l i b r a r y @{UB}                              @{B} Request @{UB}
 __________________________________________________________________________
@@ -2871,7 +3092,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node RethinkDisplay "PatchWork: intuition.library / RethinkDisplay"
+@Node RethinkDisplay "intuition.library / RethinkDisplay"
+@Nav "RethinkDisplay"
+@Parent intuition
 
 @{B} i n t u i t i o n . l i b r a r y @{UB}                       @{B} RethinkDisplay @{UB}
 __________________________________________________________________________
@@ -2886,7 +3109,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          Always returns FALSE (non-zero).
 
 @EndNode
-@Node ScreenDepth "PatchWork: intuition.library / ScreenDepth"
+@Node ScreenDepth "intuition.library / ScreenDepth"
+@Nav "ScreenDepth"
+@Parent intuition
 
 @{B} i n t u i t i o n . l i b r a r y @{UB}                          @{B} ScreenDepth @{UB}
 __________________________________________________________________________
@@ -2902,7 +3127,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node SetEditHook "PatchWork: intuition.library / SetEditHook"
+@Node SetEditHook "intuition.library / SetEditHook"
+@Nav "SetEditHook"
+@Parent intuition
 
 @{B} i n t u i t i o n . l i b r a r y @{UB}                          @{B} SetEditHook @{UB}
 __________________________________________________________________________
@@ -2917,7 +3144,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node SetMenuStrip "PatchWork: intuition.library / SetMenuStrip"
+@Node SetMenuStrip "intuition.library / SetMenuStrip"
+@Nav "SetMenuStrip"
+@Parent intuition
 
 @{B} i n t u i t i o n . l i b r a r y @{UB}                         @{B} SetMenuStrip @{UB}
 __________________________________________________________________________
@@ -2932,7 +3161,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node SetPointer "PatchWork: intuition.library / SetPointer"
+@Node SetPointer "intuition.library / SetPointer"
+@Nav "SetPointer"
+@Parent intuition
 
 @{B} i n t u i t i o n . l i b r a r y @{UB}                           @{B} SetPointer @{UB}
 __________________________________________________________________________
@@ -2970,7 +3201,8 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node utility "PatchWork: utility.library"
+@Node utility "utility.library"
+@Topic "Checks"
 
 @{B} u t i l i t y . l i b r a r y @{UB}
 __________________________________________________________________________
@@ -2984,7 +3216,9 @@ __________________________________________________________________________
                 @{" UDivMod32 " link UDivMod32}
 
 @EndNode
-@Node AllocNamedObjectA "PatchWork: utility.library / AllocNamedObjectA"
+@Node AllocNamedObjectA "utility.library / AllocNamedObjectA"
+@Nav "AllocNamedObjectA"
+@Parent utility
 
 @{B} u t i l i t y . l i b r a r y @{UB}                        @{B} AllocNamedObjectA @{UB}
 __________________________________________________________________________
@@ -3011,7 +3245,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node MapTags "PatchWork: utility.library / MapTags"
+@Node MapTags "utility.library / MapTags"
+@Nav "MapTags"
+@Parent utility
 
 @{B} u t i l i t y . l i b r a r y @{UB}                                  @{B} MapTags @{UB}
 __________________________________________________________________________
@@ -3026,7 +3262,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node SDivMod32 "PatchWork: utility.library / SDivMod32"
+@Node SDivMod32 "utility.library / SDivMod32"
+@Nav "SDivMod32"
+@Parent utility
 
 @{B} u t i l i t y . l i b r a r y @{UB}                                @{B} SDivMod32 @{UB}
 __________________________________________________________________________
@@ -3041,7 +3279,9 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-@Node UDivMod32 "PatchWork: utility.library / UDivMod32"
+@Node UDivMod32 "utility.library / UDivMod32"
+@Nav "UDivMod32"
+@Parent utility
 
 @{B} u t i l i t y . l i b r a r y @{UB}                                @{B} UDivMod32 @{UB}
 __________________________________________________________________________
@@ -3056,6 +3296,3 @@ __________________________________________________________________________
 @{B}DEADLY@{UB}          has no effect.
 
 @EndNode
-
-
-@c END
