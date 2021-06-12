@@ -23,6 +23,7 @@
 		INCLUDE	"exec/libraries.i"
 		INCLUDE	"exec/memory.i"
 		INCLUDE	"graphics/gfx.i"
+		INCLUDE	"graphics/gfxbase.i"
 		INCLUDE	"graphics/modeid.i"
 		INCLUDE	"graphics/scale.i"
 		INCLUDE	"graphics/sprite.i"
@@ -53,6 +54,10 @@ SP_Graphics	movem.l	a0-a1,-(SP)
 		blo	.done
 		lea	(v39_patches,PC),a0
 		bsr	AddPatchTab
+		cmp	#40,(LIB_VERSION,a1)
+		blo	.done
+		lea	(v40_patches,PC),a0
+		bsr	AddPatchTab
 .done		movem.l	(SP)+,a0-a1
 		rts
 
@@ -72,6 +77,10 @@ RP_Graphics	movem.l	a0-a1,-(SP)
 		cmp	#39,(LIB_VERSION,a1)
 		blo	.close
 		lea	(v39_patches,PC),a0
+		bsr	RemPatchTab
+		cmp	#40,(LIB_VERSION,a1)
+		blo	.close
+		lea	(v40_patches,PC),a0
 		bsr	RemPatchTab
 .close		exec	CloseLibrary
 .nogfx		movem.l	(SP)+,a0-a1
@@ -99,6 +108,9 @@ v39_patches	dpatch	_GFXAllocSpriteDataA,P_AllocSpriteData
 		dpatch	_GFXGetExtSpriteA,P_GetExtSpriteA
 		dpatch	_GFXSetChipRev,P_SetChipRev
 		dpatch	_GFXSetMaxPen,P_SetMaxPen
+		dc.w	0
+
+v40_patches	dpatch	_GFXWriteChunkyPixels,P_WriteChunkyPixels
 		dc.w	0
 
 gfxbase	 dc.l	0			;GfxBase
@@ -626,4 +638,35 @@ gfxbase	 dc.l	0			;GfxBase
 		bra	.THIS
 
 .msg_dontuse	dc.b	"busy wait, do not use if ever possible",0
+		even
+
+*---------------
+
+	PATCH P_WriteChunkyPixels,"WriteChunkyPixels(0x%08lx,%ld,%ld,%ld,%ld,0x%08lx,%ld)",REG_A0,REG_D0,REG_D1,REG_D2,REG_D3,REG_A2,REG_D4
+	;-- Hardware present?
+		tst.l	(gb_ChunkyToPlanarPtr,a6)
+		bne	.hwpresent
+		movem.l	d0-d7/a0-a7,-(SP)
+		move.l	SP,a0
+		lea	(.msg_nohw,PC),a1
+		lea	(.THIS,PC),a2
+		moveq	#0,d0
+		bsr	ShowHit
+		movem.l	(SP)+,d0-d7/a0-a7
+	;-- stop must be >= start
+.hwpresent	cmp.l	d2,d0
+		bgt	.bad			;xstop > xstart ?
+		cmp.l	d3,d1
+		ble	.THIS			;ystop > ystart ?
+.bad		movem.l	d0-d7/a0-a7,-(SP)
+		move.l	SP,a0
+		lea	(.msg_badrange,PC),a1
+		lea	(.THIS,PC),a2
+		moveq	#3,d0
+		bsr	ShowHit
+		movem.l	(SP)+,d0-d7/a0-a7
+		bra	.THIS
+
+.msg_nohw	dc.b	"no chunky-to-planar hardware, this will be slow",0
+.msg_badrange	dc.b	"stop must be >= start",0
 		even

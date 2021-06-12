@@ -213,6 +213,8 @@ __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
 V0.18   » (??.??.2021)
+        · Check AmigaOS V40 calls. Actually, the only check that needed
+          to be added was graphics.library/WriteChunkyPixels.
         · Now Open Source and GPLv3 licensed!
         · Maintenance update with minor changes
         · Now built on Linux using vasm
@@ -2452,6 +2454,7 @@ __________________________________________________________________________
                 @{" SetFont " link SetFont}
                 @{" SetMaxPen " link SetMaxPen}
                 @{" WaitBOVP " link WaitBOVP}
+                @{" WriteChunkyPixels " link WriteChunkyPixels}
 
 @EndNode
 @Node AllocSpriteDataA "graphics.library / AllocSpriteDataA"
@@ -2854,6 +2857,37 @@ __________________________________________________________________________
 
 @{B}REMARK@{UB}          This check has been temporarily disactivated, since
                 CyberGraphX is doing a clean emulation without busy loop.
+
+@EndNode
+@Node WriteChunkyPixels "graphics.library / WriteChunkyPixels"
+@Nav "WriteChunkyPixels"
+@Parent graphics
+
+@{B} g r a p h i c s . l i b r a r y @{UB}                      @{B} WriteChunkyPixels @{UB}
+__________________________________________________________________________
+@{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
+
+@{B}REPORT@{UB}          stop must be >= start
+
+@{B}SEVERITY@{UB}        Level 3
+
+@{B}EXPLANATION@{UB}     xstop/ystop must not be lower than xstart/ystart!
+
+@{B}DEADLY@{UB}          has no effect.
+
+__________________________________________________________________________
+
+
+@{B}REPORT@{UB}          no chunky-to-planar hardware, this will be slow
+
+@{B}SEVERITY@{UB}        Level 0
+
+@{B}EXPLANATION@{UB}     There was no chunky-to-planar hardware found in
+                your system, so the CPU will have to do all the heavy
+                lifting. If you have a better way for this operation, you
+                should use that one instead.
+
+@{B}DEADLY@{UB}          has no effect.
 
 @EndNode
 @Node intuition "intuition.library"
