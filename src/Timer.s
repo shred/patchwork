@@ -25,8 +25,6 @@
 		INCLUDE	"lvo/utility.i"
 		INCLUDE	"lvo/timer.i"
 
-		INCLUDE	phxmacros.i
-
 		INCLUDE	PatchWork_rev.i
 		INCLUDE	PatchWork.i
 
@@ -49,7 +47,7 @@ tmr_SIZEOF	rs.w	0
 *	<- d0.l Success
 *
 		PUBLIC	InitTimer
-InitTimer	pushm.l	d1-d7/a0-a5
+InitTimer	movem.l	d1-d7/a0-a5,-(SP)
 		move.l	(args+arg_ChkDisable,PC),d0
 		beq	.notest
 		lea	(timerstruct,PC),a5
@@ -76,7 +74,7 @@ InitTimer	pushm.l	d1-d7/a0-a5
 		exec	DeleteIORequest
 .exit2		move.l	(tmr_MsgPort,a5),a0
 		exec	DeleteMsgPort
-.exit1		popm.l	d1-d7/a0-a5
+.exit1		movem.l	(SP)+,d1-d7/a0-a5
 		rts
 
 .timername	dc.b	"timer.device",0
@@ -87,7 +85,7 @@ InitTimer	pushm.l	d1-d7/a0-a5
 * Closes the timer
 *
 		PUBLIC	ExitTimer
-ExitTimer	pushm.l	d0-d7/a0-a5
+ExitTimer	movem.l	d0-d7/a0-a5,-(SP)
 		move.l	(args+arg_ChkDisable,PC),d0
 		beq	.notest
 		lea	(timerstruct,PC),a5
@@ -97,7 +95,7 @@ ExitTimer	pushm.l	d0-d7/a0-a5
 		exec	DeleteIORequest
 		move.l	(tmr_MsgPort,a5),a0
 		exec	DeleteMsgPort
-.notest		popm.l	d0-d7/a0-a5
+.notest		movem.l	(SP)+,d0-d7/a0-a5
 		rts
 
 
@@ -105,12 +103,12 @@ ExitTimer	pushm.l	d0-d7/a0-a5
 * Starts the timer
 *
 		PUBLIC	StartTimer
-StartTimer	pushm.l	d0-d1/a0-a1/a5-a6
+StartTimer	movem.l	d0-d1/a0-a1/a5-a6,-(SP)
 		lea	(timerstruct,PC),a5
 		lea	(tmr_StartTime,a5),a0
 		move.l	(tmr_TimerBase,a5),a6
 		jsr	(_TIMERReadEClock,a6)
-		popm.l	d0-d1/a0-a1/a5-a6
+		movem.l	(SP)+,d0-d1/a0-a1/a5-a6
 		rts
 
 *---
@@ -120,7 +118,7 @@ StartTimer	pushm.l	d0-d1/a0-a1/a5-a6
 *	<- d1.l Timestamp MSB
 *
 		PUBLIC	StopTimer
-StopTimer	pushm.l	d2/a0-a1/a5-a6
+StopTimer	movem.l	d2/a0-a1/a5-a6,-(SP)
 		lea	(timerstruct,PC),a5
 		lea	(tmr_StopTime,a5),a0
 		move.l	(tmr_TimerBase,a5),a6
@@ -131,7 +129,7 @@ StopTimer	pushm.l	d2/a0-a1/a5-a6
 		move.l	(tmr_StopTime,a5),d1
 		move.l	(tmr_StartTime,a5),d2
 		subx.l	d2,d1
-		popm.l	d2/a0-a1/a5-a6
+		movem.l	(SP)+,d2/a0-a1/a5-a6
 		rts
 
 *---
@@ -142,7 +140,7 @@ StopTimer	pushm.l	d2/a0-a1/a5-a6
 *	<- d0.l Difference (milliseconds)
 *
 		PUBLIC	CalcTimer
-CalcTimer	pushm.l	d1-d3
+CalcTimer	movem.l	d1-d3,-(SP)
 		move.l	#1000,d3
 		mulu.l	d3,d2:d0
 		mulu.l	d3,d3:d1
@@ -153,7 +151,7 @@ CalcTimer	pushm.l	d1-d3
 		beq	.error
 		divu.l	d1,d2:d0
 		bvs	.error
-.exit		popm.l	d1-d3
+.exit		movem.l	(SP)+,d1-d3
 		rts
 .error		moveq	#0,d0
 		bra	.exit
