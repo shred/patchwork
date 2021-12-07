@@ -1,3 +1,4 @@
+
 _GFXBltBitMap			EQU	-30
 _GFXBltTemplate			EQU	-36
 _GFXClearEOL			EQU	-42
@@ -163,6 +164,8 @@ _GFXBestModeIDA			EQU	-1050
 _GFXWriteChunkyPixels		EQU	-1056	;Kick 3.1
 
 gfx		MACRO
-		move.l	gfxbase(PC),a6
+		IFNC	"\0","q"
+		  move.l gfxbase(PC),a6
+		ENDC
 		jsr	_GFX\1(a6)
 		ENDM

@@ -125,7 +125,7 @@ _INTTimedDisplayAlert		EQU	-822
 _INTHelpControl			EQU	-828
 
 intui		MACRO
-		IFNC	"\0","Q"
+		IFNC	"\0","q"
 		 move.l	intuibase(PC),a6
 		ENDC
 		jsr	_INT\1(a6)

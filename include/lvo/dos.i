@@ -160,7 +160,7 @@ _DOSExAllEnd			EQU -990
 _DOSSetOwner			EQU -996
 
 dos		MACRO
-		IFNC	"\0","Q"
+		IFNC	"\0","q"
 		 move.l	dosbase(PC),a6
 		ENDC
 		jsr	_DOS\1(a6)

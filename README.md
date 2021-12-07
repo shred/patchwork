@@ -1,13 +1,15 @@
 # PatchWork
 
-PatchWork is an Amiga debugging tool like MuForce or Mungwall. It patches library calls and validates the parameters against the AutoDocs. Illegal parameters (e.g. NULL where a pointer is expected) are reported. PatchWork helps you to make your code more robust.
+PatchWork is a debugging tool similar to MuForce and Mungwall. It asserts that calls to AmigaOS libraries are AutoDocs conformous. Illegal parameters (e.g. NULL where a pointer is expected) are reported. PatchWork helps you to make your code more robust and future proof. 😉
+
+The source code was closed, like almost all of my Amiga projects. I have reviewed and reformatted the files, translated the comments from German to English, and made the project compilable on Linux (and probably other targets) using vbcc. The source is now open to everyone for contributing, studying, archiving, or just enjoying the good old Amiga times.
 
 ## Features
 
-* Validates `commodities`, `dos`, `exec`, `gadtools`, `graphics`, `intuition` and `utility` library calls.
+* Validates `commodities`, `dos`, `exec`, `gadtools`, `graphics`, `intuition` and `utility` library calls, up to AmigaOS 3.2.
 * Reports to the debugging console (e.g. Sushi).
 * Shows a code extract of the violating code if [DisLib](http://aminet.net/package/util/libs/DisLib) by Thomas Richter is installed.
-* 100% hand-made assembler code, so PatchWork only has a neglectable performance impact on your system and can just be kept running.
+* 100% hand-made assembler code, so PatchWork only has a neglectable performance impact on your system, and can just be kept running.
 * Works on any 68000 based CPU, no MMU required.
 * GPL licensed, open source.
 * Source Code is available at [GitHub](https://github.com/shred/patchwork).
@@ -57,25 +59,27 @@ Requirements:
 
 * [GNU make](http://www.gnu.org/software/make/) or another compatible make tool
 * [vbcc](http://www.compilers.de/vbcc.html) (or just [vasm](http://sun.hasenbraten.de/vasm/) and [vlink](http://sun.hasenbraten.de/vlink/))
-* [AmigaOS NDK 3.9](http://www.haage-partner.de/download/AmigaOS/NDK39.lha), unpacked on your build machine
-* [disassembler.library](http://aminet.net/package/util/libs/DisLib) (the necessary include files are part of this project for your convenience)
+* [AmigaOS NDK 3.2](https://www.hyperion-entertainment.com/index.php/downloads?view=files&parent=40), unpacked on your build machine
+* [disassembler.library](http://aminet.net/package/util/libs/DisLib) by Thomas Richter, include files unpacked on your build machine
 * [lha](https://github.com/jca02266/lha)
 
-Set the `AMIGA_NDK` env variable to the location of the unpacked `NDK_3.9` directory on your build machine.
+Set the `AMIGA_NDK` env variable to the location of the unpacked `NDK3.2` directory on your build machine. Also set `AMIGA_INCLUDES` to the location of 3rd party include files, where the `disassembler.library` includes can be found.
 
-Then just invoke `make` to build the project. The compiled project can be found in the `build` directory. `make release` will compile a release version in the `release` directory.
+Then just invoke `make` to build the project. The compiled project can be found in the `build` directory.
 
-Today's standard encoding is UTF-8. Sadly AmigaOS does not support this encoding, so the files in this project have different encodings depending on their purpose. The assembler files must use plain ASCII encoding, so they can be edited on Linux and Amiga without encoding problems. For special characters in strings, always use escape sequences. Do not use special characters in comments. `make check` will test if these files contain illegal characters. All purely Amiga-related files (like AmigaGuide files) are expected to be ISO-8859-1 encoded. Then again, `README.md` (and other files related to the open source release) are UTF-8 encoded. If you are in doubt, use plain ASCII.
+`make release` will compile a release version in the `release` directory.
 
-## Contribution and Release
+Today's standard encoding is UTF-8. Unfortunately AmigaOS does not support this encoding, so the files in this project have different encodings depending on their purpose. The assembler files must use plain ASCII encoding, so they can be edited on Linux and Amiga without encoding problems. For special characters in strings, always use escape sequences. Do not use special characters in comments. `make check` will test if these files contain illegal characters. All purely Amiga-related files (like AmigaGuide files) are expected to be ISO-8859-1 encoded. Then again, `README.md` (and other files related to the open source release) are UTF-8 encoded. If you are in doubt, use plain ASCII.
+
+## Contribution and Releases
 
 The source code of this project can be found [at the official GitHub page](https://github.com/shred/patchwork).
 
 If you found a bug or have a feature request, feel free to [open an issue](https://github.com/shred/patchwork/issues) or [send a pull request](https://github.com/shred/patchwork/pulls).
 
-Official binaries are available [at the AmiNet](http://aminet.net/package/dev/debug/PatchWork).
+Official binaries are available [on the AmiNet](http://aminet.net/package/dev/debug/PatchWork).
 
-**Please DO NOT UPLOAD new releases to this AmiNet project. If you want to release a fork, use a different project name.**
+**Please keep the "PatchWork" package name reserved for official releases.** If you want to release a fork, use a different package name. But please consider contributing to the reference repository instead. This is better than having an unknown number of different versions circulating around.
 
 ## License
 

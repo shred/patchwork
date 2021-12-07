@@ -128,7 +128,7 @@ _EXECRemMemHandler		EQU	-780
 _EXECObtainQuickVector		EQU	-786
 
 exec		MACRO
-		IFNC	"\0","Q"
+		IFNC	"\0","q"
 		 IFD	execbase
 		  move.l execbase(PC),a6
 		 ELSE

@@ -11,7 +11,7 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
@@ -30,22 +30,21 @@ OBJS      = $(OBJP)/Main.o $(OBJP)/Hit.o $(OBJP)/Timer.o $(OBJP)/Exec.o \
             $(OBJP)/Utility.o $(OBJP)/Commodities.o $(OBJP)/Gadtools.o
 
 AOPTS     = -Fhunk -esc -sc \
-			-I $(INCP) -I ${AMIGA_NDK}/Include/include_i/
+			-I $(INCP) -I ${AMIGA_NDK}/Include_I/ -I ${AMIGA_INCLUDES}
 LOPTS     = -bamigahunk -mrel -s \
-			-L ${AMIGA_NDK}/Include/linker_libs/ -l debug -l amiga
-
-ASM       = vasmm68k_mot
-LINK      = vlink
+			-L ${AMIGA_NDK}/lib/ -l debug -l amiga
 
 .PHONY : all clean release check
 
-all: $(OBJP) $(OBJP)/PatchWork
+all: $(OBJP) \
+		$(OBJP)/PatchWork
 
 clean:
 	rm -rf $(OBJP) $(RELP)
 
 release: clean all
 	cp -r $(DSTP) $(RELP)				# Create base structure and static files
+
 	mkdir $(RELP)/PatchWork
 
 	cp $(OBJP)/PatchWork $(RELP)/PatchWork/			# Tools
@@ -62,13 +61,13 @@ check:
 	# Check for umlauts and other characters that are not platform neutral.
 	# The following command will show the files and lines, and highlight the
 	# illegal character. It should be replaced with an escape sequence.
-	LC_ALL=C grep -R --color='auto' -P -n "[^\x00-\x7F]" $(SRCP) ; true
+	LC_ALL=C grep -R --color='auto' -P -n "[^\x00-\x7F]" $(SRCP) $(INCP) ; true
 
 $(OBJP):
 	mkdir -p $(OBJP)
 
 $(OBJP)/PatchWork: $(OBJS)
-	$(LINK) $(LOPTS) -o $(OBJP)/PatchWork -s $(OBJS)
+	vlink $(LOPTS) -o $@ -s $(OBJS)
 
-$(OBJP)/%.o: $(SRCP)/%.s $(SRCP)/PatchWork.i $(SRCP)/PatchWork_rev.i
-	$(ASM) $(AOPTS) -o $@ $<
+$(OBJP)/%.o: $(SRCP)/%.s
+	vasmm68k_mot $(AOPTS) -L $@.lst -o $@ $<

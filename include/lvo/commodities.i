@@ -31,6 +31,8 @@ _CXBrokerCommand		EQU	-198	; * PRIVATE *
 _CXMatchIX			EQU	-204
 
 cx		MACRO
-		move.l	cxbase(PC),a6
+		IFNC	"\0","q"
+		 move.l	cxbase(PC),a6
+		ENDC
 		jsr	_CX\1(a6)
 		ENDM

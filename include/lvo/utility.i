@@ -39,7 +39,7 @@ _UTILSRemNamedObject		EQU	-264
 _UTILSGetUniqueID		EQU	-270
 
 utils		MACRO
-		IFNC	"\0","Q"
+		IFNC	"\0","q"
 		  move.l utilsbase(PC),a6
 		ENDC
 		jsr	_UTILS\1(a6)

@@ -11,7 +11,7 @@
 *
 * This program is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 * GNU General Public License for more details.
 *
 * You should have received a copy of the GNU General Public License
@@ -123,14 +123,13 @@ Start	;-- Open DOS lib -----------------------;
 		move.l	(arg_Stacklines,a0),a2
 		move.l	(a2),d0
 .stkok		move.l	d0,(gl_Stacklines,a1)
-	;-- Initialize timer -------------------;
-		bsr	InitTimer
-		tst.l	d0
-		beq	.error_tmr
-	;-- Main program -----------------------;
 		lea	(msg_copyright,PC),a0
 		move.l	a0,d1
 		dos	PutStr
+	;-- Main program -----------------------;
+		bsr	InitTimer
+		tst.l	d0
+		beq	.error_tmr
 		bsr	SP_Exec
 		bsr	SP_Dos
 		bsr	SP_Graphics
@@ -138,6 +137,9 @@ Start	;-- Open DOS lib -----------------------;
 		bsr	SP_Utility
 		bsr	SP_Commodities
 		bsr	SP_Gadtools
+		lea	(msg_started,PC),a0
+		move.l	a0,d1
+		dos	PutStr
 		move.l	#SIGBREAKF_CTRL_C,d0	;Wait for CTRL-C
 		exec	Wait
 		bsr	RP_Gadtools
@@ -157,7 +159,11 @@ Start	;-- Open DOS lib -----------------------;
 		exec	RemPort
 .already	move.l	(msgport,PC),a1
 		exec	FreeVec
-		move.l	(utilsbase,PC),a1	;release libraries
+		move.l	(disasmbase,PC),d0	;close disassembler if available
+		beq	.nodisasm
+		move.l	d0,a1
+		exec	CloseLibrary
+.nodisasm	move.l	(utilsbase,PC),a1	;release libraries
 		exec	CloseLibrary
 		move.l	(dosbase,PC),a1
 		exec	CloseLibrary
@@ -170,13 +176,10 @@ Start	;-- Open DOS lib -----------------------;
 		exec	RemPort
 .error4		move.l	(msgport,PC),a1		;release message port
 		exec	FreeVec
-
 		move.l	(disasmbase,PC),d0	;close disassembler if available
-		beq	.nodisasm
+		beq	.error3
 		move.l	d0,a1
 		exec	CloseLibrary
-.nodisasm
-
 .error3		move.l	(utilsbase,PC),a1	;release libraries
 		exec	CloseLibrary
 .error2		move.l	(dosbase,PC),a1
@@ -196,12 +199,13 @@ Start	;-- Open DOS lib -----------------------;
 
 	;-- Variables --------------------------;
 		PUBLIC	gl,dosbase,args,utilsbase,disasmbase
-gl		ds.b	gl_SIZEOF		;Globals
 dosbase		dc.l	0			;^DOS Library
 utilsbase	dc.l	0			;^Utils Library
 disasmbase	dc.l	0			;^Disassembler Library
 dosargs		dc.l	0			;^Parser result
 msgport		dc.l	0			;^MessagePort
+gl		ds.b	gl_SIZEOF		;Globals
+		even
 args		ds.b	arg_SIZEOF		;Parameter Array
 template	TEMPLATE
 
@@ -218,8 +222,8 @@ msg_copyright	VERS
 		PRGNAME
 		dc.b	" - "
 		PROJECTURL
-		dc.b	"\n\n"
-		dc.b	"Press <CTRL> <C> to stop "
+		dc.b	"\n\n",0
+msg_started	dc.b	"Press <CTRL>-C to stop "
 		PRGNAME
 		dc.b	" again.\n",0
 msg_bados	dc.b	"MINOS is out of range!\n",0

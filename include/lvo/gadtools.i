@@ -27,6 +27,8 @@ _GADGT_GetGadgetAttrsA		EQU	-174	;V39
 
 
 gad		MACRO
-		move.l	gadbase(PC),a6
+		IFNC	"\0","q"
+		 move.l	gadbase(PC),a6
+		ENDC
 		jsr	_GAD\1(a6)
 		ENDM

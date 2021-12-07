@@ -3,26 +3,37 @@ Author:       Richard 'Shred' Koerber
 Uploader:     aminet@shredzone.de (Richard Koerber)
 Type:         dev/debug
 Version:      0.18
+Requires:     AmigaOS 2.0 or higher
 Architecture: m68k-amigaos >= 2.0.4
 
 Keywords:     debug os patch muforce segtracker sushi
 License:      GNU General Public License v3
-URL:          https://patchwork.shredzone.org
+Source:       https://github.com/shred/patchwork
+Website:      https://patchwork.shredzone.org
+
+This is an official update! :-)
 
 PatchWork is a debugging tool similar to MuForce and Mungwall. It
 asserts that calls to AmigaOS libraries are AutoDocs conformous.
 
 It patches some functions of exec, dos, gadtools, graphics, commodity,
-utility and intuition library, and checks the invocation parameters
-to match the requirements given in the AutoDocs.
+utility and intuition library, and checks if the invocation parameters
+match the requirements given in the AutoDocs.
 
-Bad calls are reported to the debug serial port or to a Sushi console
+Bad calls are reported to the debug serial port or to a Sushi console,
 along with a register and stack dump.
 
-PatchWork is Open Source software and distributed under GPLv3. Source
-code as git repository, issue tracking, and the latest version is
-available at the official development web site:
+New in this release:
 
-  https://patchwork.shredzone.org
+  - The source code has been completely reviewed and reworked.
+  - Checks updated for AmigaOS 3.1, 3.9, and 3.2.
 
-Your feedback is appreciated!
+PatchWork is Open Source Software. The source code is distributed under
+the GPLv3 Gnu Public License.
+
+The reference repository is at GitHub: https://github.com/shred/patchwork
+
+The source code is deliberately not part of this package. If you want to
+modify the source code, please consider contributing to the reference
+repository. This is better than having an unknown number of branches and
+different source codes versions circulating around.
