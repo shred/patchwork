@@ -489,7 +489,8 @@ intuibase	dc.l	0
 		neg	d3
 		cmp	d1,d3
 		ble	.off_ok
-.bad_offset	move.l	a1,-(SP)
+.bad_offset	move.l	SP,a0
+		move.l	a1,-(SP)
 		lea	(.msg_badoffset,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#0,d0

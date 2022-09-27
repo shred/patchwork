@@ -202,7 +202,7 @@ gfxbase	 dc.l	0			;GfxBase
 		move.l	d0,a3
 		tst	(4,a3)			;upper word
 		beq	.chk_rok
-		lea	(4,SP),a0
+		lea	(4,SP),a0		; (4,SP) because we're in a subroutine
 		move.l	a4,-(SP)
 		lea	(.msg_badrange,PC),a1
 		lea	(.THIS,PC),a2
@@ -214,7 +214,7 @@ gfxbase	 dc.l	0			;GfxBase
 		add.l	#1*4,SP
 .chk_rok	tst	(6,a3)			;lower word
 		bne	.chk_done
-		lea	(4,SP),a0
+		lea	(4,SP),a0		; (4,SP) because we're in a subroutine
 		move.l	a4,-(SP)
 		lea	(.msg_isnull,PC),a1
 		lea	(.THIS,PC),a2

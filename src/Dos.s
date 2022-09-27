@@ -105,7 +105,7 @@ dos_patches	dpatch	_DOSAttemptLockDosList,P_AttemptLockDosList
 		blt	.badpri
 		cmp.l	#127,d2
 		bls	.pri_ok
-.badpri	 movem.l	d0-d7/a0-a7,-(SP)
+.badpri		movem.l	d0-d7/a0-a7,-(SP)
 		move.l	SP,a0
 		lea	(.msg_pri,PC),a1
 		lea	(.THIS,PC),a2

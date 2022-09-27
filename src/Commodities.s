@@ -152,7 +152,7 @@ cxbase		dc.l	0			;CxBase
 		tst.b	(a0)+
 		bne	.checksize
 		rts
-.bad_len	lea	(4,SP),a0
+.bad_len	lea	(4,SP),a0		; (4,SP) because we're in a subroutine
 		move.l	a1,-(SP)
 		lea	(.msg_strlen,PC),a1
 .short_showhit	lea	(.THIS,PC),a2
@@ -161,7 +161,7 @@ cxbase		dc.l	0			;CxBase
 		bsr	ShowHit
 		add.l	#4,SP
 		rts
-.no_str		lea	(4,SP),a0
+.no_str		lea	(4,SP),a0		; (4,SP) because we're in a subroutine
 		move.l	a1,-(SP)
 		lea	(.msg_nostr,PC),a1
 		bra	.short_showhit
