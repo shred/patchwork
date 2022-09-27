@@ -35,7 +35,7 @@ TEMPLATE	MACRO
 		dc.b	"DEADLY/S,"
 		dc.b	"DIS=DISABLECHECK/S,"
 		dc.b	"NPM=NOPERMIT/S,"
-		dc.b	"DISPC/S,"
+		dc.b	"NODISPC/S,"
 		dc.b	"DR=DISRANGE/K/N"
 		dc.b	0
 		ENDM
@@ -54,7 +54,7 @@ arg_RomHits	rs.l	1	;Also throw hits from the AmigaOS ROM
 arg_Deadly	rs.l	1	;Deadly Hits
 arg_ChkDisable	rs.l	1	;Check Disable()
 arg_NoPermit	rs.l	1	;Do not patch Permit()
-arg_DisPC	rs.l	1	;Disassemble PC
+arg_NoDisPC	rs.l	1	;Do not disassemble PC
 arg_DisRange	rs.l	1	;Disassembly range
 arg_SIZEOF	rs.w	0	; Structure size
 

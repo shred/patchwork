@@ -192,8 +192,8 @@ ShowHit		movem.l	d0-d7/a0-a6,-(SP)
 		jsr	KPrintF
 .nopc
 	;-- Disassembly ------------------------;
-		move.l	(args+arg_DisPC,PC),d0	;required?
-		beq	.nodis
+		move.l	(args+arg_NoDisPC,PC),d0 ;disabled?
+		bne	.nodis
 		move.l	(64,a5),a0		;PC
 		subq.l	#4,a0			;sizeof(JSR(xxxx,a6))
 		bsr	Disassemble

@@ -123,7 +123,11 @@ Start	;-- Open DOS lib -----------------------;
 		move.l	(arg_Stacklines,a0),a2
 		move.l	(a2),d0
 .stkok		move.l	d0,(gl_Stacklines,a1)
-		lea	(msg_copyright,PC),a0
+		move.l	(disasmbase,PC),d0	;Disassembler available?
+		bne	.disavailable
+		not.l	d0
+		move.l	d0,(arg_NoDisPC,a0)
+.disavailable	lea	(msg_copyright,PC),a0
 		move.l	a0,d1
 		dos	PutStr
 	;-- Main program -----------------------;

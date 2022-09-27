@@ -215,6 +215,12 @@ __________________________________________________________________________
 V0.18   » (??.??.2021)
         · Check AmigaOS V40 calls. Actually, the only check that needed
           to be added was graphics.library/WriteChunkyPixels.
+        · DISPC is now the default behavior. Use the new option NODISPC
+          to explicitly disable PC disassembly on PatchWork hits.
+        · Bugfix: intuition/SetPointer() hit output was incorrect
+          [thanks to Hagbard Celine for reporting]
+        · Correct library name is shown even if A6 is not pointing to
+          the library base
         · Now Open Source and GPLv3 licensed!
         · Maintenance update with minor changes
         · Now built on Linux using vasm
@@ -470,9 +476,12 @@ sending a break, or starting another instance of PatchWork.
                 There is no reason to use this option if PatchWork starts up
                 without any problems on your machine.
 
-@{B}DISPC/S@{UB}         Show a disassembly of the code around the current PC. This
-                option requires Thomas Richter's disassembler.library in the
-                LIBS: assignment.
+@{B}NODISPC/S@{UB}       The code around the current PC is disassembled if
+                Thomas Richter's disassembler.library is present. Use this
+                option to disable the disassembler. Note that in previous
+                versions there was a DISPC option that worked the other way
+                around. If you used DISPC, you can leave it out now, as it
+                is the default behavior.
 
 @{B}DISRANGE/K/N@{UB}    Range of bytes to be disassembled before and after the
                 PC. Defaults to 32.
@@ -775,8 +784,8 @@ PC-8: 51CEFF22 4E7570FF 23C007EA 251E41FA 6D4E23C8 07EA2522 43FA4250 2C780004
 PC *: 4EAEFE68 23C007EA 253A6100 7F886100 089A23C0 07EA266A 6700024C 203C0000
 @{FG TEXT}
 
-If the DISPC option is used, about 32 bytes of code around the invoking JSR
-are disassembled.
+About 32 bytes of code around the invoking JSR are disassembled now,
+unless the NODISPC option was set.
 
 @{FG SHINE}
 07e9bcdc :  51ce ff22                  dbra d6,$7e9bc00
@@ -797,7 +806,8 @@ are disassembled.
 @{FG TEXT}
 
 With the DISRANGE option, the number of disassembled bytes can
-be changed. These options need the disassembler.library to be installed.
+be changed. The disassembler.library needs to be installed for
+this output block.
 
 After that, all stack lines will be shown. You can change the number of stack
 lines using the STACKLINES parameter. Defaults to 2 lines.
