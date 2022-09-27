@@ -148,6 +148,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
 		move.l	SP,d1
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		add.l	#2*4,SP
 .done		movem.l	(SP)+,d0-d7/a0-a7
@@ -168,6 +169,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.msg_badrad,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -209,6 +211,7 @@ gfxbase	 dc.l	0			;GfxBase
 		moveq	#1,d0
 		move.l	SP,d1
 		movem.l	a3-a5,-(SP)
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,a3-a5
 		add.l	#1*4,SP
@@ -221,6 +224,7 @@ gfxbase	 dc.l	0			;GfxBase
 		moveq	#3,d0
 		move.l	SP,d1
 		move.l	a5,-(SP)
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		move.l	(SP)+,a5
 		add.l	#1*4,SP
@@ -259,6 +263,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.msg_badflags,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		move.l	(SP)+,a0
 .goodflags
@@ -274,6 +279,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.msg_bug1,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#2,d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		move.l	(SP)+,a0
 .check1ok
@@ -291,6 +297,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.msg_bug2,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#2,d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		move.l	(SP)+,a0
 .check2ok
@@ -311,6 +318,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
 		move.l	SP,d1
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		add.l	#2*4,SP
 		move.l	(SP)+,a0
@@ -345,6 +353,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.msg_sprinit,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		move.l	(SP)+,a2
 .initialized	move.l	a2,a1
@@ -355,6 +364,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.msg_badmem,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 .ramok		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -384,6 +394,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
 		move.l	SP,d1
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		add.l	#2*4,SP
 		bra	.exit
@@ -403,6 +414,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.msg_badrad,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -422,6 +434,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.msg_badrel,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -440,6 +453,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.THIS,PC),a2
 		moveq	#39,d0			;MinOS 39
 		swap	d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -456,6 +470,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.THIS,PC),a2
 		moveq	#40,d0			;MinOS 40
 		swap	d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -473,6 +488,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.msg_norasinfo,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		bra	.exit
 .rasinfo	move	(vp_Modes,a1),d0	;DualPF?
@@ -485,6 +501,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.msg_no2ndras,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 .exit		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -505,6 +522,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.msg_badrel,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -530,6 +548,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.msg_badrange,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -545,6 +564,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.msg_donttouch,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#1,d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -563,6 +583,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.msg_nullfont,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -584,6 +605,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.THIS,PC),a2
 		moveq	#0,d0
 		move.l	sp,d1
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		add.l	#2*4,sp
 		movem.l	(SP)+,d0-d7/a0-a7
@@ -618,6 +640,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.msg_nonsense,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#1,d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -633,6 +656,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.msg_dontuse,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#1,d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -651,6 +675,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.msg_nohw,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#0,d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 	;-- stop must be >= start
@@ -663,6 +688,7 @@ gfxbase	 dc.l	0			;GfxBase
 		lea	(.msg_badrange,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(gfxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS

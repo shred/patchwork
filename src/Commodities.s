@@ -97,6 +97,7 @@ cxbase		dc.l	0			;CxBase
 		lea	(.THIS,PC),a2
 		moveq	#38,d0
 		swap	d0			;MinOS 38
+		move.l	(cxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -135,6 +136,7 @@ cxbase		dc.l	0			;CxBase
 		lea	(.THIS,PC),a2
 		moveq	#1,d0
 		move.l	SP,d1
+		move.l	(cxbase,PC),a6
 		bsr	ShowHit
 		add.l	#4,SP
 .good_unique
@@ -158,6 +160,7 @@ cxbase		dc.l	0			;CxBase
 .short_showhit	lea	(.THIS,PC),a2
 		moveq	#3,d0
 		move.l	SP,d1
+		move.l	(cxbase,PC),a6
 		bsr	ShowHit
 		add.l	#4,SP
 		rts
@@ -185,6 +188,7 @@ cxbase		dc.l	0			;CxBase
 		lea	(.THIS,PC),a2
 		moveq	#38,d0
 		swap	d0			;MinOS 38
+		move.l	(cxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -202,6 +206,7 @@ cxbase		dc.l	0			;CxBase
 		lea	(.msg_notnull,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(cxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -219,6 +224,7 @@ cxbase		dc.l	0			;CxBase
 		lea	(.msg_notnull,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(cxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -236,6 +242,7 @@ cxbase		dc.l	0			;CxBase
 		lea	(.msg_notnull,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(cxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -253,6 +260,7 @@ cxbase		dc.l	0			;CxBase
 		lea	(.msg_notnull,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(cxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -271,6 +279,7 @@ cxbase		dc.l	0			;CxBase
 		lea	(.THIS,PC),a2
 		moveq	#38,d0
 		swap	d0			;MinOS 38
+		move.l	(cxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -289,6 +298,7 @@ cxbase		dc.l	0			;CxBase
 		lea	(.THIS,PC),a2
 		moveq	#38,d0
 		swap	d0			;MinOS 38
+		move.l	(cxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -306,6 +316,7 @@ cxbase		dc.l	0			;CxBase
 		lea	(.msg_notnull,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(cxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -316,6 +327,7 @@ cxbase		dc.l	0			;CxBase
 		lea	(.msg_notnull2,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(cxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -334,12 +346,14 @@ cxbase		dc.l	0			;CxBase
 		lea	(.msg_badpri,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#1,d0
+		move.l	(cxbase,PC),a6
 		bsr	ShowHit
 .range_ok	move.l	SP,a0
 		lea	(.msg_v38req,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#38,d0
 		swap	d0			;MinOS 38
+		move.l	(cxbase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		move.l	(args+arg_Deadly,PC),d0 ;Deadly hit?

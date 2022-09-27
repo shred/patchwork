@@ -50,6 +50,7 @@
 ShowHit		movem.l	d0-d7/a0-a6,-(SP)
 		move.l	a0,a5			;a5: Stackframe
 		move.l	a2,a4			;a4: struct
+		move.l	a6,a3			;a3: Library base
 		move.l	d0,d5			;d5: severity
 	;-- Severity below Treshold? -----------;
 		cmp	(gl+gl_Tresh,PC),d5
@@ -126,8 +127,7 @@ ShowHit		movem.l	d0-d7/a0-a6,-(SP)
 	;---- Set result ----------------------;
 		move.l	d1,-(SP)
 		bra	.srcloop
-.srcdone	move.l	(REG_A6,a5),a1		;Lib Base
-		move.l	(LN_NAME,a1),-(SP)	;Library Name
+.srcdone	move.l	(LN_NAME,a3),-(SP)	;Library Name
 		move.l	SP,a1
 		jsr	KPrintF
 		move.l	d6,SP			;Restore stack

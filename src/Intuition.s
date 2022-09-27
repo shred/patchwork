@@ -148,6 +148,7 @@ intuibase	dc.l	0
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
 		move.l	SP,d1
+		move.l	(intuibase,PC),a6
 		bsr	ShowHit
 		addq.l	#4,SP
 .no_port
@@ -160,6 +161,7 @@ intuibase	dc.l	0
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
 		move.l	SP,d1
+		move.l	(intuibase,PC),a6
 		bsr	ShowHit
 		addq.l	#4,SP
 .no_menu
@@ -187,6 +189,7 @@ intuibase	dc.l	0
 		lea	(.THIS,PC),a2
 		moveq	#2,d0
 		move.l	SP,d1
+		move.l	(intuibase,PC),a6
 		bsr	ShowHit
 		addq.l	#4,SP
 		move.l	(SP)+,a1
@@ -201,6 +204,7 @@ intuibase	dc.l	0
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
 		move.l	SP,d1
+		move.l	(intuibase,PC),a6
 		bsr	ShowHit
 .all_ok		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -218,6 +222,7 @@ intuibase	dc.l	0
 		lea	(.THIS,PC),a2
 		moveq	#1,d0
 		move.l	SP,d1
+		move.l	(intuibase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -249,6 +254,7 @@ intuibase	dc.l	0
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
 		move.l	SP,d1
+		move.l	(intuibase,PC),a6
 		bsr	ShowHit
 .okay		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -265,6 +271,7 @@ intuibase	dc.l	0
 		lea	(.THIS,PC),a2
 		moveq	#39,d0			;MinOS 39
 		swap	d0
+		move.l	(intuibase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		move.l	(args+arg_Deadly,PC),d0 ;Deadly hit?
@@ -309,6 +316,7 @@ intuibase	dc.l	0
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
 		move.l	SP,d1
+		move.l	(intuibase,PC),a6
 		bsr	ShowHit
 		addq.l	#4,SP
 .no_port	move.l	SP,a0
@@ -316,6 +324,7 @@ intuibase	dc.l	0
 		lea	(.THIS,PC),a2
 		moveq	#37,d0			;MinOS 39
 		swap	d0
+		move.l	(intuibase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -333,6 +342,7 @@ intuibase	dc.l	0
 		lea	(.THIS,PC),a2
 		moveq	#39,d0			;MinOS 39
 		swap	d0
+		move.l	(intuibase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		move.l	(args+arg_Deadly,PC),d0 ;Deadly hit?
@@ -366,6 +376,7 @@ intuibase	dc.l	0
 		lea	(.msg_maxreq,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(intuibase,PC),a6
 		bsr	ShowHit
 .done		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS			; nope
@@ -382,6 +393,7 @@ intuibase	dc.l	0
 		lea	(.THIS,PC),a2
 		moveq	#39,d0			;MinOS 39
 		swap	d0
+		move.l	(intuibase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		move.l	(args+arg_Deadly,PC),d0 ;Deadly hit?
@@ -403,6 +415,7 @@ intuibase	dc.l	0
 		lea	(.msg_notnull,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(intuibase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -418,6 +431,7 @@ intuibase	dc.l	0
 		lea	(.msg_risky,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#0,d0
+		move.l	(intuibase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -447,6 +461,7 @@ intuibase	dc.l	0
 ;;		lea	(.THIS,PC),a2
 ;;		moveq	#3,d0
 ;;		move.l	SP,d1
+;;		move.l	(intuibase,PC),a6
 ;;		bsr	ShowHit
 ;;		add.l	#4,SP
 ;;.next		move.l	(mu_NextMenu,a5),a5
@@ -455,6 +470,7 @@ intuibase	dc.l	0
 		lea	(.msg_nomenu,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(intuibase,PC),a6
 		bsr	ShowHit
 .done		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -476,6 +492,7 @@ intuibase	dc.l	0
 		lea	(.msg_badwidth,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(intuibase,PC),a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d3/a1
 	;-- Offset -----------------------------;
@@ -494,6 +511,7 @@ intuibase	dc.l	0
 		lea	(.msg_badoffset,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#0,d0
+		move.l	(intuibase,PC),a6
 		bsr	ShowHit
 		move.l	(SP)+,a1
 	;-- Pointer into Chip RAM --------------;
@@ -504,6 +522,7 @@ intuibase	dc.l	0
 		lea	(.msg_nochip,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	(intuibase,PC),a6
 		bsr	ShowHit
 .done		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS

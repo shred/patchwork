@@ -123,6 +123,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.msg_lnname,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#2,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -141,6 +142,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.msg_sizebad,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#1,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -149,6 +151,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.msg_noneg,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#1,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -168,6 +171,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.msg_sizebad,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#1,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -176,6 +180,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.msg_noneg,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#1,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -210,6 +215,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 .overlap	move.l	SP,a0
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 .okay		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -218,6 +224,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 ;-		lea	(.msg_idle,PC),a1
 ;-		lea	(.THIS,PC),a2
 ;-		moveq	#1,d0
+;-		move.l	4.w,a6
 ;-		bsr	ShowHit
 ;-		bra	.okay
 
@@ -244,6 +251,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.msg_badptr,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 .nobadpointer
 	;-- Mode ------------------------------;
@@ -267,6 +275,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 .overlap	move.l	SP,a0
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 .okay		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -275,6 +284,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 ;-		lea	(.msg_idle,PC),a1
 ;-		lea	(.THIS,PC),a2
 ;-		moveq	#1,d0
+;-		move.l	4.w,a6
 ;-		bsr	ShowHit
 ;-		bra	.okay
 
@@ -299,6 +309,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.msg_badmp,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#2,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0/a0
 	;-- Size OK ----------------------------;
@@ -308,6 +319,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.msg_badsize,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 .size_ok
 		movem.l	(SP)+,d0-d7/a0-a7
@@ -336,6 +348,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
 		move.l	SP,d1
+		move.l	4.w,a6
 		bsr	ShowHit
 		bra	.private
 .not_found	exec	Permit
@@ -351,6 +364,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
 		move.l	SP,d1
+		move.l	4.w,a6
 		bsr	ShowHit
 .msgportok
 		movem.l	(SP)+,d0-d7/a0-a7
@@ -370,6 +384,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.msg_wodisable,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#2,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -390,6 +405,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.THIS,PC),a2
 		moveq	#2,d0
 		move.l	SP,d1
+		move.l	4.w,a6
 		bsr	ShowHit
 .exit		movem.l	(SP)+,d0-d7/a0-a7
 		move.l	(args+arg_Deadly,PC),d0 ;Deadly hit?
@@ -415,6 +431,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.msg_notforbid,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#2,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 .exit		movem.l	(SP)+,d0-d7/a0-a7
 		move.l	(args+arg_Deadly,PC),d0 ;Deadly hit?
@@ -442,6 +459,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.msg_notforbid,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#2,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 .exit		movem.l	(SP)+,d0-d7/a0-a7
 		move.l	(args+arg_Deadly,PC),d0 ;Deadly hit?
@@ -466,6 +484,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.THIS,PC),a2
 		moveq	#37,d0			; Min. OS 37
 		swap	d0
+		move.l	4.w,a6
 		bsr	ShowHit
 .exit		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -488,6 +507,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.msg_badinit,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#2,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 .clean		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -503,6 +523,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.msg_obsolete,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#1,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 .exit		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -520,6 +541,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.msg_woforbid,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#2,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -536,6 +558,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.THIS,PC),a2
 		moveq	#39,d0			;MinOS 39
 		swap	d0
+		move.l	4.w,a6
 		bsr	ShowHit
 .exit		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -553,6 +576,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.msg_already,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -575,6 +599,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
 		move.l	SP,d1
+		move.l	4.w,a6
 		bsr	ShowHit
 		addq.l	#4,SP
 .next		move.l	(a4),a4			;Next node
@@ -606,6 +631,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.msg_negative,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 		move.l	(SP)+,d1
 .not_pos	neg	d1
@@ -615,6 +641,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.msg_exceed,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 .func_found	cmp.b	#-1,(IDNestCnt,a6)
 		bne	.forbidden
@@ -624,6 +651,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.msg_noforbid,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#2,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 .forbidden
 		movem.l	(SP)+,d0-d7/a0-a7
@@ -636,6 +664,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.msg_dontpatch,PC),a1
 		lea	(.THIS,PC),a2
 		moveq	#2,d0
+		move.l	4.w,a6
 		bsr	ShowHit
 .exit		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.no_exec
@@ -655,6 +684,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.THIS,PC),a2
 		moveq	#39,d0			;MinOS 39
 		swap	d0
+		move.l	4.w,a6
 		bsr	ShowHit
 .exit		movem.l	(SP)+,d0-d7/a0-a7
 		bra	.THIS
@@ -687,6 +717,7 @@ exec_patches_pm dpatch	_EXECPermit,P_Permit
 		lea	(.THIS,PC),a2
 		moveq	#3,d0
 		move.l	SP,d1
+		move.l	4.w,a6
 		bsr	ShowHit
 		addq.l	#4,SP
 .okay		movem.l	(SP)+,d0-d7/a0-a7
