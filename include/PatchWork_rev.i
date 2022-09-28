@@ -18,8 +18,8 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 
-VERSION		EQU     0
-REVISION	EQU     18
+VERSION		EQU     1
+REVISION	EQU     0
 
 PRGNAME		MACRO
 		dc.b    'PatchWork'
@@ -28,15 +28,15 @@ PRGNAME		MACRO
 VERS		MACRO
 		PRGNAME
 		dc.b    ' '
-		dc.b	'0.18'
+		dc.b	'1.0'
 		ENDM
 
 DATE		MACRO
-		dc.b    '26.4.2021'
+		dc.b    '28.9.2022'
 		ENDM
 
 COPYRIGHT	MACRO
-		dc.b	$a9," 1997-2021 Richard 'Shred' K",$f6,"rber"
+		dc.b	$a9," 1997-2022 Richard 'Shred' K",$f6,"rber"
 		ENDM
 
 PROJECTURL	MACRO

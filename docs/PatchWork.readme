@@ -2,11 +2,10 @@ Short:        Assert library calls to be AutoDocs conformous
 Author:       Richard 'Shred' Koerber
 Uploader:     aminet@shredzone.de (Richard Koerber)
 Type:         dev/debug
-Version:      0.18
+Version:      1.0
 Requires:     AmigaOS 2.0 or higher
 Architecture: m68k-amigaos >= 2.0.4
 
-Keywords:     debug os patch muforce segtracker sushi
 License:      GNU General Public License v3
 Source:       https://github.com/shred/patchwork
 Website:      https://patchwork.shredzone.org
@@ -21,7 +20,7 @@ utility and intuition library, and checks if the invocation parameters
 match the requirements given in the AutoDocs.
 
 Bad calls are reported to the debug serial port or to a Sushi console,
-along with a register and stack dump.
+along with a disassembly, a register dump, and a stack dump.
 
 New in this release:
 
@@ -29,13 +28,14 @@ New in this release:
   - Checks updated for AmigaOS 3.1, 3.9, and 3.2.
   - DISPC is the default now, and the DISPC option has been removed.
     To disable disassembling, use the new NODISPC option instead.
+  - Some bugfixes.
 
 PatchWork is Open Source Software. The source code is distributed under
-the GPLv3 Gnu Public License.
+the GPLv3 GNU General Public License.
 
 The reference repository is at GitHub: https://github.com/shred/patchwork
 
 The source code is deliberately not part of this package. If you want to
 modify the source code, please consider contributing to the reference
-repository. This is better than having an unknown number of branches and
+repository. This is better than having an unknown number of forks and
 different source codes versions circulating around.

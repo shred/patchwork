@@ -1,7 +1,7 @@
 @database PatchWork.guide
 @author "Richard Körber"
-@(c) "1997-2021 Richard Körber - all rights reserved"
-@$VER: PatchWork.guide V0.18 (26. 4.2021)
+@(c) "1997-2022 Richard Körber - all rights reserved"
+@$VER: PatchWork.guide V1.0 (28. 9.2022)
 @wordwrap
 
 @Node Main "Table Of Contents"
@@ -15,7 +15,7 @@
            #     #   #  #  # #     #   # ## ## #   # #     # #
            #      ####   ##   #### #   # #   #  ###  #     #  #
 
-                                                            V0.18
+                                                            V1.0
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
@@ -48,7 +48,7 @@ __________________________________________________________________________
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
- PatchWork (C) 1997-2021 Richard Körber -- GPLv3 Licensed
+ PatchWork (C) 1997-2022 Richard Körber -- GPLv3 Licensed
 
 @EndNode
 @Node Intro "Introduction"
@@ -59,7 +59,7 @@ __________________________________________________________________________
 
 PatchWork is another system debugging tool like MuForce, Enforcer, Mungwall,
 or Poolwatch. It also makes its output to the debug port, so you should use
-Sushi to read it, unless you have got a second Amiga available...
+Sushi to read it, unless you have got a second computer available...
 
 Now, what does PatchWork do?
 
@@ -102,7 +102,7 @@ These are the features of PatchWork:
 
    · Additionally, the function call will be shown, too!
 
-   · Four different severity levels, and an adjustable threshold
+   · Four different severity levels, and an adjustable threshold.
 
    · Does not need a MMU, so there is no excuse @{I}not@{UI} to use it!
 
@@ -168,6 +168,10 @@ an issue tracker and more on the official development web site:
 
    https://patchwork.shredzone.org
 
+The source code is intentionally not part of the AmiNet package. To
+contribute to PatchWork, you can use the official GitHub repository:
+
+   https://github.com/shred/patchwork
 
 @EndNode
 @Node Bugs "Bugs"
@@ -212,20 +216,21 @@ a new issue on the issue tracker at the official development web site:
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
-V0.18   » (??.??.2021)
-        · Check AmigaOS V40 calls. Actually, the only check that needed
+V1.0    » (28.09.2022)
+        · After 25 years, I guess PatchWork is finally due for a major
+          version bump. ;-)
+        · Now built on Linux using vasm.
+        · Checks AmigaOS V40 calls. Actually, the only check that needed
           to be added was graphics.library/WriteChunkyPixels.
         · DISPC is now the default behavior. Use the new option NODISPC
           to explicitly disable PC disassembly on PatchWork hits.
         · Bugfix: intuition/SetPointer() hit output was incorrect
-          [thanks to Hagbard Celine for reporting]
+          [reported by Hagbard Celine].
         · Correct library name is shown even if A6 is not pointing to
-          the library base
-        · Now Open Source and GPLv3 licensed!
-        · Maintenance update with minor changes
-        · Now built on Linux using vasm
+          the library base.
 
 V0.17   » (14. 1.2002)
+        · Now Open Source and GPLv3 licensed!
         · Bugfix: "RunCommand() strlen(argptr) does not match to argsize"
           complained though the strlen was correct in reality.
           [Thomas Richter]
@@ -238,7 +243,7 @@ V0.16   » ( 5. 1.2000)
 V0.15   » ( 5.11.1999)
         · V0.14 revision was not bumped
         · Using disassembler.library now to disassemble around the PC,
-          with the parameters DISPC and DISRANGE (thanks, Thomas Richter)
+          with the parameters DISPC and DISRANGE [thanks, Thomas Richter]
 
 V0.14   » (24.10.1999)
         · gadtools.library tests implemented
@@ -408,7 +413,7 @@ __________________________________________________________________________
 @{B} INSTALLATION @{UB}
 @{B}--------------@{UB}
 
-Just copy PatchWork into your CLI path, and this guide file into whereever
+Just copy PatchWork to your CLI path, and this guide file to whereever
 you collect good documentations. ;)
 
 You should start PatchWork @{I}after@{UI} SetPatch and @{I}after@{UI} any
@@ -683,7 +688,7 @@ or find a different one.
 
 There is an alternative you can try. If PatchWork is started with the
 NOPERMIT parameter, it won't patch the exec/Permit() function. This will
-help in some cases, as e.g. MagicMenu V2.25. However it also disables the
+help in some cases, like e.g. MagicMenu V2.25. However it also disables the
 Permit() check, so only use this option if necessary.
 
 @EndNode
@@ -867,8 +872,8 @@ installed on the software.
 
 First, you always have to use the operating system instead of accessing
 the hardware resources yourself. A good example for this is the DraCo,
-which is able to run well-written Amiga software without modifications,
-just because they do not access the Amiga chipset directly.
+an Amiga clone by MacroSystem that does not use the Amiga chipset. Still,
+well-written Amiga software can run on that system without modifications.
 
 The other, even more crucial thing is documentation. You don't know how
 the operating system or the piece of software works exactly. You aren't
@@ -906,7 +911,7 @@ worked on AmigaOS 2.0, while all the hacks crashed awfully.
 
 Sadly, Commodore WAS blamed for the crashing applications! In all shops,
 the new Amiga models were considered as unstable, not compatible and just
-awful. I heard a lot of vendors telling their customers this bullsh*t!
+awful. I heard a lot of sellers telling their customers this bullsh*t!
 They suggested to also buy an AmigaOS 1.3 ROM and a ROM switch, but it
 would void the warranty. Most customers decided to better buy a PC with
 Windows 3.1, which was said to be more stable.
