@@ -31,7 +31,7 @@ OBJS      = $(OBJP)/Main.o $(OBJP)/Hit.o $(OBJP)/Timer.o $(OBJP)/Exec.o \
 
 AOPTS     = -Fhunk -esc -sc \
 			-I $(INCP) -I ${AMIGA_NDK}/Include_I/ -I ${AMIGA_INCLUDES}
-LOPTS     = -bamigahunk -mrel -s \
+LOPTS     = -bamigahunk -Rshort -mrel -s \
 			-L ${AMIGA_NDK}/lib/ -l debug -l amiga
 
 .PHONY : all clean release check

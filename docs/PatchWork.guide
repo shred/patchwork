@@ -216,6 +216,10 @@ a new issue on the issue tracker at the official development web site:
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
+V1.1    »
+        · Use short relocation tables, prohibits loading on Kick 1.x
+          [@polluks]
+
 V1.0    » (28.09.2022)
         · After 25 years, I guess PatchWork is finally due for a major
           version bump. ;-)
