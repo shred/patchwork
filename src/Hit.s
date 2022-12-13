@@ -71,7 +71,20 @@ ShowHit		movem.l	d0-d7/a0-a6,-(SP)
 		blo	.romhits
 		cmp.l	#$1000000,d0
 		blo	.exit
-.romhits
+	;-- Task Name? -------------------------;
+.romhits	move.l	(args+arg_TaskName,PC),d4
+		beq	.notaskname
+		sub.l	a1,a1
+		exec	FindTask
+		move.l	d0,a0
+		move.l	(LN_NAME,a0),a0
+		move.l	d4,a1
+.checkname	move.b	(a0)+,d0
+		cmp.b	(a1)+,d0
+		bne	.exit			;task name does not match -> exit
+		tst.b	d0			;null terminator reached?
+		bne	.checkname		; no: check next char
+.notaskname
 	;-- Forbid required? -------------------;
 .forbid		move.l	4.w,a6
 		move.b	(TDNestCnt,a6),d7	;d7: Forbid state

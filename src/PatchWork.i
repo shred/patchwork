@@ -36,7 +36,8 @@ TEMPLATE	MACRO
 		dc.b	"DIS=DISABLECHECK/S,"
 		dc.b	"NPM=NOPERMIT/S,"
 		dc.b	"NODISPC/S,"
-		dc.b	"DR=DISRANGE/K/N"
+		dc.b	"DR=DISRANGE/K/N,"
+		dc.b	"TN=TASKNAME/K"
 		dc.b	0
 		ENDM
 
@@ -56,6 +57,7 @@ arg_ChkDisable	rs.l	1	;Check Disable()
 arg_NoPermit	rs.l	1	;Do not patch Permit()
 arg_NoDisPC	rs.l	1	;Do not disassemble PC
 arg_DisRange	rs.l	1	;Disassembly range
+arg_TaskName	rs.l	1	;Task name
 arg_SIZEOF	rs.w	0	; Structure size
 
 		rsreset		;-- Global Variables

@@ -219,6 +219,8 @@ __________________________________________________________________________
 V1.1    »
         · Use short relocation tables, prohibits loading on Kick 1.x
           [@polluks]
+        · New option TASKNAME. If given, only hits by tasks with that
+          name are reported. [@tygre-chingu]
 
 V1.0    » (28.09.2022)
         · After 25 years, I guess PatchWork is finally due for a major
@@ -494,6 +496,11 @@ sending a break, or starting another instance of PatchWork.
 
 @{B}DISRANGE/K/N@{UB}    Range of bytes to be disassembled before and after the
                 PC. Defaults to 32.
+
+@{B}TASKNAME/K@{UB}      Only report hits by tasks with the given name. Note
+                that only the output is filtered, but all PatchWork checks
+                will still apply, and DEADLY is also still effective for all
+                tasks. This is for performance reasons.
 
 
 @{B} SEVERITY LEVELS @{UB}
