@@ -19,7 +19,7 @@
 *
 
 VERSION		EQU     1
-REVISION	EQU     0
+REVISION	EQU     1
 
 PRGNAME		MACRO
 		dc.b    'PatchWork'
@@ -28,11 +28,11 @@ PRGNAME		MACRO
 VERS		MACRO
 		PRGNAME
 		dc.b    ' '
-		dc.b	'1.0'
+		dc.b	'1.1'
 		ENDM
 
 DATE		MACRO
-		dc.b    '28.9.2022'
+		dc.b    '13.12.2022'
 		ENDM
 
 COPYRIGHT	MACRO

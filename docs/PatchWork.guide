@@ -1,7 +1,7 @@
 @database PatchWork.guide
 @author "Richard Körber"
 @(c) "1997-2022 Richard Körber - all rights reserved"
-@$VER: PatchWork.guide V1.0 (28. 9.2022)
+@$VER: PatchWork.guide V1.1 (13.12.2022)
 @wordwrap
 
 @Node Main "Table Of Contents"
@@ -15,7 +15,7 @@
            #     #   #  #  # #     #   # ## ## #   # #     # #
            #      ####   ##   #### #   # #   #  ###  #     #  #
 
-                                                            V1.0
+                                                            V1.1
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
@@ -216,7 +216,7 @@ a new issue on the issue tracker at the official development web site:
 __________________________________________________________________________
 @{FG SHINE}¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯@{FG TEXT}
 
-V1.1    »
+V1.1    » (13.12.2022)
         · Use short relocation tables, prohibits loading on Kick 1.x
           [@polluks]
         · New option TASKNAME. If given, only hits by tasks with that
