@@ -12,7 +12,7 @@ The source code was closed, like almost all of my Amiga projects. I have reviewe
 * 100% hand-made assembler code, so PatchWork only has a neglectable performance impact on your system, and can just be kept running.
 * Works on any 68000 based CPU, no MMU required.
 * GPL licensed, open source.
-* Source Code is available at [GitHub](https://github.com/shred/patchwork).
+* Source Code is available at [Codeberg](https://codeberg.org/shred/patchwork).
 
 ## Example Output
 
@@ -73,9 +73,9 @@ Today's standard encoding is UTF-8. Unfortunately AmigaOS does not support this 
 
 ## Contribution and Releases
 
-The source code of this project can be found [at the official GitHub page](https://github.com/shred/patchwork).
+The source code of this project can be found [at the official Codeberg page](https://codeberg.org/shred/patchwork).
 
-If you found a bug or have a feature request, feel free to [open an issue](https://github.com/shred/patchwork/issues) or [send a pull request](https://github.com/shred/patchwork/pulls).
+If you found a bug or have a feature request, feel free to [open an issue](https://codeberg.org/shred/patchwork/issues) or [send a pull request](https://codeberg.org/shred/patchwork/pulls).
 
 Official binaries are available [on the AmiNet](http://aminet.net/package/dev/debug/PatchWork).
 

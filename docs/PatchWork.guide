@@ -169,9 +169,9 @@ an issue tracker and more on the official development web site:
    https://patchwork.shredzone.org
 
 The source code is intentionally not part of the AmiNet package. To
-contribute to PatchWork, you can use the official GitHub repository:
+contribute to PatchWork, you can use the official Codeberg repository:
 
-   https://github.com/shred/patchwork
+   https://codeberg.org/shred/patchwork
 
 @EndNode
 @Node Bugs "Bugs"

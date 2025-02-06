@@ -7,7 +7,7 @@ Requires:     AmigaOS 2.0 or higher
 Architecture: m68k-amigaos >= 2.0.4
 
 License:      GNU General Public License v3
-Source:       https://github.com/shred/patchwork
+Source:       https://codeberg.org/shred/patchwork
 Website:      https://patchwork.shredzone.org
 
 This is an official update! :-)
@@ -29,7 +29,7 @@ New in this release:
 PatchWork is Open Source Software. The source code is distributed under
 the GPLv3 GNU General Public License.
 
-The reference repository is at GitHub: https://github.com/shred/patchwork
+Reference repository : https://codeberg.org/shred/patchwork
 
 The source code is deliberately not part of this package. If you want to
 modify the source code, please consider contributing to the reference
